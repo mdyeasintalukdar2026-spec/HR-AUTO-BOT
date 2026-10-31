@@ -1,19 +1,11 @@
 from flask import Flask, jsonify, make_response
-import threading
 import requests
 import time
 import os
 
 app = Flask(__name__, static_folder=None)
 
-# ==========================================
-# MASTER API KEYS & CONFIGURATIONS
-# ==========================================
 TWELVE_DATA_KEY = "8f5d4d4fce7f44e5bda54420591411c8"
-GROQ_API_KEY = "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"
-FINNHUB_API_KEY = "dbcaa19r01qqr3s0pf60dbcaa19r01qqr3s0pf6g"
-
-http_session = requests.Session()
 
 def add_cors_headers(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
@@ -29,123 +21,28 @@ def after_request(response):
 def home():
     return "Sniper Bot Ultra-Pro Max Master Engine [100% Video UI Match] Running 24/7!"
 
-@app.route('/ping')
-def ping():
-    return "OK", 200
-
-def verify_news_shield():
-    try:
-        url = f"https://finnhub.io/api/v1/calendar/economic?token={FINNHUB_API_KEY}"
-        res = http_session.get(url, timeout=2.0)
-        if res.status_code == 200:
-            events = res.json().get("economicCalendar", [])
-            if len(events) > 80:
-                return False
-    except Exception:
-        pass
-    return True
-
-def get_groq_ai_confluence(market_data_summary):
-    try:
-        url = "https://api.groq.com/openai/v1/chat/completions"
-        headers = {
-            "Authorization": f"Bearer {GROQ_API_KEY}",
-            "Content-Type": "application/json"
-        }
-        payload = {
-            "model": "llama-3.3-70b-versatile",
-            "messages": [
-                {"role": "system", "content": "You are a master binary options AI arbiter. Analyze institutional order flow and candle micro-structure. Return strictly 'UP' or 'DOWN'."},
-                {"role": "user", "content": f"Analyze market data: {market_data_summary}. Output decision only."}
-            ],
-            "temperature": 0.4,
-            "max_tokens": 5
-        }
-        res = requests.post(url, json=payload, headers=headers, timeout=1.5)
-        if res.status_code == 200:
-            ans = res.json()["choices"][0]["message"]["content"].strip().upper()
-            if "UP" in ans or "CALL" in ans:
-                return "UP"
-            elif "DOWN" in ans or "PUT" in ans:
-                return "DOWN"
-    except Exception:
-        pass
-    return None
-
 @app.route('/signal')
 def get_signal():
     try:
-        if not verify_news_shield():
-            res = jsonify({
-                "signal": "HOLD",
-                "trend": "NEWS VOLATILITY LOCK",
-                "market_state": "UNSAFE",
-                "trap_status": "WARNING: HIGH IMPACT NEWS",
-                "confidence": 0,
-                "conf_level": "LOW",
-                "smart_money": "LOW",
-                "ping": 22,
-                "ping_status": "NORMAL",
-                "status": "HOLD_NEWS"
-            })
-            return res
-
         rsi_url = f"https://api.twelvedata.com/rsi?symbol=EUR/USD&interval=1min&time_period=14&apikey={TWELVE_DATA_KEY}"
-        ema_f_url = f"https://api.twelvedata.com/ema?symbol=EUR/USD&interval=1min&time_period=9&apikey={TWELVE_DATA_KEY}"
-        ema_s_url = f"https://api.twelvedata.com/ema?symbol=EUR/USD&interval=1min&time_period=21&apikey={TWELVE_DATA_KEY}"
-        
         rsi_res = requests.get(rsi_url, timeout=1.8).json()
-        ema_f_res = requests.get(ema_f_url, timeout=1.8).json()
-        ema_s_res = requests.get(ema_s_url, timeout=1.8).json()
-
         rsi = float(rsi_res['values'][0]['rsi']) if 'values' in rsi_res and len(rsi_res['values']) > 0 else 50.0
-        ema_fast = float(ema_f_res['values'][0]['ema']) if 'values' in ema_f_res and len(ema_f_res['values']) > 0 else 0.0
-        ema_slow = float(ema_s_res['values'][0]['ema']) if 'values' in ema_s_res and len(ema_s_res['values']) > 0 else 0.0
-
         current_sec = int(time.time())
 
-        if rsi > 52 and ema_fast >= ema_slow:
-            base_signal = "UP"
-            trend = "STRONG UPTREND"
-        elif rsi < 48 and ema_fast <= ema_slow:
-            base_signal = "DOWN"
-            trend = "STRONG DOWNTREND"
-        else:
-            base_signal = "UP" if (current_sec % 2 == 0) else "DOWN"
-            trend = "STABLE RANGE"
-
-        ai_market_summary = f"RSI: {rsi}, EMA Fast: {ema_fast}, EMA Slow: {ema_slow}"
-        ai_decision = get_groq_ai_confluence(ai_market_summary)
-        final_signal = ai_decision if ai_decision in ["UP", "DOWN"] else base_signal
-
+        base_signal = "UP" if rsi > 50 else "DOWN"
         signal_conf = int(82 + ((current_sec * 7) % 15))
-        
+
         res = jsonify({
-            "signal": final_signal,
-            "trend": trend,
-            "market_state": "STABLE (88%)",
-            "trap_status": "SAFE (NO TRAP)",
+            "signal": base_signal,
             "confidence": signal_conf,
-            "conf_level": "HIGH",
-            "smart_money": "HIGH (85%)",
-            "ping": 18,
-            "ping_status": "EXCELLENT",
             "status": "GREEN_EXECUTE"
         })
         return res
-
     except Exception:
         fallback_sig = "UP" if (int(time.time()) % 2 == 0) else "DOWN"
         res = jsonify({
             "signal": fallback_sig,
-            "trend": "DYNAMIC TREND",
-            "market_state": "STABLE (85%)",
-            "trap_status": "SAFE",
             "confidence": 88,
-            "conf_level": "HIGH",
-            "smart_money": "HIGH",
-            "ping": 18,
-            "ping_status": "EXCELLENT",
             "status": "GREEN_EXECUTE"
         })
         return res
@@ -446,10 +343,6 @@ def bot_script():
     res.headers['Access-Control-Allow-Origin'] = '*'
     return res
 
-def run_flask():
+if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
-
-if __name__ == '__main__':
-    threading.Thread(target=run_flask, daemon=True).start()
-    run_flask()
