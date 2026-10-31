@@ -19,7 +19,11 @@ def after_request(response):
 
 @app.route('/')
 def home():
-    return "Sniper Bot Ultra-Pro Max Master Engine [100% Video UI Match] Running 24/7!"
+    return "Sniper Bot Ultra-Pro Max Engine [100% Video UI Match] Running 24/7!"
+
+@app.route('/ping')
+def ping():
+    return "OK", 200
 
 @app.route('/signal')
 def get_signal():
@@ -39,9 +43,8 @@ def get_signal():
         })
         return res
     except Exception:
-        fallback_sig = "UP" if (int(time.time()) % 2 == 0) else "DOWN"
         res = jsonify({
-            "signal": fallback_sig,
+            "signal": "UP" if (int(time.time()) % 2 == 0) else "DOWN",
             "confidence": 88,
             "status": "GREEN_EXECUTE"
         })
@@ -67,6 +70,7 @@ def bot_script():
                           '@keyframes pulseGlow{0%,100%{opacity:1;}50%{opacity:0.4;}}';
             d.head.appendChild(s);
 
+            // Circular Floating Button (100% Video Match - SNIPER BOT)
             var b = d.createElement('div');
             window.SB = b;
             b.style.cssText = 'position:fixed !important;bottom:120px !important;right:20px !important;width:54px !important;height:54px !important;border-radius:50% !important;background:#0d1117 !important;display:flex !important;align-items:center !important;justify-content:center !important;z-index:2147483647 !important;cursor:pointer !important;animation:outerRing 4s infinite ease-in-out !important;border:2.5px solid #ff3366 !important;box-shadow:0 4px 18px rgba(0,0,0,0.9) !important;overflow:hidden !important;';
@@ -98,6 +102,7 @@ def bot_script():
                 createPanel();
             };
 
+            // Main Control Panel (100% Video UI Match)
             function createPanel(){
                 if(d.getElementById('sb-panel')) return;
                 
@@ -124,6 +129,7 @@ def bot_script():
                 };
                 panel.onmouseup = panel.ontouchend = function(){ pDx = false; };
 
+                // Header
                 var header = d.createElement('div');
                 header.style.cssText = 'background:#131822;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #21262d;';
                 header.innerHTML = '<div style="display:flex;align-items:center;gap:6px;"><div style="width:18px;height:18px;border-radius:3px;background:#ff3366;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;">SB</div><div><span style="font-size:11px;font-weight:900;color:#f0f6fc;display:block;">SNIPER BOT</span><span style="font-size:8px;color:#8b949e;display:block;" id="panel-clock">TIME: 00:00:00</span></div></div>';
@@ -146,17 +152,20 @@ def bot_script():
                 header.appendChild(headerBtns);
                 panel.appendChild(header);
 
+                // Status Bar
                 var statusBar = d.createElement('div');
                 statusBar.style.cssText = 'padding:6px 10px;background:#0d1117;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #21262d;font-size:9px;';
                 statusBar.innerHTML = '<div style="display:flex;align-items:center;gap:4px;color:#3fb950;font-weight:700;"><span style="width:6px;height:6px;background:#3fb950;border-radius:50%;display:inline-block;animation:pulseGlow 1.5s infinite;"></span> AI ENGINE ONLINE</div><div style="background:#238636;color:#fff;padding:1px 6px;border-radius:3px;font-weight:800;">VERIFIED: 1</div>';
                 panel.appendChild(statusBar);
 
+                // Mode Bar
                 var modeBar = d.createElement('div');
                 modeBar.style.cssText = 'padding:8px;background:#0b0e14;display:flex;gap:6px;';
                 modeBar.innerHTML = '<button style="flex:1;padding:6px;background:#21262d;border:1px solid #30363d;border-radius:5px;color:#c9d1d9;font-size:9.5px;font-weight:700;text-align:center;">1m Standard</button>' +
                                    '<button style="flex:1;padding:6px;background:#238636;border:none;border-radius:5px;color:#fff;font-size:9.5px;font-weight:700;text-align:center;">⚡ 5s Auto Mode</button>';
                 panel.appendChild(modeBar);
 
+                // Execution Controls
                 var execBar = d.createElement('div');
                 execBar.style.cssText = 'padding:0 8px 8px 8px;display:flex;gap:6px;';
                 
@@ -172,6 +181,7 @@ def bot_script():
                 execBar.appendChild(stopAutoBtn);
                 panel.appendChild(execBar);
 
+                // AI Signal Scanner Box (Candlestick Canvas matching video)
                 var scannerBox = d.createElement('div');
                 scannerBox.style.cssText = 'margin:0 8px 8px 8px;padding:6px;background:#0d1117;border:1px solid #30363d;border-radius:6px;text-align:center;position:relative;overflow:hidden;';
                 scannerBox.innerHTML = '<div style="font-size:7.5px;color:#8b949e;text-transform:uppercase;margin-bottom:3px;font-weight:700;">AI SIGNAL SCANNER</div>' +
@@ -232,12 +242,14 @@ def bot_script():
                     }
                 }, 100);
 
+                // Latest Signal Box
                 var latestBox = d.createElement('div');
                 latestBox.style.cssText = 'margin:0 8px 8px 8px;padding:8px 10px;background:#161b22;border:1px solid #30363d;border-radius:6px;display:flex;justify-content:space-between;align-items:center;';
                 latestBox.innerHTML = '<div><div style="font-size:7.5px;color:#8b949e;font-weight:700;">LATEST SIGNAL</div><div id="p-signal" style="font-size:13px;font-weight:900;color:#3fb950;margin-top:2px;">READY</div></div>' +
                                       '<div id="p-countdown" style="font-size:10px;font-weight:800;color:#f0f6fc;background:#21262d;padding:4px 8px;border-radius:4px;">00:00:58</div>';
                 panel.appendChild(latestBox);
 
+                // Footer
                 var footer = d.createElement('div');
                 footer.style.cssText = 'padding:6px 10px;background:#0d1117;border-top:1px solid #21262d;display:flex;justify-content:space-between;font-size:7.5px;color:#8b949e;';
                 footer.innerHTML = '<span>• ULTRA AI ENGINE</span><span>SNIPER / UI</span>';
@@ -334,6 +346,11 @@ def bot_script():
     res.headers['Access-Control-Allow-Origin'] = '*'
     return res
 
-if __name__ == '__main__':
+def run_flask():
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
+
+if __name__ == '__main__':
+    import threading
+    threading.Thread(target=run_flask, daemon=True).start()
+    run_flask()
