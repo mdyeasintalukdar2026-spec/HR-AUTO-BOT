@@ -29,20 +29,18 @@ def ping():
     return "OK", 200
 
 def verify_news_shield():
-    """Finnhub & Macro Economic News Guard (Prevents trading during red-folder events)"""
     try:
         url = f"https://finnhub.io/api/v1/calendar/economic?token={FINNHUB_API_KEY}"
         res = http_session.get(url, timeout=2.0)
         if res.status_code == 200:
             events = res.json().get("economicCalendar", [])
-            if len(events) > 80:  # High impact volume protection
+            if len(events) > 80:
                 return False
     except Exception:
         pass
     return True
 
 def get_groq_ai_confluence(market_data_summary):
-    """Groq LPU Microsecond Inference for Bi-Directional CALL/PUT Confluence"""
     try:
         url = "https://api.groq.com/openai/v1/chat/completions"
         headers = {
@@ -167,9 +165,10 @@ def get_signal():
         })
         res.headers.add("Access-Control-Allow-Origin", "*")
         return res
+
 @app.route('/bot.js')
 def bot_script():
-    js = \"\"\"
+    js = """
     (function(){
         try {
             if(window.YB){ window.YB.remove(); }
@@ -188,7 +187,6 @@ def bot_script():
                           '@keyframes borderGlow {0%{box-shadow:0 0 15px rgba(0,255,102,0.4);border-color:#00ff66;}50%{box-shadow:0 0 25px rgba(0,255,255,0.7);border-color:#00ffff;}100%{box-shadow:0 0 15px rgba(0,255,102,0.4);border-color:#00ff66;}}';
             d.head.appendChild(s);
 
-            // Floating Target Icon
             var b = d.createElement('div');
             window.YB = b;
             b.style.cssText = 'position:fixed;bottom:80px;right:25px;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 15px rgba(0,255,102,0.5);box-sizing:border-box;font-family:sans-serif;';
@@ -228,7 +226,6 @@ def bot_script():
                 panel.id = 'yb-panel';
                 panel.style.cssText = 'position:fixed;bottom:70px;right:20px;width:235px;background:#060a12;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 12px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, borderGlow 6s infinite;';
                 
-                // Header matching video exactly
                 var header = d.createElement('div');
                 header.style.cssText = 'background:#03050a;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
                 header.innerHTML = '<div style="display:flex;align-items:center;gap:6px;">' +
@@ -250,7 +247,6 @@ def bot_script():
                     b.style.display = 'flex';
                 };
 
-                // Mode Bar (1m Standard & Auto Mode Toggle)
                 var modeBar = d.createElement('div');
                 modeBar.style.cssText = 'padding:8px;background:#090f1d;display:flex;gap:6px;border-bottom:1px solid #131d2e;';
                 modeBar.innerHTML = '<div style="flex:1;background:#0f182c;padding:5px;border-radius:5px;text-align:center;font-size:7.5px;font-weight:800;color:#00ffff;border:1px solid #1a2a45;display:flex;align-items:center;justify-content:center;gap:3px;">⏱️ 1m Standard</div>' +
@@ -272,7 +268,6 @@ def bot_script():
                     }
                 };
 
-                // AI Signal Scanner Wave Box (Matching video layout)
                 var scannerBox = d.createElement('div');
                 scannerBox.style.cssText = 'margin:8px;background:#03050a;border:1px solid #131d2e;border-radius:6px;padding:7px;text-align:center;';
                 scannerBox.innerHTML = '<div style="font-size:7.5px;color:#8a99ad;font-weight:800;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;"><span>AI SIGNAL SCANNER</span><span style="color:#00ff66;font-size:7px;" id="scan-status-badge">READY</span></div>' +
@@ -286,7 +281,6 @@ def bot_script():
                                        '</div>';
                 panel.appendChild(scannerBox);
 
-                // Stats Rows Container (Matching video info fields)
                 var statsContainer = d.createElement('div');
                 statsContainer.style.cssText = 'padding:0 8px 8px 8px;display:flex;flex-direction:column;gap:4px;';
 
@@ -304,7 +298,6 @@ def bot_script():
 
                 panel.appendChild(statsContainer);
 
-                // Bottom Action Button (GET LIVE SIGNAL)
                 var getSigBtn = d.createElement('button');
                 getSigBtn.style.cssText = 'width:calc(100% - 16px);margin:0 8px 8px 8px;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:8px;border-radius:6px;font-size:9.5px;font-weight:900;color:#030407;cursor:pointer;box-shadow:0 0 10px rgba(0,255,102,0.4);text-align:center;';
                 getSigBtn.innerHTML = '⚡ GET LIVE SIGNAL';
@@ -426,8 +419,14 @@ def bot_script():
             }
         } catch(e) { console.error("SniperBot Error:", e); }
     })();
-    \"\"\"
+    """
     res = make_response(js)
     res.headers['Content-Type'] = 'application/javascript'
     res.headers['Access-Control-Allow-Origin'] = '*'
     return res
+
+def run_flask():
+    app.run(host='0.0.0.0', port=8080)
+
+if __name__ == '__main__':
+    threading.Thread(target=run_flask, daemon=True).start()
