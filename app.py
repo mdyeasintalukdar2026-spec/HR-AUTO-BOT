@@ -11,10 +11,6 @@ TWELVE_DATA_KEY = "8f5d4d4fce7f44e5bda54420591411c8"
 def home():
     return "Sniper Bot Ultra-Pro Max Engine [100% Video UI Match] Running 24/7!"
 
-@app.route('/ping')
-def ping():
-    return "OK", 200
-
 @app.route('/signal')
 def get_signal():
     try:
@@ -68,11 +64,7 @@ def bot_script():
             b.style.cssText = 'position:fixed !important;bottom:120px !important;right:20px !important;width:52px !important;height:52px !important;border-radius:50% !important;background:#0d1117 !important;display:flex !important;align-items:center !important;justify-content:center !important;z-index:2147483647 !important;cursor:pointer !important;animation:outerRing 4s infinite ease-in-out !important;border:2px solid #ff3366 !important;box-shadow:0 4px 15px rgba(0,0,0,0.8) !important;overflow:hidden !important;';
             b.innerHTML = '<div style="width:44px;height:44px;border-radius:50%;background:#161b22;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:900;color:#ff3366;text-align:center;line-height:1;border:1px solid #30363d;">SNIPER</div>';
             
-            if(d.body){
-                d.body.appendChild(b);
-            } else {
-                d.documentElement.appendChild(b);
-            }
+            (d.body || d.documentElement).appendChild(b);
             
             var dx, x, y, mv;
             b.onmousedown = b.ontouchstart = function(e){
@@ -251,11 +243,7 @@ def bot_script():
                 footer.innerHTML = '<span>• ULTRA AI ENGINE</span><span>SNIPER / UI</span>';
                 panel.appendChild(footer);
 
-                if(d.body){
-                    d.body.appendChild(panel);
-                } else {
-                    d.documentElement.appendChild(panel);
-                }
+                (d.body || d.documentElement).appendChild(panel);
 
                 setInterval(function(){
                     var now = new Date();
