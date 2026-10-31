@@ -65,9 +65,14 @@ def bot_script():
             // Circular Floating Button (100% Video Match)
             var b = d.createElement('div');
             window.SB = b;
-            b.style.cssText = 'position:fixed;bottom:120px;right:20px;width:52px;height:52px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;animation:outerRing 4s infinite ease-in-out;border:2px solid #ff3366;box-shadow:0 4px 15px rgba(0,0,0,0.8);overflow:hidden;';
+            b.style.cssText = 'position:fixed !important;bottom:120px !important;right:20px !important;width:52px !important;height:52px !important;border-radius:50% !important;background:#0d1117 !important;display:flex !important;align-items:center !important;justify-content:center !important;z-index:2147483647 !important;cursor:pointer !important;animation:outerRing 4s infinite ease-in-out !important;border:2px solid #ff3366 !important;box-shadow:0 4px 15px rgba(0,0,0,0.8) !important;overflow:hidden !important;';
             b.innerHTML = '<div style="width:44px;height:44px;border-radius:50%;background:#161b22;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:900;color:#ff3366;text-align:center;line-height:1;border:1px solid #30363d;">SNIPER</div>';
-            d.body.appendChild(b);
+            
+            if(d.body){
+                d.body.appendChild(b);
+            } else {
+                d.documentElement.appendChild(b);
+            }
             
             var dx, x, y, mv;
             b.onmousedown = b.ontouchstart = function(e){
@@ -100,7 +105,7 @@ def bot_script():
                 var panel = d.createElement('div');
                 window.SBP = panel;
                 panel.id = 'sb-panel';
-                panel.style.cssText = 'position:fixed;bottom:60px;right:15px;width:310px;background:#0b0e14;border:2px solid #1f6feb;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 12px 35px rgba(0,0,0,0.9);overflow:hidden;animation:panelPop 0.25s ease-out forwards;';
+                panel.style.cssText = 'position:fixed !important;bottom:60px !important;right:15px !important;width:310px !important;background:#0b0e14 !important;border:2px solid #1f6feb !important;border-radius:10px !important;z-index:2147483647 !important;font-family:sans-serif !important;color:#fff !important;box-shadow:0 12px 35px rgba(0,0,0,0.9) !important;overflow:hidden !important;animation:panelPop 0.25s ease-out forwards !important;';
                 
                 var pDx, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
@@ -246,7 +251,11 @@ def bot_script():
                 footer.innerHTML = '<span>• ULTRA AI ENGINE</span><span>SNIPER / UI</span>';
                 panel.appendChild(footer);
 
-                d.body.appendChild(panel);
+                if(d.body){
+                    d.body.appendChild(panel);
+                } else {
+                    d.documentElement.appendChild(panel);
+                }
 
                 setInterval(function(){
                     var now = new Date();
@@ -308,7 +317,7 @@ def bot_script():
                         var isDown = (rawSig === 'SELL' || rawSig === 'DOWN' || rawSig === 'PUT');
                         var sigText = isDown ? 'DOWN' : 'UP';
                         
-                        yasin_sig_color = isDown ? '#da3633' : '#3fb950';
+                        var yasin_sig_color = isDown ? '#da3633' : '#3fb950';
                         if(sigEl) {
                             sigEl.innerText = sigText + ' (' + j.confidence + '%)';
                             sigEl.style.color = yasin_sig_color;
