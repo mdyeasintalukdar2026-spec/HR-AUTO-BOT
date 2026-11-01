@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v75.0 [Live DOM Chart Mirror & Session Auth] Running 24/7!"
+    return "Quotex Sniper Bot Engine v77.0 [Clean Ultra-Compact TradingView] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -98,7 +98,6 @@ def bot_script():
                 if(hasMoved) return;
                 b.style.display = 'none';
                 
-                // Check if already verified in this session
                 if(sessionStorage.getItem('sniper_verified') === 'true'){
                     createMainDashboard();
                 } else {
@@ -117,10 +116,20 @@ def bot_script():
                         }
                     }
                 } catch(e){}
-                return "USD/BRL (OTC)";
+                return "EUR/USD";
             }
 
-            // Step 1: License Verification Screen (Only asks if not verified in session)
+            function getTradingViewSymbol(marketText){
+                if(!marketText) return "FX:EURUSD";
+                var clean = marketText.replace(/\\(OTC\\)/g, '').replace(/\\s+/g, '').toUpperCase();
+                var sym = clean.replace('/', '');
+                if(sym.includes('BTC') || sym.includes('ETH')) return 'BINANCE:' + sym;
+                if(sym.includes('XAU') || sym.includes('GOLD')) return 'OANDA:XAUUSD';
+                if(sym.length >= 6) return 'FX:' + sym;
+                return 'FX:EURUSD';
+            }
+
+            // Step 1: License Verification Screen
             function createLicensePanel(){
                 if(d.getElementById('yb-panel')) return;
                 
@@ -168,10 +177,10 @@ def bot_script():
                     if(keyVal.length > 0){
                         verifyBtn.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border:1px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
                         setTimeout(function(){
-                            sessionStorage.setItem('sniper_verified', 'true'); // Save session verification
+                            sessionStorage.setItem('sniper_verified', 'true');
                             panel.remove();
                             createMainDashboard();
-                        }, 2000); // 2 seconds verification animation
+                        }, 2000);
                     } else {
                         verifyBtn.innerText = 'ENTER VALID KEY';
                         verifyBtn.style.background = '#ff1744';
@@ -182,7 +191,7 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            // Step 2: Main Dashboard (Compact Size & Live Chart Mirroring)
+            // Step 2: Main Dashboard with Ultra-Clean Compact TradingView Widget
             function createMainDashboard(){
                 if(d.getElementById('yb-panel')) return;
                 
@@ -269,14 +278,17 @@ def bot_script():
                     btnStart.style.outline = 'none';
                 };
 
-                // AI SIGNAL SCANNER Box with Real-Time Quotex Chart Canvas Mirroring
+                // AI SIGNAL SCANNER Box with Ultra-Clean TradingView Widget (No Logos/Volume/Clutter)
+                var currentMarket = detectActiveMarket();
+                var tvSymbol = getTradingViewSymbol(currentMarket);
+                
                 var scannerBox = d.createElement('div');
                 scannerBox.style.cssText = 'margin:4px 5px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:5px;text-align:center;';
                 scannerBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;font-weight:800;display:flex;justify-content:space-between;"><span>AI SIGNAL SCANNER</span><span id="scan-status" style="color:#00ff66;">READY</span></div>' +
                                        '<div style="font-size:8px;font-weight:900;color:#00ff66;margin:1px 0;" id="scanner-title">5S AUTO SYNCED</div>' +
-                                       '<div id="market-detect-label" style="font-size:5.5px;color:#00ffff;margin-bottom:2px;">Market: ' + detectActiveMarket() + '</div>' +
-                                       '<div style="height:32px;display:flex;align-items:center;justify-content:center;background:#020305;border-radius:3px;padding:1px;overflow:hidden;position:relative;">' +
-                                       '<canvas id="live-chart-mirror" width="220" height="30" style="width:100%;height:100%;"></canvas>' +
+                                       '<div id="market-detect-label" style="font-size:5.5px;color:#00ffff;margin-bottom:2px;">Market: ' + currentMarket + '</div>' +
+                                       '<div id="tv-chart-box" style="height:48px;display:flex;align-items:center;justify-content:center;background:#020305;border-radius:3px;padding:1px;overflow:hidden;position:relative;">' +
+                                       '<iframe id="tv-live-iframe" src="https://s.tradingview.com/embed-widget/single-quote/?locale=en#%7B%22symbol%22%3A%22' + encodeURIComponent(tvSymbol) + '%22%2C%22width%22%3A%22100%25%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Atrue%2C%22height%22%3A%22100%25%22%7D" style="width:100%;height:100%;border:none;pointer-events:none;"></iframe>' +
                                        '</div>';
                 panel.appendChild(scannerBox);
 
@@ -292,47 +304,19 @@ def bot_script():
 
                 d.body.appendChild(panel);
 
-                // Start Live Quotex Chart Mirroring into Bot Box
-                startLiveChartMirroring(panel);
-            }
-
-            // Live Chart Mirroring Function (Copies active Quotex chart canvas automatically)
-            function startLiveChartMirroring(panel){
-                var cvs = panel.querySelector('#live-chart-mirror');
-                if(!cvs) return;
-                var ctx = cvs.getContext('2d');
-
+                // Dynamic Market Watcher to update clean view when user switches market
                 setInterval(function(){
-                    try {
-                        // Automatically find Quotex main chart canvas element
-                        var allCanvases = d.querySelectorAll('canvas');
-                        var mainChartCanvas = null;
-                        for(var i=0; i<allCanvases.length; i++){
-                            if(allCanvases[i].width > 300 && allCanvases[i].height > 150){
-                                mainChartCanvas = allCanvases[i];
-                                break;
-                            }
+                    var mkt = detectActiveMarket();
+                    var lbl = panel.querySelector('#market-detect-label');
+                    var iframe = panel.querySelector('#tv-live-iframe');
+                    if(lbl && lbl.innerText !== 'Market: ' + mkt){
+                        lbl.innerText = 'Market: ' + mkt;
+                        var newSym = getTradingViewSymbol(mkt);
+                        if(iframe){
+                            iframe.src = 'https://s.tradingview.com/embed-widget/single-quote/?locale=en#%7B%22symbol%22%3A%22' + encodeURIComponent(newSym) + '%22%2C%22width%22%3A%22100%25%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Atrue%2C%22height%22%3A%22100%25%22%7D';
                         }
-
-                        ctx.clearRect(0, 0, cvs.width, cvs.height);
-
-                        if(mainChartCanvas){
-                            // Mirror active live chart portion into the bot scanner box
-                            ctx.drawImage(
-                                mainChartCanvas, 
-                                mainChartCanvas.width - 240, 0, 240, mainChartCanvas.height, 
-                                0, 0, cvs.width, cvs.height
-                            );
-                        } else {
-                            // Fallback rendering if canvas is not immediately exposed
-                            ctx.fillStyle = '#03050a';
-                            ctx.fillRect(0, 0, cvs.width, cvs.height);
-                            ctx.fillStyle = '#00ff66';
-                            ctx.font = '8px sans-serif';
-                            ctx.fillText('Syncing ' + detectActiveMarket() + '...', 40, 18);
-                        }
-                    } catch(e) {}
-                }, 150);
+                    }
+                }, 2000);
             }
 
             function forceClick(el) {
@@ -385,9 +369,7 @@ def bot_script():
                 var sigEl = panel.querySelector('#p-signal');
                 var subText = panel.querySelector('#p-subtext');
                 var sigIcon = panel.querySelector('#signal-icon');
-                var marketDetect = panel.querySelector('#market-detect-label');
 
-                if(marketDetect) marketDetect.innerText = 'Market: ' + detectActiveMarket();
                 if(scanStatus) scanStatus.innerText = 'SCANNING...';
                 if(scannerTitle) scannerTitle.innerText = 'Executing Auto Order...';
                 if(sigEl) sigEl.innerText = 'ANALYZING...';
