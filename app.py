@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v75.0 [Real-Time DOM Candle Radar] Running 24/7!"
+    return "Quotex Sniper Bot Engine v75.0 [Live DOM Chart Mirror & Session Auth] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -63,15 +63,15 @@ def bot_script():
 
             var s = d.createElement('style');
             s.id = 'ybs';
-            s.innerHTML = '@keyframes neonGlow {0%{box-shadow:0 0 12px rgba(0,255,102,0.3);border-color:#00ff66;}50%{box-shadow:0 0 20px rgba(0,255,255,0.6);border-color:#00ffff;}100%{box-shadow:0 0 12px rgba(0,255,102,0.3);border-color:#00ff66;}}' +
+            s.innerHTML = '@keyframes neonGlow {0%{box-shadow:0 0 10px rgba(0,255,102,0.3);border-color:#00ff66;}50%{box-shadow:0 0 18px rgba(0,255,255,0.6);border-color:#00ffff;}100%{box-shadow:0 0 10px rgba(0,255,102,0.3);border-color:#00ff66;}}' +
                           '@keyframes panelPop {0%{opacity:0;transform:scale(0.85) translateY(10px);}100%{opacity:1;transform:scale(1) translateY(0);}}' +
                           '@keyframes spinAnim {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}';
             d.head.appendChild(s);
 
-            // Floating Target Button (Slightly Smaller & Compact)
+            // Floating Target Button (Compact & Draggable)
             var b = d.createElement('div');
             window.YB = b;
-            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:44px;height:44px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 10px rgba(0,255,102,0.4);box-sizing:border-box;';
+            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:42px;height:42px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 10px rgba(0,255,102,0.4);box-sizing:border-box;';
             b.innerHTML = '<span style="font-size:18px;">🎯</span>';
             d.body.appendChild(b);
             
@@ -97,10 +97,16 @@ def bot_script():
             b.onclick = function(){
                 if(hasMoved) return;
                 b.style.display = 'none';
-                createLicensePanel();
+                
+                // Check if already verified in this session
+                if(sessionStorage.getItem('sniper_verified') === 'true'){
+                    createMainDashboard();
+                } else {
+                    createLicensePanel();
+                }
             };
 
-            // Quotex Real Market Name Radar
+            // Quotex Active Market Detector
             function detectActiveMarket(){
                 try {
                     var allEls = d.querySelectorAll('div, span, button');
@@ -114,44 +120,44 @@ def bot_script():
                 return "USD/BRL (OTC)";
             }
 
-            // Step 1: License Verification Screen
+            // Step 1: License Verification Screen (Only asks if not verified in session)
             function createLicensePanel(){
                 if(d.getElementById('yb-panel')) return;
                 
                 var panel = d.createElement('div');
                 window.YBP = panel;
                 panel.id = 'yb-panel';
-                panel.style.cssText = 'position:fixed;top:65px;left:50%;transform:translateX(-50%);width:245px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 12px 35px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
+                panel.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);width:235px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
                 var header = d.createElement('div');
-                header.style.cssText = 'background:#03050a;padding:6px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
-                header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
-                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
+                header.style.cssText = 'background:#03050a;padding:5px 7px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
+                header.innerHTML = '<div style="display:flex;align-items:center;gap:4px;">' +
+                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:9.5px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
-                                   '<div style="font-size:6px;color:#8a99ad;">CLOCK: --:--:--</div>' +
+                                   '<div style="font-size:9px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div style="font-size:5.5px;color:#8a99ad;">CLOCK: --:--:--</div>' +
                                    '</div>' +
                                    '</div>' +
-                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px;">×</button>';
+                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:15px;height:15px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:9px;">×</button>';
                 panel.appendChild(header);
                 header.querySelector('#close-btn').onclick = function(){ panel.remove(); b.style.display = 'flex'; };
 
                 var statusRow = d.createElement('div');
-                statusRow.style.cssText = 'padding:4px 8px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
-                statusRow.innerHTML = '<div style="font-size:6.5px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
-                                      '<div style="background:#553300;color:#ffcc00;font-size:6.5px;padding:1px 4px;border-radius:2px;font-weight:900;">READY</div>';
+                statusRow.style.cssText = 'padding:3px 7px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
+                statusRow.innerHTML = '<div style="font-size:6px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
+                                      '<div style="background:#553300;color:#ffcc00;font-size:6px;padding:1px 3px;border-radius:2px;font-weight:900;">READY</div>';
                 panel.appendChild(statusRow);
 
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:5px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:6px;text-align:center;';
-                scannerBox.innerHTML = '<div style="font-size:6.5px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
-                                       '<div style="font-size:9px;font-weight:900;color:#00ff66;margin:2px 0;">License Verification Required</div>';
+                scannerBox.style.cssText = 'margin:5px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:5px;text-align:center;';
+                scannerBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
+                                       '<div style="font-size:8px;font-weight:900;color:#00ff66;margin:2px 0;">License Verification Required</div>';
                 panel.appendChild(scannerBox);
 
                 var licenseBox = d.createElement('div');
-                licenseBox.style.cssText = 'margin:0 5px 6px 5px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:6px;';
-                licenseBox.innerHTML = '<input type="password" id="license-input" placeholder="Enter license key" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:5px;border-radius:4px;color:#fff;font-size:7px;outline:none;margin-bottom:4px;" />' +
-                                       '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:5px;border-radius:4px;font-weight:900;font-size:7.5px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
+                licenseBox.style.cssText = 'margin:0 5px 5px 5px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:5px;';
+                licenseBox.innerHTML = '<input type="password" id="license-input" placeholder="Enter license key" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:4px;border-radius:3px;color:#fff;font-size:7px;outline:none;margin-bottom:3px;" />' +
+                                       '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:4px;border-radius:3px;font-weight:900;font-size:7px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
                 panel.appendChild(licenseBox);
 
                 var verifyBtn = licenseBox.querySelector('#verify-btn');
@@ -160,11 +166,12 @@ def bot_script():
                 verifyBtn.onclick = function(){
                     var keyVal = licenseInput.value.trim();
                     if(keyVal.length > 0){
-                        verifyBtn.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border:1.5px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
+                        verifyBtn.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border:1px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
                         setTimeout(function(){
+                            sessionStorage.setItem('sniper_verified', 'true'); // Save session verification
                             panel.remove();
                             createMainDashboard();
-                        }, 2000);
+                        }, 2000); // 2 seconds verification animation
                     } else {
                         verifyBtn.innerText = 'ENTER VALID KEY';
                         verifyBtn.style.background = '#ff1744';
@@ -175,14 +182,14 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            // Step 2: Main Dashboard (Compact Size & Live Canvas Candle Synchronizer)
+            // Step 2: Main Dashboard (Compact Size & Live Chart Mirroring)
             function createMainDashboard(){
                 if(d.getElementById('yb-panel')) return;
                 
                 var panel = d.createElement('div');
                 window.YBP = panel;
                 panel.id = 'yb-panel';
-                panel.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);width:245px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 12px 35px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
+                panel.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);width:235px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
                 
                 var pDrag = false, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
@@ -204,17 +211,17 @@ def bot_script():
                 panel.onmouseup = panel.ontouchend = function(){ pDrag = false; };
 
                 var header = d.createElement('div');
-                header.style.cssText = 'background:#03050a;padding:6px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;cursor:move;';
-                header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
-                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
+                header.style.cssText = 'background:#03050a;padding:5px 7px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;cursor:move;';
+                header.innerHTML = '<div style="display:flex;align-items:center;gap:4px;">' +
+                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:9.5px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
-                                   '<div id="live-clock" style="font-size:6px;color:#8a99ad;">TIME: 00:00:00</div>' +
+                                   '<div style="font-size:9px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div id="live-clock" style="font-size:5.5px;color:#8a99ad;">TIME: 00:00:00</div>' +
                                    '</div>' +
                                    '</div>' +
                                    '<div style="display:flex;gap:3px;">' +
-                                   '<button id="min-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px;">-</button>' +
-                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px;">×</button>' +
+                                   '<button id="min-btn" style="background:#101826;border:none;color:#fff;width:15px;height:15px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:9px;">-</button>' +
+                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:15px;height:15px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:9px;">×</button>' +
                                    '</div>';
                 panel.appendChild(header);
                 
@@ -229,21 +236,21 @@ def bot_script():
                 }, 1000);
 
                 var statusRow = d.createElement('div');
-                statusRow.style.cssText = 'padding:4px 8px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
-                statusRow.innerHTML = '<div style="font-size:6.5px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
-                                      '<div style="background:#00c853;color:#000;font-size:6.5px;padding:1px 5px;border-radius:2px;font-weight:900;">VERIFIED: 1</div>';
+                statusRow.style.cssText = 'padding:3px 7px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
+                statusRow.innerHTML = '<div style="font-size:6px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
+                                      '<div style="background:#00c853;color:#000;font-size:6px;padding:1px 4px;border-radius:2px;font-weight:900;">VERIFIED: 1</div>';
                 panel.appendChild(statusRow);
 
                 var row1 = d.createElement('div');
-                row1.style.cssText = 'padding:5px 6px;background:#070b14;display:flex;gap:4px;border-bottom:1px solid #131d2e;';
-                row1.innerHTML = '<div style="flex:1;background:#0d1526;padding:4px;border-radius:4px;text-align:center;font-size:7px;font-weight:800;color:#00ff66;border:1px solid #16253f;">⏱️ 1m Standard</div>' +
-                                   '<div style="flex:1;background:#0d1526;padding:4px;border-radius:4px;text-align:center;font-size:7px;font-weight:800;color:#ffd700;border:1px solid #16253f;">⚡ 5s Auto Mode</div>';
+                row1.style.cssText = 'padding:4px 5px;background:#070b14;display:flex;gap:3px;border-bottom:1px solid #131d2e;';
+                row1.innerHTML = '<div style="flex:1;background:#0d1526;padding:3px;border-radius:3px;text-align:center;font-size:6.5px;font-weight:800;color:#00ff66;border:1px solid #16253f;">⏱️ 1m Standard</div>' +
+                                   '<div style="flex:1;background:#0d1526;padding:3px;border-radius:3px;text-align:center;font-size:6.5px;font-weight:800;color:#ffd700;border:1px solid #16253f;">⚡ 5s Auto Mode</div>';
                 panel.appendChild(row1);
 
                 var row2 = d.createElement('div');
-                row2.style.cssText = 'padding:0 6px 5px 6px;background:#070b14;display:flex;gap:4px;border-bottom:1px solid #131d2e;';
-                row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:5px;border-radius:4px;font-weight:900;font-size:7px;color:#030407;cursor:pointer;">▶ Start Auto</button>' +
-                                   '<button id="btn-stop" style="flex:1;background:linear-gradient(45deg,#ff3300,#ff0055);border:none;padding:5px;border-radius:4px;font-weight:900;font-size:7px;color:#fff;cursor:pointer;">⏹ Stop Auto</button>';
+                row2.style.cssText = 'padding:0 5px 4px 5px;background:#070b14;display:flex;gap:3px;border-bottom:1px solid #131d2e;';
+                row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:4px;border-radius:3px;font-weight:900;font-size:6.5px;color:#030407;cursor:pointer;">▶ Start Auto</button>' +
+                                   '<button id="btn-stop" style="flex:1;background:linear-gradient(45deg,#ff3300,#ff0055);border:none;padding:4px;border-radius:3px;font-weight:900;font-size:6.5px;color:#fff;cursor:pointer;">⏹ Stop Auto</button>';
                 panel.appendChild(row2);
 
                 var btnStart = row2.querySelector('#btn-start');
@@ -262,83 +269,70 @@ def bot_script():
                     btnStart.style.outline = 'none';
                 };
 
-                // AI SIGNAL SCANNER Box with Live Dynamic DOM Candle Canvas Synchronizer
+                // AI SIGNAL SCANNER Box with Real-Time Quotex Chart Canvas Mirroring
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:5px 6px;background:#03050a;border:1px solid #131d2e;border-radius:6px;padding:6px;text-align:center;';
-                scannerBox.innerHTML = '<div style="font-size:6.5px;color:#8a99ad;font-weight:800;display:flex;justify-content:space-between;"><span>AI SIGNAL SCANNER</span><span id="scan-status" style="color:#00ff66;">READY</span></div>' +
-                                       '<div style="font-size:8.5px;font-weight:900;color:#00ff66;margin:2px 0;" id="scanner-title">5S AUTO SYNCED</div>' +
-                                       '<div id="market-detect-label" style="font-size:6px;color:#8a99ad;margin-bottom:3px;">Market: ' + detectActiveMarket() + '</div>' +
-                                       '<div style="height:35px;display:flex;align-items:center;justify-content:center;background:#020305;border-radius:4px;padding:2px;overflow:hidden;">' +
-                                       '<canvas id="live-candle-canvas" width="220" height="32" style="width:100%;height:100%;"></canvas>' +
+                scannerBox.style.cssText = 'margin:4px 5px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:5px;text-align:center;';
+                scannerBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;font-weight:800;display:flex;justify-content:space-between;"><span>AI SIGNAL SCANNER</span><span id="scan-status" style="color:#00ff66;">READY</span></div>' +
+                                       '<div style="font-size:8px;font-weight:900;color:#00ff66;margin:1px 0;" id="scanner-title">5S AUTO SYNCED</div>' +
+                                       '<div id="market-detect-label" style="font-size:5.5px;color:#00ffff;margin-bottom:2px;">Market: ' + detectActiveMarket() + '</div>' +
+                                       '<div style="height:32px;display:flex;align-items:center;justify-content:center;background:#020305;border-radius:3px;padding:1px;overflow:hidden;position:relative;">' +
+                                       '<canvas id="live-chart-mirror" width="220" height="30" style="width:100%;height:100%;"></canvas>' +
                                        '</div>';
                 panel.appendChild(scannerBox);
 
                 var sigBox = d.createElement('div');
-                sigBox.style.cssText = 'margin:0 6px 6px 6px;background:#0d1526;border:1px solid #131d2e;border-radius:6px;padding:5px 7px;display:flex;justify-content:space-between;align-items:center;';
-                sigBox.innerHTML = '<div><div style="font-size:6px;color:#8a99ad;">LATEST SIGNAL</div><div id="p-signal" style="font-size:9.5px;font-weight:900;color:#ff1744;">DOWN (79%)</div><div style="font-size:5.5px;color:#556677;" id="p-subtext">Signal synced successfully.</div></div><div id="signal-icon" style="font-size:9px;color:#ff1744;">⬇️</div>';
+                sigBox.style.cssText = 'margin:0 5px 5px 5px;background:#0d1526;border:1px solid #131d2e;border-radius:5px;padding:4px 6px;display:flex;justify-content:space-between;align-items:center;';
+                sigBox.innerHTML = '<div><div style="font-size:5.5px;color:#8a99ad;">LATEST SIGNAL</div><div id="p-signal" style="font-size:9px;font-weight:900;color:#ff1744;">DOWN (79%)</div><div style="font-size:5px;color:#556677;" id="p-subtext">Live market synced.</div></div><div id="signal-icon" style="font-size:8px;color:#ff1744;">⬇️</div>';
                 panel.appendChild(sigBox);
 
                 var footer = d.createElement('div');
-                footer.style.cssText = 'padding:4px 8px;background:#03050a;display:flex;justify-content:space-between;font-size:5.5px;color:#556677;border-top:1px solid #131d2e;';
+                footer.style.cssText = 'padding:3px 6px;background:#03050a;display:flex;justify-content:space-between;font-size:5px;color:#556677;border-top:1px solid #131d2e;';
                 footer.innerHTML = '<span>• ULTRA AI ENGINE</span><span>SNIPER / UI</span>';
                 panel.appendChild(footer);
 
                 d.body.appendChild(panel);
 
-                // Start Live Chart Candle Renderer into Canvas
-                startLiveCandleRenderer(panel);
+                // Start Live Quotex Chart Mirroring into Bot Box
+                startLiveChartMirroring(panel);
             }
 
-            // Canvas Candle Synchronizer Function (Live market chart reader)
-            function startLiveCandleRenderer(panel){
-                var cvs = panel.querySelector('#live-candle-canvas');
+            // Live Chart Mirroring Function (Copies active Quotex chart canvas automatically)
+            function startLiveChartMirroring(panel){
+                var cvs = panel.querySelector('#live-chart-mirror');
                 if(!cvs) return;
                 var ctx = cvs.getContext('2d');
 
-                var candles = [
-                    {open: 15, high: 26, low: 8, close: 22, green: true},
-                    {open: 22, high: 28, low: 10, close: 12, green: false},
-                    {open: 12, high: 20, low: 6, close: 18, green: true},
-                    {open: 18, high: 30, low: 14, close: 26, green: true},
-                    {open: 26, high: 31, low: 12, close: 15, green: false},
-                    {open: 15, high: 24, low: 9, close: 20, green: true}
-                ];
-
                 setInterval(function(){
-                    // Dynamically mutate last candle to sync with real market tick fluctuations
-                    var last = candles[candles.length - 1];
-                    var tick = (Math.random() - 0.49) * 3;
-                    last.close = Math.max(4, Math.min(28, last.close + tick));
-                    last.high = Math.max(last.high, last.close);
-                    last.low = Math.min(last.low, last.close);
-                    last.green = last.close >= last.open;
+                    try {
+                        // Automatically find Quotex main chart canvas element
+                        var allCanvases = d.querySelectorAll('canvas');
+                        var mainChartCanvas = null;
+                        for(var i=0; i<allCanvases.length; i++){
+                            if(allCanvases[i].width > 300 && allCanvases[i].height > 150){
+                                mainChartCanvas = allCanvases[i];
+                                break;
+                            }
+                        }
 
-                    ctx.clearRect(0, 0, cvs.width, cvs.height);
-                    
-                    var w = cvs.width;
-                    var h = cvs.height;
-                    var candleW = 8;
-                    var gap = 16;
-                    var startX = 20;
+                        ctx.clearRect(0, 0, cvs.width, cvs.height);
 
-                    for(var i=0; i<candles.length; i++){
-                        var c = candles[i];
-                        var x = startX + (i * gap);
-                        var col = c.green ? '#00ff66' : '#ff1744';
-
-                        ctx.strokeStyle = col;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(x + candleW/2, h - c.high);
-                        ctx.lineTo(x + candleW/2, h - c.low);
-                        ctx.stroke();
-
-                        ctx.fillStyle = col;
-                        var topY = h - Math.max(c.open, c.close);
-                        var bodyH = Math.max(2, Math.abs(c.open - c.close));
-                        ctx.fillRect(x, topY, candleW, bodyH);
-                    }
-                }, 400);
+                        if(mainChartCanvas){
+                            // Mirror active live chart portion into the bot scanner box
+                            ctx.drawImage(
+                                mainChartCanvas, 
+                                mainChartCanvas.width - 240, 0, 240, mainChartCanvas.height, 
+                                0, 0, cvs.width, cvs.height
+                            );
+                        } else {
+                            // Fallback rendering if canvas is not immediately exposed
+                            ctx.fillStyle = '#03050a';
+                            ctx.fillRect(0, 0, cvs.width, cvs.height);
+                            ctx.fillStyle = '#00ff66';
+                            ctx.font = '8px sans-serif';
+                            ctx.fillText('Syncing ' + detectActiveMarket() + '...', 40, 18);
+                        }
+                    } catch(e) {}
+                }, 150);
             }
 
             function forceClick(el) {
@@ -414,7 +408,7 @@ def bot_script():
                         sigEl.innerText = sigText + ' (' + (j.confidence || 79) + '%)';
                         sigEl.style.color = col;
                     }
-                    if(subText) subText.innerText = 'Signal synced successfully.';
+                    if(subText) subText.innerText = 'Live market synced.';
                     if(sigIcon) {
                         sigIcon.innerText = isDown ? '⬇️' : '⬆️';
                         sigIcon.style.color = col;
