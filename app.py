@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v83.0 [100% Video Matched & Multi-Bot UI] Running 24/7!"
+    return "Quotex Sniper Bot Engine v84.0 [Stable Bookmark Fix & 100% Video Matched UI] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -62,15 +62,13 @@ def bot_script():
                 s.innerHTML = '@keyframes neonGlow {0%{box-shadow:0 0 10px rgba(0,255,102,0.3);border-color:#00ff66;}50%{box-shadow:0 0 18px rgba(0,255,255,0.6);border-color:#00ffff;}100%{box-shadow:0 0 10px rgba(0,255,102,0.3);border-color:#00ff66;}}' +
                               '@keyframes panelPop {0%{opacity:0;transform:scale(0.85) translateY(10px);}100%{opacity:1;transform:scale(1) translateY(0);}}' +
                               '@keyframes cPulse {0%{transform:scaleY(0.4);opacity:0.5;}50%{transform:scaleY(1.3);opacity:1;}100%{transform:scaleY(0.4);opacity:0.5;}}' +
-                              '@keyframes waveMove {0%{background-position:0 0;}100%{background-position:50px 0;}}' +
                               '@keyframes spinAnim {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}';
                 d.head.appendChild(s);
             }
 
-            # Floating Target Button
             var b = d.createElement('div');
-            b.style.cssText = 'position:fixed;bottom:' + (75 + (Math.random()*30)) + 'px;right:' + (20 + (Math.random()*30)) + 'px;width:38px;height:38px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 10px rgba(0,255,102,0.4);box-sizing:border-box;';
-            b.innerHTML = '<span style="font-size:16px;">🎯</span>';
+            b.style.cssText = 'position:fixed;bottom:80px;right:20px;width:36px;height:36px;border-radius:9px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 10px rgba(0,255,102,0.4);box-sizing:border-box;';
+            b.innerHTML = '<span style="font-size:15px;">🎯</span>';
             d.body.appendChild(b);
             
             var isDragging = false, startX, startY, hasMoved = false;
@@ -103,60 +101,46 @@ def bot_script():
                 }
             };
 
-            function detectActiveMarket(){
-                try {
-                    var allEls = d.querySelectorAll('div, span, button');
-                    for(var i=0; i<allEls.length; i++){
-                        var txt = allEls[i].innerText ? allEls[i].innerText.trim() : '';
-                        if((txt.includes('OTC') || txt.includes('/')) && txt.length >= 6 && txt.length <= 16 && !txt.includes('Deposit') && !txt.includes('DEMO')){
-                            return txt;
-                        }
-                    }
-                } catch(e){}
-                return "USD/DZD (OTC)";
-            }
-
-            # Step 1: License Verification Screen (Matching Screenshot 1)
             function createLicensePanel(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:55px;left:50%;transform:translateX(-50%);width:225px;background:#070b14;border:1.8px solid #00ff66;border-radius:9px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
+                panel.style.cssText = 'position:fixed;top:55px;left:50%;transform:translateX(-50%);width:215px;background:#070b14;border:1.8px solid #00ff66;border-radius:8px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
                 var header = d.createElement('div');
-                header.style.cssText = 'background:#03050a;padding:5px 7px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
+                header.style.cssText = 'background:#03050a;padding:4px 6px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
                 header.innerHTML = '<div style="display:flex;align-items:center;gap:4px;">' +
-                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;">🎯</div>' +
+                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:15px;height:15px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:8.5px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
-                                   '<div style="font-size:5px;color:#8a99ad;">CLOCK: --:--:--</div>' +
+                                   '<div style="font-size:8px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div style="font-size:4.5px;color:#8a99ad;">CLOCK: --:--:--</div>' +
                                    '</div>' +
                                    '</div>' +
-                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:15px;height:15px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:8px;">×</button>';
+                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:14px;height:14px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:8px;">×</button>';
                 panel.appendChild(header);
                 header.querySelector('#close-btn').onclick = function(){ panel.remove(); targetBtn.style.display = 'flex'; };
 
                 var statusRow = d.createElement('div');
-                statusRow.style.cssText = 'padding:3px 7px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
-                statusRow.innerHTML = '<div style="font-size:5.5px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
-                                      '<div style="background:#553300;color:#ffcc00;font-size:5.5px;padding:1px 3px;border-radius:2px;font-weight:900;">READY</div>';
+                statusRow.style.cssText = 'padding:2px 6px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
+                statusRow.innerHTML = '<div style="font-size:5px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
+                                      '<div style="background:#553300;color:#ffcc00;font-size:5px;padding:1px 3px;border-radius:2px;font-weight:900;">READY</div>';
                 panel.appendChild(statusRow);
 
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:5px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:6px;text-align:center;';
-                scannerBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
-                                       '<div style="font-size:8px;font-weight:900;color:#00ff66;margin:2px 0;">Next Candle??</div>' +
-                                       '<div style="display:flex;justify-content:center;gap:3px;margin-top:3px;">' +
-                                       '<div style="width:3px;height:20px;background:#00ff66;border-radius:2px;animation:cPulse 1s infinite;"></div>' +
-                                       '<div style="width:3px;height:28px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;"></div>' +
-                                       '<div style="width:3px;height:18px;background:#00ff66;border-radius:2px;animation:cPulse 1.2s infinite;"></div>' +
-                                       '<div style="width:3px;height:32px;background:#ff1744;border-radius:2px;animation:cPulse 0.9s infinite;"></div>' +
+                scannerBox.style.cssText = 'margin:4px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:5px;text-align:center;';
+                scannerBox.innerHTML = '<div style="font-size:5.5px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
+                                       '<div style="font-size:7.5px;font-weight:900;color:#00ff66;margin:2px 0;">Next Candle??</div>' +
+                                       '<div style="display:flex;justify-content:center;gap:3px;margin-top:2px;">' +
+                                       '<div style="width:2.5px;height:18px;background:#00ff66;border-radius:2px;animation:cPulse 1s infinite;"></div>' +
+                                       '<div style="width:2.5px;height:24px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;"></div>' +
+                                       '<div style="width:2.5px;height:15px;background:#00ff66;border-radius:2px;animation:cPulse 1.2s infinite;"></div>' +
+                                       '<div style="width:2.5px;height:28px;background:#ff1744;border-radius:2px;animation:cPulse 0.9s infinite;"></div>' +
                                        '</div>';
                 panel.appendChild(scannerBox);
 
                 var licenseBox = d.createElement('div');
-                licenseBox.style.cssText = 'margin:0 5px 5px 5px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:5px;';
-                licenseBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;margin-bottom:2px;" id="err-msg">Enter license key</div>' +
-                                       '<input type="password" id="license-input" placeholder="Enter password (1-8)" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:4px;border-radius:3px;color:#fff;font-size:7px;outline:none;margin-bottom:3px;" />' +
-                                       '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:4px;border-radius:3px;font-weight:900;font-size:7px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
+                licenseBox.style.cssText = 'margin:0 4px 4px 4px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:4px;';
+                licenseBox.innerHTML = '<div style="font-size:5.5px;color:#8a99ad;margin-bottom:2px;" id="err-msg">Enter license key</div>' +
+                                       '<input type="password" id="license-input" placeholder="Enter password (1-8)" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:3px;border-radius:3px;color:#fff;font-size:6.5px;outline:none;margin-bottom:3px;" />' +
+                                       '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:3px;border-radius:3px;font-weight:900;font-size:6.5px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
                 panel.appendChild(licenseBox);
 
                 var verifyBtn = licenseBox.querySelector('#verify-btn');
@@ -166,7 +150,7 @@ def bot_script():
                 verifyBtn.onclick = function(){
                     var keyVal = licenseInput.value.trim();
                     if(keyVal.length >= 1){
-                        verifyBtn.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border:1px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
+                        verifyBtn.innerHTML = '<span style="display:inline-block;width:6px;height:6px;border:1px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
                         setTimeout(function(){
                             sessionStorage.setItem('sniper_verified_' + uniqueId, 'true');
                             panel.remove();
@@ -183,10 +167,9 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            # Step 2 & 3: Main Dashboard matching Video and Screenshots 2, 3, 4
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:55px;left:50%;transform:translateX(-50%);width:225px;background:#070b14;border:1.8px solid #00ff66;border-radius:9px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
+                panel.style.cssText = 'position:fixed;top:55px;left:50%;transform:translateX(-50%);width:215px;background:#070b14;border:1.8px solid #00ff66;border-radius:8px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
                 
                 var pDrag = false, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
@@ -208,17 +191,17 @@ def bot_script():
                 panel.onmouseup = panel.ontouchend = function(){ pDrag = false; };
 
                 var header = d.createElement('div');
-                header.style.cssText = 'background:#03050a;padding:5px 7px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;cursor:move;';
+                header.style.cssText = 'background:#03050a;padding:4px 6px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;cursor:move;';
                 header.innerHTML = '<div style="display:flex;align-items:center;gap:4px;">' +
-                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;">🎯</div>' +
+                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:15px;height:15px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:8.5px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
-                                   '<div id="live-clock_' + uniqueId + '" style="font-size:5px;color:#8a99ad;">TIME: 00:00:00</div>' +
+                                   '<div style="font-size:8px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div id="live-clock_' + uniqueId + '" style="font-size:4.5px;color:#8a99ad;">TIME: 00:00:00</div>' +
                                    '</div>' +
                                    '</div>' +
                                    '<div style="display:flex;gap:3px;">' +
-                                   '<button id="min-btn" style="background:#101826;border:none;color:#fff;width:15px;height:15px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:8px;">-</button>' +
-                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:15px;height:15px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:8px;">×</button>' +
+                                   '<button id="min-btn" style="background:#101826;border:none;color:#fff;width:14px;height:14px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:8px;">-</button>' +
+                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:14px;height:14px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:8px;">×</button>' +
                                    '</div>';
                 panel.appendChild(header);
                 
@@ -233,16 +216,15 @@ def bot_script():
                 }, 1000);
 
                 var statusRow = d.createElement('div');
-                statusRow.style.cssText = 'padding:3px 7px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
-                statusRow.innerHTML = '<div style="font-size:5.5px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
-                                      '<div style="background:#00c853;color:#000;font-size:5.5px;padding:1px 4px;border-radius:2px;font-weight:900;">VERIFIED: 1</div>';
+                statusRow.style.cssText = 'padding:2px 6px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
+                statusRow.innerHTML = '<div style="font-size:5px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
+                                      '<div style="background:#00c853;color:#000;font-size:5px;padding:1px 3px;border-radius:2px;font-weight:900;">VERIFIED: 1</div>';
                 panel.appendChild(statusRow);
 
-                # Mode selector tabs (1m Standard vs 5s Auto Mode)
                 var row1 = d.createElement('div');
-                row1.style.cssText = 'padding:4px 5px;background:#070b14;display:flex;gap:3px;border-bottom:1px solid #131d2e;';
-                row1.innerHTML = '<button id="btn-m1" style="flex:1;background:#0d1526;padding:3px;border-radius:3px;text-align:center;font-size:6px;font-weight:800;color:#00ff66;border:1.2px solid #00ff66;cursor:pointer;">⏱️ 1m Standard</button>' +
-                                   '<button id="btn-m2" style="flex:1;background:#0d1526;padding:3px;border-radius:3px;text-align:center;font-size:6px;font-weight:800;color:#8a99ad;border:1px solid #16253f;cursor:pointer;">⚡ 5s Auto Mode</button>';
+                row1.style.cssText = 'padding:3px 4px;background:#070b14;display:flex;gap:3px;border-bottom:1px solid #131d2e;';
+                row1.innerHTML = '<button id="btn-m1" style="flex:1;background:#0d1526;padding:3px;border-radius:3px;text-align:center;font-size:5.5px;font-weight:800;color:#00ff66;border:1px solid #00ff66;cursor:pointer;">⏱️ 1m Standard</button>' +
+                                   '<button id="btn-m2" style="flex:1;background:#0d1526;padding:3px;border-radius:3px;text-align:center;font-size:5.5px;font-weight:800;color:#8a99ad;border:1px solid #16253f;cursor:pointer;">⚡ 5s Auto Mode</button>';
                 panel.appendChild(row1);
 
                 var m1 = row1.querySelector('#btn-m1');
@@ -258,9 +240,9 @@ def bot_script():
                 };
 
                 var row2 = d.createElement('div');
-                row2.style.cssText = 'padding:0 5px 4px 5px;background:#070b14;display:flex;gap:3px;border-bottom:1px solid #131d2e;';
-                row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:4px;border-radius:3px;font-weight:900;font-size:6px;color:#030407;cursor:pointer;">▶ Start Auto</button>' +
-                                   '<button id="btn-stop" style="flex:1;background:linear-gradient(45deg,#ff3300,#ff0055);border:none;padding:4px;border-radius:3px;font-weight:900;font-size:6px;color:#fff;cursor:pointer;">⏹ Stop Auto</button>';
+                row2.style.cssText = 'padding:0 4px 3px 4px;background:#070b14;display:flex;gap:3px;border-bottom:1px solid #131d2e;';
+                row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:3px;border-radius:3px;font-weight:900;font-size:5.5px;color:#030407;cursor:pointer;">▶ Start Auto</button>' +
+                                   '<button id="btn-stop" style="flex:1;background:linear-gradient(45deg,#ff3300,#ff0055);border:none;padding:3px;border-radius:3px;font-weight:900;font-size:5.5px;color:#fff;cursor:pointer;">⏹ Stop Auto</button>';
                 panel.appendChild(row2);
 
                 var btnStart = row2.querySelector('#btn-start');
@@ -268,42 +250,39 @@ def bot_script():
 
                 btnStart.onclick = function(){
                     window.autoTradeEnabled = true;
-                    btnStart.style.outline = '1.2px solid #fff';
+                    btnStart.style.outline = '1px solid #fff';
                     btnStop.style.outline = 'none';
                     runContinuousEngine(panel, true);
                 };
 
                 btnStop.onclick = function(){
                     window.autoTradeEnabled = false;
-                    btnStop.style.outline = '1.2px solid #fff';
+                    btnStop.style.outline = '1px solid #fff';
                     btnStart.style.outline = 'none';
                 };
 
-                # Scanner box with wave and candle animation matching Video & Screenshot 4
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:5px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:5px;text-align:center;';
-                scannerBox.innerHTML = '<div style="font-size:5.5px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
-                                       '<div style="font-size:7.5px;font-weight:900;color:#00ff66;margin:2px 0;">⚡ Algorithmic Pattern Sync...</div>' +
-                                       '<div style="height:45px;background:radial-gradient(circle, #0c1a2c 0%, #010204 100%);border:1px solid #16253f;border-radius:3px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">' +
-                                       '<div style="position:absolute;width:100%;height:100%;background:repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0,255,102,0.05) 8px, rgba(0,255,102,0.05) 9px);"></div>' +
+                scannerBox.style.cssText = 'margin:4px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:4px;text-align:center;';
+                scannerBox.innerHTML = '<div style="font-size:5px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
+                                       '<div style="font-size:7px;font-weight:900;color:#00ff66;margin:2px 0;">⚡ Algorithmic Pattern Sync...</div>' +
+                                       '<div style="height:40px;background:radial-gradient(circle, #0c1a2c 0%, #010204 100%);border:1px solid #16253f;border-radius:3px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">' +
                                        '<div style="display:flex;gap:4px;z-index:2;">' +
-                                       '<div style="width:3px;height:22px;background:#00ff66;border-radius:2px;animation:cPulse 1s infinite;"></div>' +
-                                       '<div style="width:3px;height:34px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;"></div>' +
-                                       '<div style="width:3px;height:16px;background:#00ff66;border-radius:2px;animation:cPulse 1.3s infinite;"></div>' +
-                                       '<div style="width:3px;height:38px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;"></div>' +
-                                       '<div style="width:3px;height:25px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite;"></div>' +
+                                       '<div style="width:2.5px;height:18px;background:#00ff66;border-radius:2px;animation:cPulse 1s infinite;"></div>' +
+                                       '<div style="width:2.5px;height:28px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;"></div>' +
+                                       '<div style="width:2.5px;height:14px;background:#00ff66;border-radius:2px;animation:cPulse 1.2s infinite;"></div>' +
+                                       '<div style="width:2.5px;height:32px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;"></div>' +
+                                       '<div style="width:2.5px;height:20px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite;"></div>' +
                                        '</div>' +
                                        '</div>';
                 panel.appendChild(scannerBox);
 
-                # Signal Box with GET SIGNAL button matching Screenshot 2
                 var sigBox = d.createElement('div');
-                sigBox.style.cssText = 'margin:0 5px 5px 5px;background:#0d1526;border:1px solid #131d2e;border-radius:4px;padding:5px;';
-                sigBox.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
-                                   '<div><div style="font-size:5px;color:#8a99ad;">LATEST SIGNAL</div><div id="p-signal" style="font-size:8px;font-weight:900;color:#00ff66;">READY</div><div style="font-size:4.5px;color:#556677;" id="p-subtext">License verified successfully.</div></div>' +
-                                   '<div id="signal-icon" style="font-size:7px;color:#00ff66;">⚡</div>' +
+                sigBox.style.cssText = 'margin:0 4px 4px 4px;background:#0d1526;border:1px solid #131d2e;border-radius:4px;padding:4px;';
+                sigBox.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">' +
+                                   '<div><div style="font-size:4.5px;color:#8a99ad;">LATEST SIGNAL</div><div id="p-signal" style="font-size:7.5px;font-weight:900;color:#00ff66;">READY</div><div style="font-size:4px;color:#556677;" id="p-subtext">License verified successfully.</div></div>' +
+                                   '<div id="signal-icon" style="font-size:6px;color:#00ff66;">⚡</div>' +
                                    '</div>' +
-                                   '<button id="get-sig-btn" style="width:100%;background:#00c853;border:none;padding:4px;border-radius:3px;font-weight:900;font-size:6.5px;color:#000;cursor:pointer;">✓ GET SIGNAL</button>';
+                                   '<button id="get-sig-btn" style="width:100%;background:#00c853;border:none;padding:3px;border-radius:3px;font-weight:900;font-size:6px;color:#000;cursor:pointer;">✓ GET SIGNAL</button>';
                 panel.appendChild(sigBox);
 
                 var getSigBtn = sigBox.querySelector('#get-sig-btn');
@@ -312,7 +291,7 @@ def bot_script():
                 };
 
                 var footer = d.createElement('div');
-                footer.style.cssText = 'padding:3px 6px;background:#03050a;display:flex;justify-content:space-between;font-size:4.5px;color:#556677;border-top:1px solid #131d2e;';
+                footer.style.cssText = 'padding:2px 5px;background:#03050a;display:flex;justify-content:space-between;font-size:4px;color:#556677;border-top:1px solid #131d2e;';
                 footer.innerHTML = '<span>• ULTRA AI ENGINE</span><span>SNIPER / UI</span>';
                 panel.appendChild(footer);
 
