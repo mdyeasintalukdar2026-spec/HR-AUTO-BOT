@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v77.0 [Clean Ultra-Compact TradingView] Running 24/7!"
+    return "Quotex Sniper Bot Engine v79.0 [Pro TradingView Marked Size] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -116,17 +116,17 @@ def bot_script():
                         }
                     }
                 } catch(e){}
-                return "EUR/USD";
+                return "GBP/JPY";
             }
 
             function getTradingViewSymbol(marketText){
-                if(!marketText) return "FX:EURUSD";
+                if(!marketText) return "FX:GBPJPY";
                 var clean = marketText.replace(/\\(OTC\\)/g, '').replace(/\\s+/g, '').toUpperCase();
                 var sym = clean.replace('/', '');
                 if(sym.includes('BTC') || sym.includes('ETH')) return 'BINANCE:' + sym;
                 if(sym.includes('XAU') || sym.includes('GOLD')) return 'OANDA:XAUUSD';
                 if(sym.length >= 6) return 'FX:' + sym;
-                return 'FX:EURUSD';
+                return 'FX:GBPJPY';
             }
 
             // Step 1: License Verification Screen
@@ -136,7 +136,7 @@ def bot_script():
                 var panel = d.createElement('div');
                 window.YBP = panel;
                 panel.id = 'yb-panel';
-                panel.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);width:235px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
+                panel.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);width:245px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
                 var header = d.createElement('div');
                 header.style.cssText = 'background:#03050a;padding:5px 7px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
@@ -164,7 +164,7 @@ def bot_script():
                 panel.appendChild(scannerBox);
 
                 var licenseBox = d.createElement('div');
-                licenseBox.style.cssText = 'margin:0 5px 5px 5px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:5px;';
+                licenseBox.style.cssText = 'margin:0 5px 5px 5px;background:#03050a;border:1px solid #16253f;border-radius:4px;padding:5px;';
                 licenseBox.innerHTML = '<input type="password" id="license-input" placeholder="Enter license key" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:4px;border-radius:3px;color:#fff;font-size:7px;outline:none;margin-bottom:3px;" />' +
                                        '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:4px;border-radius:3px;font-weight:900;font-size:7px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
                 panel.appendChild(licenseBox);
@@ -191,14 +191,14 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            // Step 2: Main Dashboard with Ultra-Clean Compact TradingView Widget
+            // Step 2: Main Dashboard with Larger Marked TradingView Chart Box
             function createMainDashboard(){
                 if(d.getElementById('yb-panel')) return;
                 
                 var panel = d.createElement('div');
                 window.YBP = panel;
                 panel.id = 'yb-panel';
-                panel.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);width:235px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
+                panel.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);width:245px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
                 
                 var pDrag = false, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
@@ -278,17 +278,34 @@ def bot_script():
                     btnStart.style.outline = 'none';
                 };
 
-                // AI SIGNAL SCANNER Box with Ultra-Clean TradingView Widget (No Logos/Volume/Clutter)
+                // Larger Marked Box with TradingView Advanced Chart Widget
                 var currentMarket = detectActiveMarket();
                 var tvSymbol = getTradingViewSymbol(currentMarket);
+                var tvConfig = {
+                    "width": "100%",
+                    "height": "100%",
+                    "symbol": tvSymbol,
+                    "interval": "1",
+                    "timezone": "Etc/UTC",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "en",
+                    "enable_publishing": false,
+                    "hide_side_toolbar": true,
+                    "allow_symbol_change": true,
+                    "calendar": false,
+                    "support_host": "https://www.tradingview.com"
+                };
+                var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
                 
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:4px 5px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:5px;text-align:center;';
-                scannerBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;font-weight:800;display:flex;justify-content:space-between;"><span>AI SIGNAL SCANNER</span><span id="scan-status" style="color:#00ff66;">READY</span></div>' +
-                                       '<div style="font-size:8px;font-weight:900;color:#00ff66;margin:1px 0;" id="scanner-title">5S AUTO SYNCED</div>' +
-                                       '<div id="market-detect-label" style="font-size:5.5px;color:#00ffff;margin-bottom:2px;">Market: ' + currentMarket + '</div>' +
-                                       '<div id="tv-chart-box" style="height:48px;display:flex;align-items:center;justify-content:center;background:#020305;border-radius:3px;padding:1px;overflow:hidden;position:relative;">' +
-                                       '<iframe id="tv-live-iframe" src="https://s.tradingview.com/embed-widget/single-quote/?locale=en#%7B%22symbol%22%3A%22' + encodeURIComponent(tvSymbol) + '%22%2C%22width%22%3A%22100%25%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Atrue%2C%22height%22%3A%22100%25%22%7D" style="width:100%;height:100%;border:none;pointer-events:none;"></iframe>' +
+                scannerBox.style.cssText = 'margin:5px;background:#03050a;border:1px solid #131d2e;border-radius:6px;padding:6px;text-align:center;';
+                scannerBox.innerHTML = '<div style="font-size:6px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:3px;">' +
+                                       '<span id="market-detect-label">Market: ' + currentMarket + '</span>' +
+                                       '<span style="color:#00ff66;">TV LIVE CHART</span>' +
+                                       '</div>' +
+                                       '<div style="height:90px;display:flex;align-items:center;justify-content:center;background:#010204;border:1px solid #131d2e;border-radius:4px;padding:1px;overflow:hidden;position:relative;">' +
+                                       '<iframe id="tv-live-iframe" src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;border:none;"></iframe>' +
                                        '</div>';
                 panel.appendChild(scannerBox);
 
@@ -304,7 +321,7 @@ def bot_script():
 
                 d.body.appendChild(panel);
 
-                // Dynamic Market Watcher to update clean view when user switches market
+                // Dynamic Market Watcher to update TradingView chart when market changes
                 setInterval(function(){
                     var mkt = detectActiveMarket();
                     var lbl = panel.querySelector('#market-detect-label');
@@ -312,11 +329,13 @@ def bot_script():
                     if(lbl && lbl.innerText !== 'Market: ' + mkt){
                         lbl.innerText = 'Market: ' + mkt;
                         var newSym = getTradingViewSymbol(mkt);
+                        var newCfg = Object.assign({}, tvConfig, { symbol: newSym });
+                        var newEnc = encodeURIComponent(JSON.stringify(newCfg));
                         if(iframe){
-                            iframe.src = 'https://s.tradingview.com/embed-widget/single-quote/?locale=en#%7B%22symbol%22%3A%22' + encodeURIComponent(newSym) + '%22%2C%22width%22%3A%22100%25%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Atrue%2C%22height%22%3A%22100%25%22%7D';
+                            iframe.src = 'https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + newEnc;
                         }
                     }
-                }, 2000);
+                }, 2500);
             }
 
             function forceClick(el) {
