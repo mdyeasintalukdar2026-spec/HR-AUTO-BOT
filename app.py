@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v80.0 [100% Video Matched Hybrid Engine] Running 24/7!"
+    return "Quotex Sniper Bot Engine v81.0 [100% Video Matched UI] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -63,16 +63,16 @@ def bot_script():
 
             var s = d.createElement('style');
             s.id = 'ybs';
-            s.innerHTML = '@keyframes neonGlow {0%{box-shadow:0 0 10px rgba(0,255,102,0.3);border-color:#00ff66;}50%{box-shadow:0 0 18px rgba(0,255,255,0.6);border-color:#00ffff;}100%{box-shadow:0 0 10px rgba(0,255,102,0.3);border-color:#00ff66;}}' +
+            s.innerHTML = '@keyframes neonGlow {0%{box-shadow:0 0 12px rgba(0,255,102,0.3);border-color:#00ff66;}50%{box-shadow:0 0 22px rgba(0,255,255,0.6);border-color:#00ffff;}100%{box-shadow:0 0 12px rgba(0,255,102,0.3);border-color:#00ff66;}}' +
                           '@keyframes panelPop {0%{opacity:0;transform:scale(0.85) translateY(10px);}100%{opacity:1;transform:scale(1) translateY(0);}}' +
                           '@keyframes cPulse {0%{transform:scaleY(0.4);opacity:0.5;}50%{transform:scaleY(1.3);opacity:1;}100%{transform:scaleY(0.4);opacity:0.5;}}' +
                           '@keyframes spinAnim {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}';
             d.head.appendChild(s);
 
-            // Floating Target Button (Compact & Draggable)
+            // Floating Target Button matching video style
             var b = d.createElement('div');
             window.YB = b;
-            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:42px;height:42px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 10px rgba(0,255,102,0.4);box-sizing:border-box;';
+            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:44px;height:44px;border-radius:12px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 12px rgba(0,255,102,0.4);box-sizing:border-box;';
             b.innerHTML = '<span style="font-size:18px;">🎯</span>';
             d.body.appendChild(b);
             
@@ -106,7 +106,6 @@ def bot_script():
                 }
             };
 
-            // Quotex Active Market Detector
             function detectActiveMarket(){
                 try {
                     var allEls = d.querySelectorAll('div, span, button');
@@ -117,57 +116,57 @@ def bot_script():
                         }
                     }
                 } catch(e){}
-                return "NZD/JPY (OTC)";
+                return "USD/DZD (OTC)";
             }
 
             function getTradingViewSymbol(marketText){
-                if(!marketText) return "FX:NZDJPY";
-                var clean = marketText.replace(/\(OTC\)/g, '').replace(/\s+/g, '').toUpperCase();
+                if(!marketText) return "FX:EURUSD";
+                var clean = marketText.replace(/\\(OTC\\)/g, '').replace(/\\s+/g, '').toUpperCase();
                 var sym = clean.replace('/', '');
                 if(sym.includes('BTC') || sym.includes('ETH')) return 'BINANCE:' + sym;
                 if(sym.includes('XAU') || sym.includes('GOLD')) return 'OANDA:XAUUSD';
                 if(sym.length >= 6) return 'FX:' + sym;
-                return 'FX:NZDJPY';
+                return 'FX:EURUSD';
             }
 
-            // Step 1: License Verification Screen (Password: 1 to 8)
+            // Step 1: Password / License Key Screen (Matching Video Screen 1)
             function createLicensePanel(){
                 if(d.getElementById('yb-panel')) return;
                 
                 var panel = d.createElement('div');
                 window.YBP = panel;
                 panel.id = 'yb-panel';
-                panel.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);width:250px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
+                panel.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);width:255px;background:#070b14;border:2px solid #00ff66;border-radius:12px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 45px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
                 var header = d.createElement('div');
-                header.style.cssText = 'background:#03050a;padding:6px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
-                header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
-                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:18px;height:18px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
+                header.style.cssText = 'background:#03050a;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
+                header.innerHTML = '<div style="display:flex;align-items:center;gap:6px;">' +
+                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:9.5px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div style="font-size:10px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
                                    '<div style="font-size:6px;color:#8a99ad;">TIME: --:--:--</div>' +
                                    '</div>' +
                                    '</div>' +
-                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px;">×</button>';
+                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:18px;height:18px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px;">×</button>';
                 panel.appendChild(header);
                 header.querySelector('#close-btn').onclick = function(){ panel.remove(); b.style.display = 'flex'; };
 
                 var statusRow = d.createElement('div');
-                statusRow.style.cssText = 'padding:4px 8px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
-                statusRow.innerHTML = '<div style="font-size:6.5px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
-                                      '<div style="background:#553300;color:#ffcc00;font-size:6.5px;padding:1px 4px;border-radius:2px;font-weight:900;">READY</div>';
+                statusRow.style.cssText = 'padding:4px 10px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
+                statusRow.innerHTML = '<div style="font-size:7px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
+                                      '<div style="background:#553300;color:#ffcc00;font-size:7px;padding:1px 5px;border-radius:3px;font-weight:900;">READY</div>';
                 panel.appendChild(statusRow);
 
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:8px;text-align:center;';
-                scannerBox.innerHTML = '<div style="font-size:6.5px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
-                                       '<div style="font-size:8.5px;font-weight:900;color:#00ff66;margin:3px 0;">Enter Password (1-8)</div>';
+                scannerBox.style.cssText = 'margin:8px;background:#03050a;border:1px solid #131d2e;border-radius:6px;padding:10px;text-align:center;';
+                scannerBox.innerHTML = '<div style="font-size:7px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
+                                       '<div style="font-size:9.5px;font-weight:900;color:#00ff66;margin:4px 0;">Enter Password (1 to 8)</div>';
                 panel.appendChild(scannerBox);
 
                 var licenseBox = d.createElement('div');
-                licenseBox.style.cssText = 'margin:0 6px 6px 6px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:6px;';
-                licenseBox.innerHTML = '<input type="password" id="license-input" placeholder="Enter license key (12345678)" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:5px;border-radius:3px;color:#fff;font-size:7.5px;outline:none;margin-bottom:4px;" />' +
-                                       '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:5px;border-radius:3px;font-weight:900;font-size:7.5px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
+                licenseBox.style.cssText = 'margin:0 8px 8px 8px;background:#03050a;border:1px solid #131d2e;border-radius:6px;padding:8px;';
+                licenseBox.innerHTML = '<input type="password" id="license-input" placeholder="Enter license key (12345678)" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:6px;border-radius:4px;color:#fff;font-size:8px;outline:none;margin-bottom:5px;" />' +
+                                       '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:6px;border-radius:4px;font-weight:900;font-size:8px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
                 panel.appendChild(licenseBox);
 
                 var verifyBtn = licenseBox.querySelector('#verify-btn');
@@ -175,15 +174,15 @@ def bot_script():
 
                 verifyBtn.onclick = function(){
                     var keyVal = licenseInput.value.trim();
-                    if(keyVal === '12345678' || keyVal.length >= 4){
-                        verifyBtn.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border:1px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
+                    if(keyVal.length > 0){
+                        verifyBtn.innerHTML = '<span style="display:inline-block;width:9px;height:9px;border:1.5px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
                         setTimeout(function(){
                             sessionStorage.setItem('sniper_verified', 'true');
                             panel.remove();
                             createMainDashboard();
-                        }, 2000);
+                        }, 2000); // 2 seconds verification animation matching video
                     } else {
-                        verifyBtn.innerText = 'USE 1-8 PASSWORD';
+                        verifyBtn.innerText = 'ENTER VALID KEY (1-8)';
                         verifyBtn.style.background = '#ff1744';
                         verifyBtn.style.color = '#fff';
                     }
@@ -199,7 +198,7 @@ def bot_script():
                 var panel = d.createElement('div');
                 window.YBP = panel;
                 panel.id = 'yb-panel';
-                panel.style.cssText = 'position:fixed;top:55px;left:50%;transform:translateX(-50%);width:250px;background:#070b14;border:1.8px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
+                panel.style.cssText = 'position:fixed;top:50px;left:50%;transform:translateX(-50%);width:255px;background:#070b14;border:2px solid #00ff66;border-radius:12px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 45px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
                 
                 var pDrag = false, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
@@ -221,17 +220,17 @@ def bot_script():
                 panel.onmouseup = panel.ontouchend = function(){ pDrag = false; };
 
                 var header = d.createElement('div');
-                header.style.cssText = 'background:#03050a;padding:6px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;cursor:move;';
-                header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
-                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:18px;height:18px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
+                header.style.cssText = 'background:#03050a;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;cursor:move;';
+                header.innerHTML = '<div style="display:flex;align-items:center;gap:6px;">' +
+                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:9.5px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div style="font-size:10px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
                                    '<div id="live-clock" style="font-size:6px;color:#8a99ad;">TIME: 00:00:00</div>' +
                                    '</div>' +
                                    '</div>' +
-                                   '<div style="display:flex;gap:3px;">' +
-                                   '<button id="min-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px;">-</button>' +
-                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px;">×</button>' +
+                                   '<div style="display:flex;gap:4px;">' +
+                                   '<button id="min-btn" style="background:#101826;border:none;color:#fff;width:18px;height:18px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px;">-</button>' +
+                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:18px;height:18px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px;">×</button>' +
                                    '</div>';
                 panel.appendChild(header);
                 
@@ -246,21 +245,21 @@ def bot_script():
                 }, 1000);
 
                 var statusRow = d.createElement('div');
-                statusRow.style.cssText = 'padding:4px 8px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
-                statusRow.innerHTML = '<div style="font-size:6.5px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
-                                      '<div style="background:#00c853;color:#000;font-size:6.5px;padding:1px 5px;border-radius:2px;font-weight:900;">VERIFIED: 1</div>';
+                statusRow.style.cssText = 'padding:4px 10px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
+                statusRow.innerHTML = '<div style="font-size:7px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
+                                      '<div style="background:#00c853;color:#000;font-size:7px;padding:1px 5px;border-radius:3px;font-weight:900;">VERIFIED: 1</div>';
                 panel.appendChild(statusRow);
 
                 var row1 = d.createElement('div');
-                row1.style.cssText = 'padding:5px 6px;background:#070b14;display:flex;gap:4px;border-bottom:1px solid #131d2e;';
-                row1.innerHTML = '<div style="flex:1;background:#0d1526;padding:4px;border-radius:3px;text-align:center;font-size:7px;font-weight:800;color:#00ff66;border:1px solid #16253f;">⏱️ 1m Standard</div>' +
-                                   '<div style="flex:1;background:#0d1526;padding:4px;border-radius:3px;text-align:center;font-size:7px;font-weight:800;color:#ffd700;border:1px solid #16253f;">⚡ 5s Auto Mode</div>';
+                row1.style.cssText = 'padding:6px 8px;background:#070b14;display:flex;gap:5px;border-bottom:1px solid #131d2e;';
+                row1.innerHTML = '<div style="flex:1;background:#0d1526;padding:5px;border-radius:4px;text-align:center;font-size:7.5px;font-weight:800;color:#00ff66;border:1px solid #16253f;">⏱️ 1m Standard</div>' +
+                                   '<div style="flex:1;background:#0d1526;padding:5px;border-radius:4px;text-align:center;font-size:7.5px;font-weight:800;color:#ffd700;border:1px solid #16253f;">⚡ 5s Auto Mode</div>';
                 panel.appendChild(row1);
 
                 var row2 = d.createElement('div');
-                row2.style.cssText = 'padding:0 6px 5px 6px;background:#070b14;display:flex;gap:4px;border-bottom:1px solid #131d2e;';
-                row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:5px;border-radius:3px;font-weight:900;font-size:7px;color:#030407;cursor:pointer;">▶ Start Auto</button>' +
-                                   '<button id="btn-stop" style="flex:1;background:linear-gradient(45deg,#ff3300,#ff0055);border:none;padding:5px;border-radius:3px;font-weight:900;font-size:7px;color:#fff;cursor:pointer;">⏹ Stop Auto</button>';
+                row2.style.cssText = 'padding:0 8px 6px 8px;background:#070b14;display:flex;gap:5px;border-bottom:1px solid #131d2e;';
+                row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:6px;border-radius:4px;font-weight:900;font-size:7.5px;color:#030407;cursor:pointer;">▶ Start Auto</button>' +
+                                   '<button id="btn-stop" style="flex:1;background:linear-gradient(45deg,#ff3300,#ff0055);border:none;padding:6px;border-radius:4px;font-weight:900;font-size:7.5px;color:#fff;cursor:pointer;">⏹ Stop Auto</button>';
                 panel.appendChild(row2);
 
                 var btnStart = row2.querySelector('#btn-start');
@@ -279,53 +278,49 @@ def bot_script():
                     btnStart.style.outline = 'none';
                 };
 
-                // Dynamic Hybrid Chart Box: OTC shows video scanner candles, Real Market shows clean TradingView Live Chart
+                // Hybrid Chart Container (OTC = Video Scanner Candles, Real = Clean TradingView Live Chart)
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1px solid #131d2e;border-radius:6px;padding:6px;text-align:center;';
+                scannerBox.style.cssText = 'margin:8px;background:#03050a;border:1px solid #131d2e;border-radius:6px;padding:8px;text-align:center;';
                 scannerBox.id = 'dynamic-chart-container';
                 panel.appendChild(scannerBox);
 
                 var sigBox = d.createElement('div');
-                sigBox.style.cssText = 'margin:0 6px 6px 6px;background:#0d1526;border:1px solid #131d2e;border-radius:5px;padding:5px 7px;display:flex;justify-content:space-between;align-items:center;';
-                sigBox.innerHTML = '<div><div style="font-size:6px;color:#8a99ad;">LATEST SIGNAL</div><div id="p-signal" style="font-size:9.5px;font-weight:900;color:#ff1744;">DOWN (79%)</div><div style="font-size:5.5px;color:#556677;" id="p-subtext">Live market synced.</div></div><div id="signal-icon" style="font-size:8.5px;color:#ff1744;">⬇️</div>';
+                sigBox.style.cssText = 'margin:0 8px 8px 8px;background:#0d1526;border:1px solid #131d2e;border-radius:6px;padding:6px 8px;display:flex;justify-content:space-between;align-items:center;';
+                sigBox.innerHTML = '<div><div style="font-size:6.5px;color:#8a99ad;">LATEST SIGNAL</div><div id="p-signal" style="font-size:10px;font-weight:900;color:#ff1744;">DOWN (79%)</div><div style="font-size:6px;color:#556677;" id="p-subtext">Live market synced.</div></div><div id="signal-icon" style="font-size:9px;color:#ff1744;">⬇️</div>';
                 panel.appendChild(sigBox);
 
                 var footer = d.createElement('div');
-                footer.style.cssText = 'padding:4px 7px;background:#03050a;display:flex;justify-content:space-between;font-size:5.5px;color:#556677;border-top:1px solid #131d2e;';
+                footer.style.cssText = 'padding:5px 8px;background:#03050a;display:flex;justify-content:space-between;font-size:6px;color:#556677;border-top:1px solid #131d2e;';
                 footer.innerHTML = '<span>• ULTRA AI ENGINE</span><span>SNIPER / UI</span>';
                 panel.appendChild(footer);
 
                 d.body.appendChild(panel);
 
-                // Initial render and updater for Hybrid Chart
                 updateHybridChart(scannerBox);
                 setInterval(function(){
                     updateHybridChart(scannerBox);
                 }, 3000);
             }
 
-            // Hybrid Renderer: Switches between OTC Animated Candles and Real Market TradingView Clean Chart automatically
             function updateHybridChart(container){
                 var mkt = detectActiveMarket();
                 var isOTC = mkt.includes('OTC');
 
                 if(isOTC){
-                    // Video Matched OTC Scanner UI with animated glowing candles
-                    container.innerHTML = '<div style="font-size:6.5px;color:#00ff66;font-weight:800;display:flex;justify-content:space-between;margin-bottom:3px;">' +
+                    container.innerHTML = '<div style="font-size:7px;color:#00ff66;font-weight:800;display:flex;justify-content:space-between;margin-bottom:4px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#ffd700;">OTC SCANNER</span>' +
                                           '</div>' +
-                                          '<div style="font-size:8.5px;font-weight:900;color:#00ff66;margin:2px 0;">NEXT CANDLE??</div>' +
-                                          '<div style="height:55px;display:flex;align-items:center;justify-content:center;gap:4px;background:#010204;border-radius:4px;padding:2px;">' +
-                                          '<div style="width:4px;height:28px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
-                                          '<div style="width:4px;height:40px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
-                                          '<div style="width:4px;height:22px;background:#00ff66;border-radius:2px;animation:cPulse 1.3s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
-                                          '<div style="width:4px;height:44px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
-                                          '<div style="width:4px;height:32px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
-                                          '<div style="width:4px;height:36px;background:#ff1744;border-radius:2px;animation:cPulse 0.9s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
+                                          '<div style="font-size:9px;font-weight:900;color:#00ff66;margin:3px 0;">NEXT CANDLE??</div>' +
+                                          '<div style="height:60px;display:flex;align-items:center;justify-content:center;gap:4.5px;background:#010204;border-radius:4px;padding:2px;">' +
+                                          '<div style="width:4px;height:30px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite;box-shadow:0 0 6px #00ff66;"></div>' +
+                                          '<div style="width:4px;height:45px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;box-shadow:0 0 6px #ff1744;"></div>' +
+                                          '<div style="width:4px;height:24px;background:#00ff66;border-radius:2px;animation:cPulse 1.3s infinite;box-shadow:0 0 6px #00ff66;"></div>' +
+                                          '<div style="width:4px;height:48px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;box-shadow:0 0 6px #ff1744;"></div>' +
+                                          '<div style="width:4px;height:35px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 6px #00ff66;"></div>' +
+                                          '<div style="width:4px;height:40px;background:#ff1744;border-radius:2px;animation:cPulse 0.9s infinite;box-shadow:0 0 6px #ff1744;"></div>' +
                                           '</div>';
                 } else {
-                    // Real Market Clean TradingView Live Chart (Marked size matching video perfectly)
                     var tvSymbol = getTradingViewSymbol(mkt);
                     var tvConfig = {
                         "width": "100%",
@@ -345,11 +340,11 @@ def bot_script():
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
                     if(!container.querySelector('iframe')){
-                        container.innerHTML = '<div style="font-size:6.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:3px;">' +
+                        container.innerHTML = '<div style="font-size:7px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:4px;">' +
                                               '<span>MARKET: ' + mkt + '</span>' +
                                               '<span style="color:#00ff66;">REAL LIVE CHART</span>' +
                                               '</div>' +
-                                              '<div style="height:70px;display:flex;align-items:center;justify-content:center;background:#010204;border-radius:4px;overflow:hidden;position:relative;">' +
+                                              '<div style="height:75px;display:flex;align-items:center;justify-content:center;background:#010204;border-radius:4px;overflow:hidden;position:relative;">' +
                                               '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;border:none;"></iframe>' +
                                               '</div>';
                     }
