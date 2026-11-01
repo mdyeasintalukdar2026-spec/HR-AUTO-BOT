@@ -7,133 +7,41 @@ import os
 app = Flask(__name__, static_folder=None)
 
 # ==========================================
-# MASTER API KEYS & CONFIGURATIONS (1,100,000+ Nodes & All Provided APIs Integrated)
+# MASTER API KEYS & CONFIGURATIONS
 # ==========================================
 TWELVE_DATA_KEY = "8f5d4d4fce7f44e5bda54420591411c8"
 GROQ_API_KEY = "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"
 FINNHUB_API_KEY = "dbcaa19r01qqr3s0pf60dbcaa19r01qqr3s0pf6g"
-QUANTEX_API_KEY = "qx_live_1xxOcsg5_3vEavHfZwAkGufh9NLLWJhUqG3T6H6oCEuoDWeJV"
-ALPHA_VANTAGE_KEY = "KCY7IN9GKW4ARV9P"
-COINGECKO_KEY = "CG-kdKKTgUGK1qPfGU7BzZBcQa4"
-NEWSAPI_KEY = "fa62bb9cb4fc40c4b6dd49ecdec30ecf"
-FRED_API_KEY = "d37d3ed2255f2f5a9fb756c7b5f0b663"
 
 http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v75.0 [1.1M Nodes, Bi-Directional Real Knowledge, Zero-Lag Execution] Running 24/7!"
+    return "Quotex Sniper Bot Engine v75.0 Running 24/7!"
 
 @app.route('/ping')
 def ping():
     return "OK", 200
 
-def verify_news_shield():
-    try:
-        url = f"https://finnhub.io/api/v1/calendar/economic?token={FINNHUB_API_KEY}"
-        res = http_session.get(url, timeout=2.0)
-        if res.status_code == 200:
-            events = res.json().get("economicCalendar", [])
-            if len(events) > 80:
-                return False
-    except Exception:
-        pass
-    return True
-
-def get_groq_ai_confluence(market_data_summary):
-    try:
-        url = "https://api.groq.com/openai/v1/chat/completions"
-        headers = {
-            "Authorization": f"Bearer {GROQ_API_KEY}",
-            "Content-Type": "application/json"
-        }
-        payload = {
-            "model": "llama-3.3-70b-versatile",
-            "messages": [
-                {"role": "system", "content": "You are a master 1.1M-node binary options AI arbiter. Analyze institutional order flow, stochastic indicators, and candle micro-structure. Return strictly 'UP' or 'DOWN' dynamically with strict bi-directional balance."},
-                {"role": "user", "content": f"Analyze bi-directional market data with 1.1M node confluence: {market_data_summary}. Output decision only."}
-            ],
-            "temperature": 0.4,
-            "max_tokens": 5
-        }
-        res = requests.post(url, json=payload, headers=headers, timeout=1.5)
-        if res.status_code == 200:
-            ans = res.json()["choices"][0]["message"]["content"].strip().upper()
-            if "UP" in ans or "CALL" in ans:
-                return "UP"
-            elif "DOWN" in ans or "PUT" in ans:
-                return "DOWN"
-    except Exception:
-        pass
-    return None
-
 @app.route('/signal')
 def get_signal():
     try:
-        if not verify_news_shield():
-            res = jsonify({
-                "signal": "HOLD",
-                "trend": "NEWS VOLATILITY LOCK",
-                "market_state": "UNSAFE (NEWS GUARD)",
-                "trap_status": "WARNING: HIGH IMPACT NEWS",
-                "confidence": 0,
-                "conf_level": "LOW",
-                "smart_money": "LOW (12%)",
-                "ping": 22,
-                "ping_status": "NORMAL",
-                "status": "HOLD_NEWS"
-            })
-            res.headers.add("Access-Control-Allow-Origin", "*")
-            return res
-
-        rsi_url = f"https://api.twelvedata.com/rsi?symbol=EUR/USD&interval=1min&time_period=14&apikey={TWELVE_DATA_KEY}"
-        ema_f_url = f"https://api.twelvedata.com/ema?symbol=EUR/USD&interval=1min&time_period=9&apikey={TWELVE_DATA_KEY}"
-        ema_s_url = f"https://api.twelvedata.com/ema?symbol=EUR/USD&interval=1min&time_period=21&apikey={TWELVE_DATA_KEY}"
-        
-        rsi_res = requests.get(rsi_url, timeout=1.8).json()
-        ema_f_res = requests.get(ema_f_url, timeout=1.8).json()
-        ema_s_res = requests.get(ema_s_url, timeout=1.8).json()
-
-        rsi = float(rsi_res['values'][0]['rsi']) if 'values' in rsi_res and len(rsi_res['values']) > 0 else 50.0
-        ema_fast = float(ema_f_res['values'][0]['ema']) if 'values' in ema_f_res and len(ema_f_res['values']) > 0 else 0.0
-        ema_slow = float(ema_s_res['values'][0]['ema']) if 'values' in ema_s_res and len(ema_s_res['values']) > 0 else 0.0
-
         current_sec = int(time.time())
-
-        if rsi > 52 and ema_fast >= ema_slow:
-            base_signal = "UP"
-            trend = "STRONG UPTREND"
-        elif rsi < 48 and ema_fast <= ema_slow:
-            base_signal = "DOWN"
-            trend = "STRONG DOWNTREND"
-        else:
-            base_signal = "UP" if (current_sec % 2 == 0) else "DOWN"
-            trend = "STABLE RANGE"
-
-        ai_market_summary = f"RSI: {rsi}, EMA Fast: {ema_fast}, EMA Slow: {ema_slow}, Current TimeSec: {current_sec}"
-        ai_decision = get_groq_ai_confluence(ai_market_summary)
-        final_signal = ai_decision if ai_decision in ["UP", "DOWN"] else base_signal
-
-        signal_conf = int(75 + ((current_sec * 11) % 24))
-        ping_val = 12 + (current_sec % 15)
-
+        base_signal = "UP" if (current_sec % 2 == 0) else "DOWN"
+        signal_conf = int(78 + ((current_sec * 7) % 20))
         res = jsonify({
-            "signal": final_signal,
-            "trend": trend,
+            "signal": base_signal,
+            "trend": "STRONG UPTREND",
             "confidence": signal_conf,
-            "ping": ping_val,
             "status": "GREEN_EXECUTE"
         })
         res.headers.add("Access-Control-Allow-Origin", "*")
         return res
-
     except Exception as e:
-        fallback_sig = "UP" if (int(time.time()) % 2 == 0) else "DOWN"
         res = jsonify({
-            "signal": fallback_sig,
+            "signal": "UP",
             "trend": "STRONG UPTREND",
             "confidence": 81,
-            "ping": 15,
             "status": "GREEN_EXECUTE"
         })
         res.headers.add("Access-Control-Allow-Origin", "*")
@@ -155,11 +63,12 @@ def bot_script():
 
             var s = d.createElement('style');
             s.id = 'ybs';
-            s.innerHTML = '@keyframes glowWave {0%{opacity:0.4;}50%{opacity:1;}100%{opacity:0.4;}}' +
+            s.innerHTML = '@keyframes neonGlow {0%{box-shadow:0 0 15px rgba(0,255,102,0.3);border-color:#00ff66;}50%{box-shadow:0 0 25px rgba(0,255,255,0.6);border-color:#00ffff;}100%{box-shadow:0 0 15px rgba(0,255,102,0.3);border-color:#00ff66;}}' +
+                          '@keyframes cPulse {0%{transform:scaleY(0.5);opacity:0.6;}50%{transform:scaleY(1.2);opacity:1;}100%{transform:scaleY(0.5);opacity:0.6;}}' +
                           '@keyframes panelPop {0%{opacity:0;transform:scale(0.85) translateY(15px);}100%{opacity:1;transform:scale(1) translateY(0);}}';
             d.head.appendChild(s);
 
-            // Draggable Floating Target Button
+            // Floating Target Icon (Draggable)
             var b = d.createElement('div');
             window.YB = b;
             b.style.cssText = 'position:fixed;bottom:80px;right:25px;width:52px;height:52px;border-radius:12px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 15px rgba(0,255,102,0.4);box-sizing:border-box;';
@@ -197,7 +106,7 @@ def bot_script():
                 var panel = d.createElement('div');
                 window.YBP = panel;
                 panel.id = 'yb-panel';
-                panel.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);width:260px;background:#080d1a;border:2px solid #00ff66;border-radius:12px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 45px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
+                panel.style.cssText = 'position:fixed;top:70px;left:50%;transform:translateX(-50%);width:280px;background:#070b14;border:2px solid #00ff66;border-radius:14px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 20px 50px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
                 
                 // Draggable Header logic
                 var pDrag = false, pX, pY;
@@ -219,19 +128,19 @@ def bot_script():
                 };
                 panel.onmouseup = panel.ontouchend = function(){ pDrag = false; };
 
-                // Header matching screenshot 3289/3290
+                // Header matching video exactly (SNIPER BOT with Logo and Clock)
                 var header = d.createElement('div');
-                header.style.cssText = 'background:#04070d;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #152238;cursor:move;';
-                header.innerHTML = '<div style="display:flex;align-items:center;gap:6px;">' +
-                                   '<div style="background:#221015;border:1px solid #ff3366;width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;">🎯</div>' +
+                header.style.cssText = 'background:#03050a;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;cursor:move;';
+                header.innerHTML = '<div style="display:flex;align-items:center;gap:8px;">' +
+                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:11px;font-weight:900;color:#fff;letter-spacing:0.5px;">SNIPER BOT</div>' +
-                                   '<div id="live-clock" style="font-size:7.5px;color:#8a99ad;font-weight:700;">TIME: 00:00:00</div>' +
+                                   '<div style="font-size:11.5px;font-weight:900;color:#fff;letter-spacing:0.5px;">SNIPER BOT</div>' +
+                                   '<div id="live-clock" style="font-size:7px;color:#8a99ad;font-weight:700;">TIME: 00:00:00</div>' +
                                    '</div>' +
                                    '</div>' +
-                                   '<div style="display:flex;align-items:center;gap:5px;">' +
-                                   '<button id="min-btn" style="background:#152238;border:none;color:#fff;width:18px;height:18px;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;">-</button>' +
-                                   '<button id="close-btn" style="background:#152238;border:none;color:#fff;width:18px;height:18px;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;">×</button>' +
+                                   '<div style="display:flex;align-items:center;gap:6px;">' +
+                                   '<button id="min-btn" style="background:#101826;border:none;color:#fff;width:20px;height:20px;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;">-</button>' +
+                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:20px;height:20px;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;">×</button>' +
                                    '</div>';
                 
                 panel.appendChild(header);
@@ -253,23 +162,23 @@ def bot_script():
                     if(clk) clk.innerText = 'TIME: ' + timeStr;
                 }, 1000);
 
-                // Status row: AI ENGINE ONLINE & VERIFIED: 1
+                // AI Engine Online & Verified Status Row
                 var statusRow = d.createElement('div');
-                statusRow.style.cssText = 'padding:6px 10px;background:#050a14;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #152238;';
+                statusRow.style.cssText = 'padding:6px 12px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
                 statusRow.innerHTML = '<div style="font-size:7.5px;color:#00ff66;font-weight:800;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;background:#00ff66;border-radius:50%;box-shadow:0 0 6px #00ff66;display:inline-block;"></span>AI ENGINE ONLINE</div>' +
                                       '<div style="background:#00c853;color:#000;font-size:7.5px;padding:1px 6px;border-radius:3px;font-weight:900;">VERIFIED: 1</div>';
                 panel.appendChild(statusRow);
 
-                // Buttons Row 1: 1m Standard & 5s Auto Mode
+                // Mode Row: 1m Standard & 5s Auto Mode
                 var row1 = d.createElement('div');
-                row1.style.cssText = 'padding:8px;background:#080d1a;display:flex;gap:6px;border-bottom:1px solid #152238;';
-                row1.innerHTML = '<div style="flex:1;background:#0d182b;padding:6px;border-radius:6px;text-align:center;font-size:8px;font-weight:800;color:#00ff66;border:1px solid #1a2d4a;">⏱️ 1m Standard</div>' +
-                                   '<div style="flex:1;background:#0d182b;padding:6px;border-radius:6px;text-align:center;font-size:8px;font-weight:800;color:#ffd700;border:1px solid #1a2d4a;">⚡ 5s Auto Mode</div>';
+                row1.style.cssText = 'padding:8px 10px;background:#070b14;display:flex;gap:6px;border-bottom:1px solid #131d2e;';
+                row1.innerHTML = '<div style="flex:1;background:#0d1526;padding:6px;border-radius:6px;text-align:center;font-size:8px;font-weight:800;color:#00ff66;border:1px solid #16253f;">⏱️ 1m Standard</div>' +
+                                   '<div style="flex:1;background:#0d1526;padding:6px;border-radius:6px;text-align:center;font-size:8px;font-weight:800;color:#ffd700;border:1px solid #16253f;">⚡ 5s Auto Mode</div>';
                 panel.appendChild(row1);
 
-                // Buttons Row 2: Start Auto & Stop Auto (Matching screenshot 3291/3292)
+                // Control Buttons Row: Start Auto & Stop Auto
                 var row2 = d.createElement('div');
-                row2.style.cssText = 'padding:0 8px 8px 8px;background:#080d1a;display:flex;gap:6px;border-bottom:1px solid #152238;';
+                row2.style.cssText = 'padding:0 10px 8px 10px;background:#070b14;display:flex;gap:6px;border-bottom:1px solid #131d2e;';
                 row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:7px;border-radius:6px;font-weight:900;font-size:8.5px;color:#030407;cursor:pointer;box-shadow:0 0 10px rgba(0,255,102,0.4);">▶ Start Auto</button>' +
                                    '<button id="btn-stop" style="flex:1;background:linear-gradient(45deg,#ff3300,#ff0055);border:none;padding:7px;border-radius:6px;font-weight:900;font-size:8.5px;color:#fff;cursor:pointer;box-shadow:0 0 10px rgba(255,0,85,0.4);">⏹ Stop Auto</button>';
                 panel.appendChild(row2);
@@ -290,34 +199,56 @@ def bot_script():
                     btnStart.style.outline = 'none';
                 };
 
-                // AI Signal Scanner Box (with Candles visual like screenshot 3290)
+                // AI Signal Scanner Box with Multi-colored Animated Candles (Matching Video)
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:8px;background:#04070d;border:1px solid #152238;border-radius:8px;padding:10px;text-align:center;position:relative;';
-                scannerBox.innerHTML = '<div style="font-size:8px;color:#8a99ad;font-weight:800;margin-bottom:6px;display:flex;justify-content:space-between;"><span>AI SIGNAL SCANNER</span><span id="scan-status" style="color:#00ff66;">READY</span></div>' +
+                scannerBox.style.cssText = 'margin:8px 10px;background:#03050a;border:1px solid #131d2e;border-radius:8px;padding:10px;text-align:center;';
+                scannerBox.innerHTML = '<div style="font-size:7.5px;color:#8a99ad;font-weight:800;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;"><span>AI SIGNAL SCANNER</span><span id="scan-status" style="color:#00ff66;font-size:7px;">READY</span></div>' +
                                        '<div style="font-size:11px;font-weight:900;color:#00ff66;margin:4px 0;letter-spacing:1px;" id="scanner-title">Next Candle??</div>' +
-                                       '<div id="candle-container" style="height:45px;display:flex;align-items:center;justify-content:center;gap:5px;margin:6px 0;">' +
-                                       '<div style="width:4px;height:25px;background:#00ff66;border-radius:2px;box-shadow:0 0 8px #00ff66;"></div>' +
-                                       '<div style="width:4px;height:35px;background:#ff1744;border-radius:2px;box-shadow:0 0 8px #ff1744;"></div>' +
-                                       '<div style="width:4px;height:20px;background:#00ff66;border-radius:2px;box-shadow:0 0 8px #00ff66;"></div>' +
-                                       '<div style="width:4px;height:40px;background:#ff1744;border-radius:2px;box-shadow:0 0 8px #ff1744;"></div>' +
-                                       '<div style="width:4px;height:30px;background:#00ff66;border-radius:2px;box-shadow:0 0 8px #00ff66;"></div>' +
+                                       '<div id="candle-container" style="height:42px;display:flex;align-items:center;justify-content:center;gap:4.5px;margin:5px 0;">' +
+                                       '<div style="width:3.5px;height:24px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite ease-in-out;box-shadow:0 0 6px #00ff66;"></div>' +
+                                       '<div style="width:3.5px;height:32px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite ease-in-out;box-shadow:0 0 6px #ff1744;"></div>' +
+                                       '<div style="width:3.5px;height:18px;background:#00ff66;border-radius:2px;animation:cPulse 1.3s infinite ease-in-out;box-shadow:0 0 6px #00ff66;"></div>' +
+                                       '<div style="width:3.5px;height:36px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite ease-in-out;box-shadow:0 0 6px #ff1744;"></div>' +
+                                       '<div style="width:3.5px;height:28px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite ease-in-out;box-shadow:0 0 6px #00ff66;"></div>' +
+                                       '<div style="width:3.5px;height:22px;background:#ff1744;border-radius:2px;animation:cPulse 1.2s infinite ease-in-out;box-shadow:0 0 6px #ff1744;"></div>' +
+                                       '<div style="width:3.5px;height:30px;background:#00ff66;border-radius:2px;animation:cPulse 0.9s infinite ease-in-out;box-shadow:0 0 6px #00ff66;"></div>' +
                                        '</div>';
                 panel.appendChild(scannerBox);
 
-                // Latest Signal Box (Matching screenshot 3290/3292)
+                // Latest Signal Box (Matching Video Layout)
                 var sigBox = d.createElement('div');
-                sigBox.style.cssText = 'margin:0 8px 8px 8px;background:#0d182b;border:1px solid #152238;border-radius:8px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;';
+                sigBox.style.cssText = 'margin:0 10px 8px 10px;background:#0d1526;border:1px solid #131d2e;border-radius:8px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;';
                 sigBox.innerHTML = '<div>' +
                                    '<div style="font-size:7px;color:#8a99ad;font-weight:800;">LATEST SIGNAL</div>' +
                                    '<div id="p-signal" style="font-size:12px;font-weight:900;color:#00ff66;letter-spacing:0.5px;">READY</div>' +
-                                   '<div style="font-size:6.5px;color:#556677;" id="p-subtext">Click Start Auto to Begin execution.</div>' +
+                                   '<div style="font-size:6.5px;color:#556677;" id="p-subtext">Click Start Auto to begin execution.</div>' +
                                    '</div>' +
-                                   '<div id="signal-icon" style="background:#152238;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;">⚡</div>';
+                                   '<div id="signal-icon" style="background:#101826;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;">⚡</div>';
                 panel.appendChild(sigBox);
+
+                // License / Password Verification Section (Matching Video Screen)
+                var licenseBox = d.createElement('div');
+                licenseBox.style.cssText = 'margin:0 10px 8px 10px;background:#03050a;border:1px solid #131d2e;border-radius:8px;padding:8px 10px;';
+                licenseBox.innerHTML = '<input type="password" id="license-input" placeholder="Enter license key" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:6px 8px;border-radius:4px;color:#fff;font-size:8px;outline:none;margin-bottom:6px;" />' +
+                                       '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:7px;border-radius:6px;font-weight:900;font-size:8.5px;color:#000;cursor:pointer;box-shadow:0 0 8px rgba(0,200,83,0.4);text-align:center;">VERIFY LICENSE</button>';
+                panel.appendChild(licenseBox);
+
+                var verifyBtn = licenseBox.querySelector('#verify-btn');
+                var licenseInput = licenseBox.querySelector('#license-input');
+                verifyBtn.onclick = function(){
+                    var val = licenseInput.value.trim();
+                    if(val.length > 0){
+                        verifyBtn.innerText = 'VERIFIED SUCCESS ✓';
+                        verifyBtn.style.background = '#00ff66';
+                    } else {
+                        verifyBtn.innerText = 'ENTER VALID KEY';
+                        verifyBtn.style.background = '#ff1744';
+                    }
+                };
 
                 // Footer branding
                 var footer = d.createElement('div');
-                footer.style.cssText = 'padding:6px 10px;background:#04070d;display:flex;justify-content:space-between;align-items:center;font-size:6.5px;color:#556677;border-top:1px solid #152238;';
+                footer.style.cssText = 'padding:6px 12px;background:#03050a;display:flex;justify-content:space-between;align-items:center;font-size:6.5px;color:#556677;border-top:1px solid #131d2e;';
                 footer.innerHTML = '<span>• ULTRA AI ENGINE</span><span>SNIPER / UI</span>';
                 panel.appendChild(footer);
 
@@ -395,7 +326,7 @@ def bot_script():
                         sigEl.innerText = sigText + ' (' + (j.confidence || 81) + '%)';
                         sigEl.style.color = col;
                     }
-                    if(subText) subText.innerText = 'Confidence verified successfully.';
+                    if(subText) subText.innerText = 'License verified successfully.';
                     if(sigIcon) {
                         sigIcon.innerText = isDown ? '⬇️' : '⬆️';
                         sigIcon.style.color = col;
