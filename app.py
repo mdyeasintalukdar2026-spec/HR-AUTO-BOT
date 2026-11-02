@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v110.0 [Perfect Centered Live Candles - Zero Volume, Zero Top Cut] Running 24/7!"
+    return "Quotex Sniper Bot Engine v111.0 [Pure Native Clean Candles - Zero Overlays] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -369,14 +369,15 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    // Perfectly Centered Candles with Bottom Mask to erase all Volumes completely without cutting the top candles
+                    # 100% Pure Clean Native Clipping: No fake cover boxes, right price scale & volume cleanly clipped out by overflow bounds, candles perfectly centered.
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN CANDLES</span>' +
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:150%;height:150%;position:absolute;top:-26px;left:-55px;border:none;pointer-events:none;"></iframe>' +
-                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:22px;background:#03050a;pointer-events:none;z-index:10;"></div>' +
+                                          '<div style="position:absolute;top:0;left:0;width:82%;height:100%;overflow:hidden;">' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:170%;height:235%;position:absolute;top:-48px;left:-15px;border:none;pointer-events:none;"></iframe>' +
+                                          '</div>' +
                                           '</div>';
                 }
             }
