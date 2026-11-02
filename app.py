@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v106.0 [Custom Avatar Icon & Perfect Logo/Volume Mask] Running 24/7!"
+    return "Quotex Sniper Bot Engine v107.0 [Bookmark Load Fix & Custom Logo] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -70,7 +70,7 @@ def bot_script():
 
             var b = d.createElement('div');
             b.id = 'sniper_target_btn';
-            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:40px;height:40px;border-radius:10px;background:#030407;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 12px rgba(0,255,102,0.6);box-sizing:border-box;overflow:hidden;';
+            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:42px;height:42px;border-radius:10px;background:#030407;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 12px rgba(0,255,102,0.6);box-sizing:border-box;overflow:hidden;';
             b.innerHTML = '<img src="https://i.postimg.cc/JzRR8g6M/IMG-20261102-WA0003.jpg" style="width:100%;height:100%;object-fit:cover;" />';
             d.body.appendChild(b);
             
@@ -369,7 +369,6 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    # Perfect Full Chart with Exact CSS Overlays to hide Volume and TV Logo completely without cutting chart or price scale
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
