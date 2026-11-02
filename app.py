@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v119.0 [100% Native Position, Seamless Volume/Price Removal, Bulletproof Bookmark] Running 24/7!"
+    return "Quotex Sniper Bot Engine v119.0 [Exact Position + Right Price Masked + 62px Icon] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -70,7 +70,7 @@ def bot_script():
 
             var b = d.createElement('div');
             b.id = 'sniper_target_btn';
-            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:52px;height:52px;border-radius:50%;background:#030407;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 15px rgba(0,255,102,0.7);box-sizing:border-box;overflow:hidden;';
+            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:62px;height:62px;border-radius:50%;background:#030407;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 15px rgba(0,255,102,0.7);box-sizing:border-box;overflow:hidden;';
             b.innerHTML = '<img src="https://i.postimg.cc/JzRR8g6M/IMG-20261102-WA0003.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />';
             d.body.appendChild(b);
             
@@ -369,13 +369,14 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    // Precision Native Scale-Clipping: Exactly 100% chart layout position, smoothly pushing out bottom volume, tradingview logo & right price scale without any black box overlay.
+                    # Exact current chart position with clean right-side price masking (Zero price labels, zero distortion, exact match)
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN CANDLES</span>' +
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:142%;height:160%;position:absolute;top:-30px;left:-42px;border:none;pointer-events:none;"></iframe>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:145%;height:165%;position:absolute;top:-32px;left:-45px;border:none;pointer-events:none;"></iframe>' +
+                                          '<div style="position:absolute;top:0;right:0;width:45px;height:100%;background:#03050a;pointer-events:none;z-index:10;"></div>' +
                                           '</div>';
                 }
             }
