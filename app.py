@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v111.0 [Pure Native Clean Candles - Zero Overlays] Running 24/7!"
+    return "Quotex Sniper Bot Engine v112.0 [Fixed Bookmark JS Syntax & Perfect Centered Clean Candles] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -369,15 +369,12 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    # 100% Pure Clean Native Clipping: No fake cover boxes, right price scale & volume cleanly clipped out by overflow bounds, candles perfectly centered.
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN CANDLES</span>' +
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
-                                          '<div style="position:absolute;top:0;left:0;width:82%;height:100%;overflow:hidden;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:170%;height:235%;position:absolute;top:-48px;left:-15px;border:none;pointer-events:none;"></iframe>' +
-                                          '</div>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:130%;height:130%;position:absolute;top:-5px;left:-10px;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
                 }
             }
@@ -446,7 +443,7 @@ def bot_script():
                         sigEl.innerText = sigText + ' (' + (j.confidence || 79) + '%)';
                         sigEl.style.color = col;
                     }
-                    if(subText) subText.innerText = 'Live market synced.';
+                    if(subText) subText.innerText = 'Live market synced. All systems operational.';
                     if(sigIcon) {
                         sigIcon.innerText = isDown ? '⬇️' : '⬆️';
                         sigIcon.style.color = col;
