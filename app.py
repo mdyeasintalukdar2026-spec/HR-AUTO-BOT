@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Ai Signal Bot Engine v126.0 [Exact Video Match: RGB Border, Wave Scanner & Auto Trade] Running 24/7!"
+    return "Quotex Ai Signal Bot v128.0 [Exact Video Match: RGB Glow, Sine Wave Scanner & Auto Trade] Running 24/7!"
 
 @app.route('/ping')
 def ping():
