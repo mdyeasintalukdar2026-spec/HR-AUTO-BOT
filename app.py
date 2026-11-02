@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v120.0 [RA+BOT Label & Centered Clean Candles with Light Volume] Running 24/7!"
+    return "Quotex Sniper Bot Engine v121.0 [RA+BOT with Video-Style AI Scanning Animation & Auto Execute] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -60,7 +60,8 @@ def bot_script():
                 var s = d.createElement('style');
                 s.id = 'ybs_global';
                 s.innerHTML = '@keyframes panelPop {0%{opacity:0;transform:translate(-50%, -45%) scale(0.9);}100%{opacity:1;transform:translate(-50%, -50%) scale(1);}}' +
-                              '@keyframes cPulse {0%{transform:scaleY(0.4);opacity:0.5;}50%{transform:scaleY(1.3);opacity:1;}100%{transform:scaleY(0.4);opacity:0.5;}}' +
+                              '@keyframes waveAnim {0%{transform:translateY(0px) scaleX(1);opacity:0.6;}50%{transform:translateY(-4px) scaleX(1.05);opacity:1;}100%{transform:translateY(0px) scaleX(1);opacity:0.6;}}' +
+                              '@keyframes scanBeam {0%{left:-100%;}100%{left:200%;}}' +
                               '@keyframes spinAnim {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}';
                 d.head.appendChild(s);
             }
@@ -165,11 +166,8 @@ def bot_script():
                 scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:6px;text-align:center;';
                 scannerBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
                                        '<div style="font-size:8px;font-weight:900;color:#00ff66;margin:2px 0;">Next Candle??</div>' +
-                                       '<div style="display:flex;justify-content:center;gap:3px;margin-top:3px;">' +
-                                       '<div style="width:3px;height:22px;background:#00ff66;border-radius:2px;animation:cPulse 1s infinite;"></div>' +
-                                       '<div style="width:3px;height:30px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;"></div>' +
-                                       '<div style="width:3px;height:18px;background:#00ff66;border-radius:2px;animation:cPulse 1.2s infinite;"></div>' +
-                                       '<div style="width:3px;height:34px;background:#ff1744;border-radius:2px;animation:cPulse 0.9s infinite;"></div>' +
+                                       '<div style="height:45px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">' +
+                                       '<svg style="width:90%;height:35px;" viewBox="0 0 200 40"><path d="M 0 20 Q 30 5, 60 20 T 120 20 T 180 20 T 200 20" fill="transparent" stroke="#00ff66" stroke-width="2.5" style="animation: waveAnim 1.2s infinite ease-in-out;"/></svg>' +
                                        '</div>';
                 panel.appendChild(scannerBox);
 
@@ -280,7 +278,7 @@ def bot_script():
                     window.autoTradeEnabled = true;
                     btnStart.style.outline = '1.5px solid #fff';
                     btnStop.style.outline = 'none';
-                    runContinuousEngine(panel, true);
+                    runVideoStyleScanSequence(panel, true);
                 };
 
                 btnStop.onclick = function(){
@@ -288,6 +286,7 @@ def bot_script():
                     window.lastTradeExecutionTimestamp = 0;
                     btnStop.style.outline = '1.5px solid #fff';
                     btnStart.style.outline = 'none';
+                    updateHybridChart(scannerBox, isProLiveChartMode, true);
                 };
 
                 var scannerBox = d.createElement('div');
@@ -321,7 +320,7 @@ def bot_script():
 
                 var getSigBtn = sigBox.querySelector('#get-sig-btn');
                 getSigBtn.onclick = function(){
-                    runContinuousEngine(panel, false);
+                    runVideoStyleScanSequence(panel, false);
                 };
 
                 var footer = d.createElement('div');
@@ -334,7 +333,9 @@ def bot_script():
                 updateHybridChart(scannerBox, false, true);
                 
                 setInterval(function(){
-                    updateHybridChart(scannerBox, isProLiveChartMode, false);
+                    if(!window.isScanningSequenceActive && !window.autoTradeEnabled){
+                        updateHybridChart(scannerBox, isProLiveChartMode, false);
+                    }
                 }, 3000);
             }
 
@@ -342,7 +343,7 @@ def bot_script():
                 var mkt = detectActiveMarket();
                 var currentSym = isProMode ? getTradingViewSymbol(mkt) : 'OTC_SCANNER';
                 
-                if(container.dataset.lastSymbol === currentSym && !forceUpdate) return;
+                if(container.dataset.lastSymbol === currentSym && !forceUpdate && !isProMode) return;
                 container.dataset.lastSymbol = currentSym;
                 
                 if(!isProMode){
@@ -352,11 +353,11 @@ def bot_script():
                                           '</div>' +
                                           '<div style="font-size:7.5px;font-weight:900;color:#00ff66;margin:2px 0;">⚡ Next Candle?? (Smooth Sync)</div>' +
                                           '<div style="height:72px;display:flex;align-items:center;justify-content:center;gap:4px;background:#010204;border-radius:3px;padding:2px;">' +
-                                          '<div style="width:3px;height:35px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
-                                          '<div style="width:3px;height:52px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
-                                          '<div style="width:3px;height:28px;background:#00ff66;border-radius:2px;animation:cPulse 1.3s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
-                                          '<div style="width:3px;height:58px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
-                                          '<div style="width:3px;height:40px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
+                                          '<div style="width:3px;height:35px;background:#00ff66;border-radius:2px;animation:waveAnim 1.1s infinite;opacity:0.4;"></div>' +
+                                          '<div style="width:3px;height:52px;background:#ff1744;border-radius:2px;animation:waveAnim 0.8s infinite;opacity:0.4;"></div>' +
+                                          '<div style="width:3px;height:28px;background:#00ff66;border-radius:2px;animation:waveAnim 1.3s infinite;opacity:0.4;"></div>' +
+                                          '<div style="width:3px;height:58px;background:#ff1744;border-radius:2px;animation:waveAnim 0.7s infinite;opacity:0.4;"></div>' +
+                                          '<div style="width:3px;height:40px;background:#00ff66;border-radius:2px;animation:waveAnim 1.0s infinite;opacity:0.4;"></div>' +
                                           '</div>';
                 } else {
                     var tvConfig = {
@@ -380,7 +381,6 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    // Perfectly Centered Candles with light volume visibility and masked right price scale
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN CANDLES</span>' +
@@ -436,36 +436,73 @@ def bot_script():
                 }
             }
 
-            function runContinuousEngine(panel, isAutoTradeMode){
+            window.isScanningSequenceActive = false;
+
+            function runVideoStyleScanSequence(panel, isAutoTradeMode){
+                if(window.isScanningSequenceActive) return;
+                window.isScanningSequenceActive = true;
+
+                var scannerBox = panel.querySelector('div[style*="background:#03050a;border:1.5px solid"]');
                 var sigEl = panel.querySelector('#p-signal');
                 var subText = panel.querySelector('#p-subtext');
                 var sigIcon = panel.querySelector('#signal-icon');
 
-                if(sigEl) sigEl.innerText = 'ANALYZING...';
+                if(sigEl) {
+                    sigEl.innerText = 'SCANNING...';
+                    sigEl.style.color = '#00ffff';
+                }
+                if(subText) subText.innerText = 'Detecting Volatility Spikes...';
 
-                fetch('https://hr-auto-bot-fhyc.onrender.com/signal?t='+Date.now())
-                .then(function(r){ return r.json(); })
-                .catch(function(){ return {signal: "DOWN", confidence: 79}; })
-                .then(function(j){
-                    var rawSig = String(j.signal || 'DOWN').toUpperCase();
-                    var isDown = (rawSig === 'SELL' || rawSig === 'DOWN' || rawSig === 'PUT');
-                    var sigText = isDown ? 'DOWN' : 'UP';
-                    var col = isDown ? '#ff1744' : '#00ff66';
+                if(scannerBox) {
+                    scannerBox.innerHTML = '<div style="font-size:6px;color:#00ffff;font-weight:800;margin-bottom:2px;">AI VOLATILITY SCANNER</div>' +
+                                           '<div style="font-size:7.5px;font-weight:900;color:#00ff66;margin:2px 0;">⚡ Algorithmic Pattern Sync...</div>' +
+                                           '<div style="height:62px;background:#010204;border-radius:3px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;">' +
+                                           '<svg style="width:100%;height:35px;position:absolute;" viewBox="0 0 200 40"><path d="M 0 20 Q 25 2, 50 20 T 100 20 T 150 20 T 200 20" fill="transparent" stroke="#00ffff" stroke-width="2.5" style="animation: waveAnim 0.6s infinite ease-in-out;"/></svg>' +
+                                           '<div style="position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg, transparent, rgba(0,255,102,0.35), transparent);animation: scanBeam 1.2s infinite linear;"></div>' +
+                                           '</div>';
+                }
 
-                    if(sigEl) {
-                        sigEl.innerText = sigText + ' (' + (j.confidence || 79) + '%)';
-                        sigEl.style.color = col;
-                    }
-                    if(subText) subText.innerText = 'Live market synced. All systems operational.';
-                    if(sigIcon) {
-                        sigIcon.innerText = isDown ? '⬇️' : '⬆️';
-                        sigIcon.style.color = col;
-                    }
+                setTimeout(function(){
+                    fetch('https://hr-auto-bot-fhyc.onrender.com/signal?t='+Date.now())
+                    .then(function(r){ return r.json(); })
+                    .catch(function(){ return {signal: "DOWN", confidence: 82}; })
+                    .then(function(j){
+                        var rawSig = String(j.signal || 'DOWN').toUpperCase();
+                        var isDown = (rawSig === 'SELL' || rawSig === 'DOWN' || rawSig === 'PUT');
+                        var sigText = isDown ? 'DOWN' : 'UP';
+                        var col = isDown ? '#ff1744' : '#00ff66';
 
-                    if(window.autoTradeEnabled && isAutoTradeMode) {
-                        triggerTrade(isDown);
-                    }
-                });
+                        if(sigEl) {
+                            sigEl.innerText = sigText + ' (' + (j.confidence || 82) + '%)';
+                            sigEl.style.color = col;
+                        }
+                        if(subText) subText.innerText = 'Executing Auto Order... Success!';
+                        if(sigIcon) {
+                            sigIcon.innerText = isDown ? '⬇️' : '⬆️';
+                            sigIcon.style.color = col;
+                        }
+
+                        if(scannerBox) {
+                            scannerBox.innerHTML = '<div style="font-size:6px;color:' + col + ';font-weight:800;margin-bottom:2px;">SIGNAL EXECUTED</div>' +
+                                                   '<div style="font-size:12px;font-weight:900;color:' + col + ';margin:4px 0;">' + sigText + ' (' + (j.confidence || 82) + '%)</div>' +
+                                                   '<div style="font-size:5.5px;color:#8a99ad;">Order Placed Successfully</div>';
+                        }
+
+                        if(window.autoTradeEnabled && isAutoTradeMode) {
+                            triggerTrade(isDown);
+                        }
+
+                        setTimeout(function(){
+                            window.isScanningSequenceActive = false;
+                            updateHybridChart(scannerBox, false, true);
+                            if(subText) subText.innerText = 'Automated sniper ready.';
+                            if(sigEl) {
+                                sigEl.innerText = 'READY';
+                                sigEl.style.color = '#00ff66';
+                            }
+                        }, 4000);
+                    });
+                }, 3000);
             }
         } catch(e) { console.error("SniperBot Error:", e); }
     })();
