@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v87.0 [100% Clean TV Chart & Symbol Fix] Running 24/7!"
+    return "Quotex Sniper Bot Engine v88.0 [Stable No-Flicker & Clean Chart Fix] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -116,7 +116,6 @@ def bot_script():
 
             function getTradingViewSymbol(marketText){
                 if(!marketText) return "FX:EURUSD";
-                // Clean up OTC, percentages (like 78%), numbers, spaces, slashes to map correctly
                 var clean = marketText.replace(/\\(OTC\\)/gi, '').replace(/\\d+%/g, '').replace(/\\s+/g, '').toUpperCase();
                 var sym = clean.replace('/', '').replace(/[^A-Z]/g, '');
                 if(sym.includes('BTC') || sym.includes('ETH')) return 'BINANCE:' + sym + 'USDT';
@@ -194,7 +193,7 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            // Step 2: Main Dashboard (100% Clean Pro Live Chart without toolbars)
+            // Step 2: Main Dashboard (No-Flicker Stable Clean Live Chart)
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
                 panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
@@ -298,7 +297,7 @@ def bot_script():
                         proToggleBtn.style.borderColor = '#00ffff';
                         scannerBox.style.borderColor = '#00ff66';
                     }
-                    updateHybridChart(scannerBox, isProLiveChartMode);
+                    updateHybridChart(scannerBox, isProLiveChartMode, true);
                 };
 
                 var sigBox = d.createElement('div');
@@ -322,14 +321,20 @@ def bot_script():
 
                 d.body.appendChild(panel);
 
-                updateHybridChart(scannerBox, false);
+                updateHybridChart(scannerBox, false, true);
+                
+                // Stable interval check (only re-renders if market symbol actually changes, avoiding flicker)
                 setInterval(function(){
-                    updateHybridChart(scannerBox, isProLiveChartMode);
+                    updateHybridChart(scannerBox, isProLiveChartMode, false);
                 }, 3000);
             }
 
-            function updateHybridChart(container, isProMode){
+            function updateHybridChart(container, isProMode, forceUpdate){
                 var mkt = detectActiveMarket();
+                var currentSym = isProMode ? getTradingViewSymbol(mkt) : 'OTC_SCANNER';
+                
+                if(container.dataset.lastSymbol === currentSym && !forceUpdate) return;
+                container.dataset.lastSymbol = currentSym;
                 
                 if(!isProMode){
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ff66;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
@@ -345,24 +350,23 @@ def bot_script():
                                           '<div style="width:3px;height:40px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
                                           '</div>';
                 } else {
-                    var tvSymbol = getTradingViewSymbol(mkt);
-                    
-                    // 100% Clean Widget Config: hides top toolbar, hides legend, clean candles & prices only
                     var tvConfig = {
                         "width": "100%",
                         "height": "100%",
-                        "symbol": tvSymbol,
+                        "symbol": currentSym,
                         "interval": "1",
                         "timezone": "Etc/UTC",
                         "theme": "dark",
                         "style": "1",
                         "locale": "en",
+                        "toolbar_bg": "#010204",
                         "enable_publishing": false,
                         "hide_top_toolbar": true,
                         "hide_legend": true,
                         "save_image": false,
                         "calendar": false,
                         "allow_symbol_change": false,
+                        "studies": [],
                         "support_host": "https://www.tradingview.com"
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
