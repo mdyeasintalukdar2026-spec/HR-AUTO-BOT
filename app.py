@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v103.0 [Direct Clean TradingView Chart - Zero Buttons, Zero Volume, Zero Logo] Running 24/7!"
+    return "Quotex Sniper Bot Engine v104.0 [Perfect Fit Clean TradingView Chart - Zero Volume, Zero Logo, Full Price Scale] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -197,7 +197,7 @@ def bot_script():
 
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
+                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
                 var pDrag = false, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
@@ -357,7 +357,7 @@ def bot_script():
                         "theme": "dark",
                         "style": "1",
                         "locale": "en",
-                        "toolbar_bg": "#010204",
+                        "toolbar_bg": "#03050a",
                         "enable_publishing": false,
                         "hide_top_toolbar": true,
                         "hide_legend": true,
@@ -369,13 +369,13 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    // Direct clean TradingView chart layout (Zero buttons, Zero volume, Zero logo, clean right price scale)
+                    // 100% Clean TradingView Chart Layout: Full width/height, perfectly fitted, zero volume, zero logo, full right price scale
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
-                                          '<div style="height:86px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:125%;height:120px;position:absolute;top:-28px;left:-15px;border:none;pointer-events:none;"></iframe>' +
+                                          '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:150px;position:absolute;top:-32px;left:0;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
                 }
             }
