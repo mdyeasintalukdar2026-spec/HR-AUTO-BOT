@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v107.0 [Bookmark Load Fix & Custom Logo] Running 24/7!"
+    return "Quotex Sniper Bot Engine v108.0 [Seamless Gradient Logo Mask & Circular Large Avatar] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -70,8 +70,8 @@ def bot_script():
 
             var b = d.createElement('div');
             b.id = 'sniper_target_btn';
-            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:42px;height:42px;border-radius:10px;background:#030407;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 12px rgba(0,255,102,0.6);box-sizing:border-box;overflow:hidden;';
-            b.innerHTML = '<img src="https://i.postimg.cc/JzRR8g6M/IMG-20261102-WA0003.jpg" style="width:100%;height:100%;object-fit:cover;" />';
+            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:52px;height:52px;border-radius:50%;background:#030407;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 15px rgba(0,255,102,0.7);box-sizing:border-box;overflow:hidden;';
+            b.innerHTML = '<img src="https://i.postimg.cc/JzRR8g6M/IMG-20261102-WA0003.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />';
             d.body.appendChild(b);
             
             var isDragging = false, startX, startY, hasMoved = false;
@@ -375,8 +375,8 @@ def bot_script():
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
                                           '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;position:absolute;top:0;left:0;border:none;pointer-events:none;"></iframe>' +
-                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:20px;background:#03050a;pointer-events:none;z-index:10;"></div>' +
-                                          '<div style="position:absolute;bottom:0;left:0;width:42px;height:28px;background:#03050a;pointer-events:none;z-index:10;"></div>' +
+                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:18px;background:#03050a;pointer-events:none;z-index:10;"></div>' +
+                                          '<div style="position:absolute;bottom:0;left:0;width:45px;height:30px;background:radial-gradient(circle at bottom left, #03050a 60%, transparent 100%);pointer-events:none;z-index:10;"></div>' +
                                           '</div>';
                 }
             }
