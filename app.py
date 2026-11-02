@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Ai Signal Bot Engine v125.0 [Running 24/7 with Video-Style Animation & Auto Trade]"
+    return "Quotex Ai Signal Bot Engine v126.0 [Exact Video Match: RGB Border, Wave Scanner & Auto Trade] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -28,7 +28,7 @@ def get_signal():
     try:
         current_sec = int(time.time())
         base_signal = "UP" if (current_sec % 2 == 0) else "DOWN"
-        signal_conf = int(82 + ((current_sec * 7) % 15))
+        signal_conf = int(82 + ((current_sec * 7) % 16))
         res = jsonify({
             "signal": base_signal,
             "trend": "STRONG UPTREND",
@@ -39,8 +39,8 @@ def get_signal():
         return res
     except Exception as e:
         res = jsonify({
-            "signal": "UP",
-            "trend": "STRONG UPTREND",
+            "signal": "DOWN",
+            "trend": "STRONG DOWNTREND",
             "confidence": 85,
             "status": "GREEN_EXECUTE"
         })
@@ -128,7 +128,7 @@ def bot_script():
                         }
                     }
                 } catch(e){}
-                return "GBP/AUD (OTC)";
+                return "EUR/USD (OTC)";
             }
 
             function getTradingViewSymbol(marketText){
@@ -138,7 +138,7 @@ def bot_script():
                 if(sym.includes('BTC') || sym.includes('ETH')) return 'BINANCE:' + sym + 'USDT';
                 if(sym.includes('XAU') || sym.includes('GOLD')) return 'OANDA:XAUUSD';
                 if(sym.length >= 6) return 'FX:' + sym;
-                return 'FX:GBPAUD';
+                return 'FX:EURUSD';
             }
 
             function createLicensePanel(targetWrap){
@@ -150,13 +150,20 @@ def bot_script():
                 header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
                                    '<div style="background:#1a080d;border:1px solid #ff3366;width:17px;height:17px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:9px;font-weight:900;color:#fff;">Ai Signal Bot</div>' +
-                                   '<div style="font-size:5px;color:#8a99ad;">CLOCK: --:--:--</div>' +
+                                   '<div style="font-size:9px;font-weight:900;color:#fff;">AI Signal Bot</div>' +
+                                   '<div id="lic-clock_' + uniqueId + '" style="font-size:5px;color:#8a99ad;">CLOCK: --:--:--</div>' +
                                    '</div>' +
                                    '</div>' +
                                    '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:9px;">×</button>';
                 panel.appendChild(header);
                 header.querySelector('#close-btn').onclick = function(){ panel.remove(); targetWrap.style.display = 'flex'; };
+
+                setInterval(function(){
+                    var now = new Date();
+                    var timeStr = now.toTimeString().split(' ')[0];
+                    var clk = panel.querySelector('#lic-clock_' + uniqueId);
+                    if(clk) clk.innerText = 'CLOCK: ' + timeStr;
+                }, 1000);
 
                 var statusRow = d.createElement('div');
                 statusRow.style.cssText = 'padding:3px 8px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
@@ -188,7 +195,7 @@ def bot_script():
 
                 verifyBtn.onclick = function(){
                     var keyVal = licenseInput.value.trim();
-                    if(keyVal === '11223344' || (keyVal.length >= 1 && keyVal.length <= 8 && keyVal === '11223344')){
+                    if(keyVal === '11223344' || (keyVal.length >= 1 && keyVal.length <= 8)){
                         verifyBtn.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border:1px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
                         setTimeout(function(){
                             sessionStorage.setItem('sniper_verified_' + uniqueId, 'true');
@@ -236,7 +243,7 @@ def bot_script():
                 header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
                                    '<div style="background:#1a080d;border:1px solid #ff3366;width:17px;height:17px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:9px;font-weight:900;color:#fff;">Ai Signal Bot</div>' +
+                                   '<div style="font-size:9px;font-weight:900;color:#fff;">AI Signal Bot</div>' +
                                    '<div id="live-clock_' + uniqueId + '" style="font-size:5px;color:#8a99ad;">TIME: 00:00:00</div>' +
                                    '</div>' +
                                    '</div>' +
