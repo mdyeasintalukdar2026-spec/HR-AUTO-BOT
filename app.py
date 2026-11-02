@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v117.0 [Perfect Centered Candles & 100% Volume Masked] Running 24/7!"
+    return "Quotex Sniper Bot Engine v118.0 [Zero Black Boxes, Zero Logo, Zero Volume, Perfect Native Clean Chart] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -369,14 +369,13 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
+                    // Perfectly Scaled & Shifted to cleanly push out TradingView logo and bottom volume natively without ugly black mask boxes
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN CANDLES</span>' +
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:130%;height:130%;position:absolute;top:-8px;left:-10px;border:none;pointer-events:none;"></iframe>' +
-                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:32px;background:#03050a;pointer-events:none;z-index:10;"></div>' +
-                                          '<div style="position:absolute;top:0;right:0;width:42px;height:100%;background:#03050a;pointer-events:none;z-index:10;"></div>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:145%;height:165%;position:absolute;top:-32px;left:-45px;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
                 }
             }
