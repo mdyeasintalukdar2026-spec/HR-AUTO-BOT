@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v102.0 [Fixed Syntax & Exact Screenshot Layout] Running 24/7!"
+    return "Quotex Sniper Bot Engine v103.0 [Direct Clean TradingView Chart - Zero Buttons, Zero Volume, Zero Logo] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -70,7 +70,7 @@ def bot_script():
 
             var b = d.createElement('div');
             b.id = 'sniper_target_btn';
-            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:38px;height:38px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #ffcc00;box-shadow:0 0 10px rgba(255,204,0,0.4);box-sizing:border-box;';
+            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:38px;height:38px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 10px rgba(0,255,102,0.4);box-sizing:border-box;';
             b.innerHTML = '<span style="font-size:16px;">🎯</span>';
             d.body.appendChild(b);
             
@@ -114,7 +114,7 @@ def bot_script():
                         }
                     }
                 } catch(e){}
-                return "EUR/USD (Real)";
+                return "GBP/AUD (OTC)";
             }
 
             function getTradingViewSymbol(marketText){
@@ -124,12 +124,12 @@ def bot_script():
                 if(sym.includes('BTC') || sym.includes('ETH')) return 'BINANCE:' + sym + 'USDT';
                 if(sym.includes('XAU') || sym.includes('GOLD')) return 'OANDA:XAUUSD';
                 if(sym.length >= 6) return 'FX:' + sym;
-                return 'FX:EURUSD';
+                return 'FX:GBPAUD';
             }
 
             function createLicensePanel(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:235px;background:#070b14;border:2px solid #ffcc00;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
+                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:235px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
                 var header = d.createElement('div');
                 header.style.cssText = 'background:#03050a;padding:5px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
@@ -197,7 +197,7 @@ def bot_script():
 
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #ffcc00;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
+                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
                 
                 var pDrag = false, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
@@ -280,7 +280,7 @@ def bot_script():
                 };
 
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1.5px solid #ffcc00;border-radius:5px;padding:6px;text-align:center;transition:all 0.3s;';
+                scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1.5px solid #00ff66;border-radius:5px;padding:6px;text-align:center;transition:all 0.3s;';
                 panel.appendChild(scannerBox);
 
                 proToggleBtn.onclick = function(){
@@ -294,7 +294,7 @@ def bot_script():
                         proToggleBtn.innerText = '⚡ PRO / SMART';
                         proToggleBtn.style.color = '#00ffff';
                         proToggleBtn.style.borderColor = '#00ffff';
-                        scannerBox.style.borderColor = '#ffcc00';
+                        scannerBox.style.borderColor = '#00ff66';
                     }
                     updateHybridChart(scannerBox, isProLiveChartMode, true);
                 };
@@ -369,39 +369,14 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    container.innerHTML = '<div style="display:flex;gap:3px;margin-bottom:3px;align-items:center;">' +
-                                          '<div style="flex:1;background:#0d1526;border:1px solid #ffcc00;border-radius:3px;padding:3px 4px;font-size:5.5px;color:#ffcc00;font-weight:900;display:flex;justify-content:space-between;align-items:center;"><span>' + mkt + '</span><span>▼</span></div>' +
-                                          '<div style="background:#0d1526;border:1px solid #00ffff;border-radius:3px;padding:3px 5px;font-size:5.5px;color:#00ffff;font-weight:900;display:flex;align-items:center;gap:2px;">⏱ <span id="scan-timer_' + uniqueId + '">00:46s</span></div>' +
-                                          '<button id="btn-market-scan_' + uniqueId + '" style="background:linear-gradient(45deg,#ffaa00,#ff4400);border:none;border-radius:3px;padding:3px 6px;font-size:5.5px;color:#000;font-weight:900;cursor:pointer;display:flex;align-items:center;gap:2px;">⚡ SCAN</button>' +
+                    // Direct clean TradingView chart layout (Zero buttons, Zero volume, Zero logo, clean right price scale)
+                    container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
+                                          '<span>MARKET: ' + mkt + '</span>' +
+                                          '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
-                                          '<div style="position:relative;height:72px;background:#03050a;border-radius:3px;overflow:hidden;border:1px solid #131d2e;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:130%;height:150%;position:absolute;top:-38px;left:-35px;border:none;pointer-events:none;"></iframe>' +
-                                          '<div id="scan-laser_' + uniqueId + '" style="position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,255,102,0.3),transparent);pointer-events:none;transition:none;"></div>' +
+                                          '<div style="height:86px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;">' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:125%;height:120px;position:absolute;top:-28px;left:-15px;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
-
-                    setTimeout(function(){
-                        var scanBtn = container.querySelector('#btn-market-scan_' + uniqueId);
-                        var laser = container.querySelector('#scan-laser_' + uniqueId);
-                        if(scanBtn && laser){
-                            scanBtn.onclick = function(){
-                                laser.style.transition = 'left 1.2s ease-in-out';
-                                laser.style.left = '100%';
-                                setTimeout(function(){
-                                    laser.style.transition = 'none';
-                                    laser.style.left = '-100%';
-                                }, 1300);
-                                runContinuousEngine(container.closest('div[style*="position: fixed"]'), false);
-                            };
-                        }
-
-                        setInterval(function(){
-                            var timerEl = container.querySelector('#scan-timer_' + uniqueId);
-                            if(timerEl){
-                                var s = 59 - (Math.floor(Date.now() / 1000) % 60);
-                                timerEl.innerText = '00:' + (s < 10 ? '0' + s : s) + 's';
-                            }
-                        }, 1000);
-                    }, 150);
                 }
             }
 
