@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v88.0 [Stable No-Flicker & Clean Chart Fix] Running 24/7!"
+    return "Quotex Sniper Bot Engine v89.0 [No Volume, No Logo & Clean Cropped Chart] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -193,7 +193,7 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            // Step 2: Main Dashboard (No-Flicker Stable Clean Live Chart)
+            // Step 2: Main Dashboard (No Volume, No Logo & Clean Cropped Live Chart)
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
                 panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
@@ -323,7 +323,6 @@ def bot_script():
 
                 updateHybridChart(scannerBox, false, true);
                 
-                // Stable interval check (only re-renders if market symbol actually changes, avoiding flicker)
                 setInterval(function(){
                     updateHybridChart(scannerBox, isProLiveChartMode, false);
                 }, 3000);
@@ -371,12 +370,13 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
+                    // Using CSS overflow hidden & iframe height/margin cropping to completely crop out volume bars & logo at the bottom
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
                                           '<div style="height:85px;display:flex;align-items:center;justify-content:center;background:#010204;border-radius:3px;overflow:hidden;position:relative;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;border:none;pointer-events:none;"></iframe>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:115px;margin-top:-22px;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
                 }
             }
