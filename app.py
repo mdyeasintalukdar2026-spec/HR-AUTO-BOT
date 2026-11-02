@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v122.0 [Exact Video-Style Wave Scanning & Pop-up Signal Candles] Running 24/7!"
+    return "Quotex Sniper Bot Engine v123.0 [Ai Signal Bot with Password, RGB Border Glow & Auto Trade Execution] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -60,6 +60,7 @@ def bot_script():
                 var s = d.createElement('style');
                 s.id = 'ybs_global';
                 s.innerHTML = '@keyframes panelPop {0%{opacity:0;transform:translate(-50%, -45%) scale(0.9);}100%{opacity:1;transform:translate(-50%, -50%) scale(1);}}' +
+                              '@keyframes rgbGlow {0%{border-color:#00ff66;box-shadow:0 0 15px #00ff66;}33%{border-color:#00ffff;box-shadow:0 0 15px #00ffff;}66%{border-color:#ff0055;box-shadow:0 0 15px #ff0055;}100%{border-color:#00ff66;box-shadow:0 0 15px #00ff66;}}' +
                               '@keyframes sineWave {0%{transform:translateX(0);}50%{transform:translateX(-15px);}100%{transform:translateX(0);}}' +
                               '@keyframes scanBeam {0%{left:-100%;}100%{left:200%;}}' +
                               '@keyframes candlePop {0%{transform:scaleY(0.1);opacity:0;}100%{transform:scaleY(1);opacity:1;}}' +
@@ -76,13 +77,13 @@ def bot_script():
             
             var b = d.createElement('div');
             b.id = 'sniper_target_btn';
-            b.style.cssText = 'width:62px;height:62px;border-radius:50%;background:#030407;display:flex;align-items:center;justify-content:center;border:2px solid #00ff66;box-shadow:0 0 15px rgba(0,255,102,0.7);box-sizing:border-box;overflow:hidden;';
+            b.style.cssText = 'width:62px;height:62px;border-radius:50%;background:#030407;display:flex;align-items:center;justify-content:center;border:2px solid #00ff66;animation:rgbGlow 4s infinite linear;box-sizing:border-box;overflow:hidden;';
             b.innerHTML = '<img src="https://i.postimg.cc/JzRR8g6M/IMG-20261102-WA0003.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />';
             wrap.appendChild(b);
 
             var lbl = d.createElement('div');
             lbl.style.cssText = 'margin-top:3px;font-size:7px;font-weight:900;color:#00ff66;font-family:sans-serif;background:rgba(3,4,7,0.85);padding:1px 5px;border-radius:3px;border:1px solid rgba(0,255,102,0.4);white-space:nowrap;box-shadow:0 0 5px rgba(0,0,0,0.8);';
-            lbl.innerText = 'RA+BOT';
+            lbl.innerText = 'Ai Signal Bot';
             wrap.appendChild(lbl);
 
             d.body.appendChild(wrap);
@@ -149,7 +150,7 @@ def bot_script():
                 header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
                                    '<div style="background:#1a080d;border:1px solid #ff3366;width:17px;height:17px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:9px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div style="font-size:9px;font-weight:900;color:#fff;">Ai Signal Bot</div>' +
                                    '<div style="font-size:5px;color:#8a99ad;">CLOCK: --:--:--</div>' +
                                    '</div>' +
                                    '</div>' +
@@ -176,8 +177,8 @@ def bot_script():
 
                 var licenseBox = d.createElement('div');
                 licenseBox.style.cssText = 'margin:0 6px 6px 6px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:6px;';
-                licenseBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;margin-bottom:2px;" id="err-msg">Enter license key</div>' +
-                                       '<input type="password" id="license-input" placeholder="Enter password (1-8)" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:5px;border-radius:3px;color:#fff;font-size:7.5px;outline:none;margin-bottom:4px;" />' +
+                licenseBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;margin-bottom:2px;" id="err-msg">Enter password (11223344)</div>' +
+                                       '<input type="password" id="license-input" placeholder="Enter password" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:5px;border-radius:3px;color:#fff;font-size:7.5px;outline:none;margin-bottom:4px;" />' +
                                        '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:5px;border-radius:3px;font-weight:900;font-size:7.5px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
                 panel.appendChild(licenseBox);
 
@@ -187,7 +188,7 @@ def bot_script():
 
                 verifyBtn.onclick = function(){
                     var keyVal = licenseInput.value.trim();
-                    if(keyVal.length >= 1){
+                    if(keyVal === '11223344'){
                         verifyBtn.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border:1px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
                         setTimeout(function(){
                             sessionStorage.setItem('sniper_verified_' + uniqueId, 'true');
@@ -195,12 +196,12 @@ def bot_script():
                             createMainDashboard(targetWrap);
                         }, 2000);
                     } else {
-                        errMsg.innerText = '⚠️ INVALID PASSWORD! ACCESS DENIED';
+                        errMsg.innerText = '⚠️ INCORRECT PASSWORD!';
                         errMsg.style.color = '#ff1744';
                         licenseInput.style.borderColor = '#ff1744';
                         verifyBtn.style.background = '#ff1744';
                         verifyBtn.style.color = '#fff';
-                        verifyBtn.innerText = 'INCORRECT KEY';
+                        verifyBtn.innerText = 'ACCESS DENIED';
                     }
                 };
 
@@ -235,7 +236,7 @@ def bot_script():
                 header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
                                    '<div style="background:#1a080d;border:1px solid #ff3366;width:17px;height:17px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:9px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div style="font-size:9px;font-weight:900;color:#fff;">Ai Signal Bot</div>' +
                                    '<div id="live-clock_' + uniqueId + '" style="font-size:5px;color:#8a99ad;">TIME: 00:00:00</div>' +
                                    '</div>' +
                                    '</div>' +
