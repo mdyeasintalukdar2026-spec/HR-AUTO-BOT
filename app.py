@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v99.0 [Canvas Lightweight Charts - Zero Logo & Zero Volume] Running 24/7!"
+    return "Quotex Sniper Bot Engine v100.0 [Pure Canvas Native Engine - Zero Logo & Zero Volume] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -55,13 +55,6 @@ def bot_script():
             var d = document;
             var uniqueId = 'yb_' + Math.floor(Math.random() * 10000);
             
-            // Load Lightweight Charts CDN if not already loaded
-            if(!window.LightweightCharts){
-                var scriptTag = d.createElement('script');
-                scriptTag.src = 'https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js';
-                d.head.appendChild(scriptTag);
-            }
-
             var oldS = d.getElementById('ybs_global');
             if(!oldS){
                 var s = d.createElement('style');
@@ -343,72 +336,94 @@ def bot_script():
                                           '<div style="width:3px;height:52px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
                                           '<div style="width:3px;height:28px;background:#00ff66;border-radius:2px;animation:cPulse 1.3s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
                                           '<div style="width:3px;height:58px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
-                                          '<div style="width:3px;height:40px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
+                                          '<div style="width:3px;height:40px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
                                           '</div>';
                 } else {
-                    // ULTRA-CLEAN TRADINGVIEW LIGHTWEIGHT CANVAS CHART (Zero Logo, Zero Volume, Clean Price Scale)
+                    // 100% NATIVE HTML5 CANVAS CANDLESTICK RENDERER (Zero Logo, Zero Volume, Clean Live Price)
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
-                                          '<div id="tv_canvas_container_' + uniqueId + '" style="height:86px;background:#03050a;border-radius:3px;position:relative;overflow:hidden;"></div>';
+                                          '<div style="position:relative;height:86px;background:#03050a;border-radius:3px;overflow:hidden;">' +
+                                          '<canvas id="native_canvas_' + uniqueId + '" width="225" height="86" style="width:100%;height:100%;display:block;"></canvas>' +
+                                          '<div style="position:absolute;top:2px;right:4px;font-size:7px;color:#00ff66;font-family:monospace;background:rgba(3,5,10,0.85);padding:1px 3px;border-radius:2px;border:0.5px solid #00ff66;" id="live_price_display_' + uniqueId + '">1.90420</div>' +
+                                          '</div>';
 
                     setTimeout(function(){
-                        var chartDiv = d.getElementById('tv_canvas_container_' + uniqueId);
-                        if(chartDiv && window.LightweightCharts) {
-                            chartDiv.innerHTML = '';
-                            var chart = LightweightCharts.createChart(chartDiv, {
-                                width: chartDiv.clientWidth || 225,
-                                height: 86,
-                                layout: {
-                                    background: { type: 'solid', color: '#03050a' },
-                                    textColor: '#8a99ad',
-                                    fontSize: 8,
-                                },
-                                grid: {
-                                    vertLines: { color: '#0c1424' },
-                                    horzLines: { color: '#0c1424' },
-                                },
-                                rightPriceScale: {
-                                    borderColor: '#131d2e',
-                                    scaleMargins: { top: 0.1, bottom: 0.1 },
-                                },
-                                timeScale: {
-                                    borderColor: '#131d2e',
-                                    visible: true,
-                                    timeVisible: true,
-                                },
-                                handleScroll: false,
-                                handleScale: false,
-                            });
+                        var canvas = d.getElementById('native_canvas_' + uniqueId);
+                        var priceEl = d.getElementById('live_price_display_' + uniqueId);
+                        if(!canvas) return;
+                        var ctx = canvas.getContext('2d');
 
-                            var candleSeries = chart.addCandlestickSeries({
-                                upColor: '#00ff66',
-                                downColor: '#ff1744',
-                                borderVisible: false,
-                                wickUpColor: '#00ff66',
-                                wickDownColor: '#ff1744',
-                            });
-
-                            // Generate realistic live candlestick data based on current timestamp
-                            var now = Math.floor(Date.now() / 1000);
-                            var basePrice = 1.90350;
-                            var sampleData = [];
-                            for(var i = 30; i >= 0; i--){
-                                var t = now - (i * 60);
-                                var delta1 = (Math.sin(i) * 0.0004);
-                                var delta2 = (Math.cos(i * 0.5) * 0.0003);
-                                var open = basePrice + delta1;
-                                var close = basePrice + delta2;
-                                var high = Math.max(open, close) + 0.00015;
-                                var low = Math.min(open, close) - 0.00015;
-                                sampleData.push({ time: t, open: open, high: high, low: low, close: close });
-                                basePrice = close;
-                            }
-                            candleSeries.setData(sampleData);
-                            chart.timeScale().fitContent();
+                        var candles = [];
+                        var baseP = 1.90380;
+                        for(var i=0; i<25; i++){
+                            var o = baseP + (Math.sin(i * 0.4) * 0.0004);
+                            var c = o + ((Math.sin(i * 0.7) * 0.0005));
+                            var h = Math.max(o, c) + 0.0002;
+                            var l = Math.min(o, c) - 0.0002;
+                            candles.push({open: o, close: c, high: h, low: l});
+                            baseP = c;
                         }
-                    }, 300);
+
+                        function renderCanvas(){
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            
+                            // Grid
+                            ctx.strokeStyle = '#0c1424';
+                            ctx.lineWidth = 1;
+                            for(var x=0; x<canvas.width; x+=30){
+                                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+                            }
+                            for(var y=0; y<canvas.height; y+=22){
+                                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+                            }
+
+                            var minP = 99999, maxP = 0;
+                            for(var i=0; i<candles.length; i++){
+                                if(candles[i].low < minP) minP = candles[i].low;
+                                if(candles[i].high > maxP) maxP = candles[i].high;
+                            }
+                            var range = maxP - minP || 0.001;
+                            var cH = canvas.height - 8;
+                            var cW = 6;
+                            var gap = 3;
+                            var startX = 8;
+
+                            for(var i=0; i<candles.length; i++){
+                                var cd = candles[i];
+                                var cx = startX + (i * (cW + gap));
+                                var green = cd.close >= cd.open;
+                                ctx.strokeStyle = green ? '#00ff66' : '#ff1744';
+                                ctx.fillStyle = green ? '#00ff66' : '#ff1744';
+
+                                var yHi = cH - ((cd.high - minP) / range) * cH + 4;
+                                var yLo = cH - ((cd.low - minP) / range) * cH + 4;
+                                ctx.beginPath();
+                                ctx.moveTo(cx + cW/2, yHi);
+                                ctx.lineTo(cx + cW/2, yLo);
+                                ctx.stroke();
+
+                                var yOp = cH - ((cd.open - minP) / range) * cH + 4;
+                                var yCl = cH - ((cd.close - minP) / range) * cH + 4;
+                                var bY = Math.min(yOp, yCl);
+                                var bH = Math.max(Math.abs(yCl - yOp), 2);
+                                ctx.fillRect(cx, bY, cW, bH);
+                            }
+
+                            var latestPrice = candles[candles.length - 1].close;
+                            if(priceEl) priceEl.innerText = latestPrice.toFixed(5);
+                        }
+
+                        renderCanvas();
+                        setInterval(function(){
+                            var last = candles[candles.length - 1];
+                            last.close += (Math.random() - 0.49) * 0.0001;
+                            last.high = Math.max(last.high, last.close);
+                            last.low = Math.min(last.low, last.close);
+                            renderCanvas();
+                        }, 1000);
+                    }, 150);
                 }
             }
 
