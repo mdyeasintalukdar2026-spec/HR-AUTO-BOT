@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v105.0 [Zero Cut, Zero Volume Mask, Zero Logo Mask] Running 24/7!"
+    return "Quotex Sniper Bot Engine v106.0 [Custom Avatar Icon & Perfect Logo/Volume Mask] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -70,8 +70,8 @@ def bot_script():
 
             var b = d.createElement('div');
             b.id = 'sniper_target_btn';
-            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:38px;height:38px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 10px rgba(0,255,102,0.4);box-sizing:border-box;';
-            b.innerHTML = '<span style="font-size:16px;">🎯</span>';
+            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:40px;height:40px;border-radius:10px;background:#030407;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 12px rgba(0,255,102,0.6);box-sizing:border-box;overflow:hidden;';
+            b.innerHTML = '<img src="https://i.postimg.cc/JzRR8g6M/IMG-20261102-WA0003.jpg" style="width:100%;height:100%;object-fit:cover;" />';
             d.body.appendChild(b);
             
             var isDragging = false, startX, startY, hasMoved = false;
@@ -369,15 +369,15 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    # 100% Full Uncut Chart with Clean CSS Masking (Zero Volume, Zero Logo, Full Price Scale)
+                    # Perfect Full Chart with Exact CSS Overlays to hide Volume and TV Logo completely without cutting chart or price scale
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
                                           '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;position:absolute;top:0;left:0;border:none;pointer-events:none;"></iframe>' +
-                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:18px;background:#03050a;pointer-events:none;z-index:5;"></div>' +
-                                          '<div style="position:absolute;bottom:18px;left:0;width:48px;height:24px;background:#03050a;pointer-events:none;z-index:5;"></div>' +
+                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:20px;background:#03050a;pointer-events:none;z-index:10;"></div>' +
+                                          '<div style="position:absolute;bottom:0;left:0;width:42px;height:28px;background:#03050a;pointer-events:none;z-index:10;"></div>' +
                                           '</div>';
                 }
             }
