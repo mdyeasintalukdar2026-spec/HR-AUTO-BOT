@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v90.0 [Precision Cropped Clean Chart] Running 24/7!"
+    return "Quotex Sniper Bot Engine v91.0 [Perfect Clean Chart & Price Scale Fix] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -111,7 +111,7 @@ def bot_script():
                         }
                     }
                 } catch(e){}
-                return "EUR/JPY (OTC)";
+                return "GBP/AUD (OTC)";
             }
 
             function getTradingViewSymbol(marketText){
@@ -121,7 +121,7 @@ def bot_script():
                 if(sym.includes('BTC') || sym.includes('ETH')) return 'BINANCE:' + sym + 'USDT';
                 if(sym.includes('XAU') || sym.includes('GOLD')) return 'OANDA:XAUUSD';
                 if(sym.length >= 6) return 'FX:' + sym;
-                return 'FX:EURJPY';
+                return 'FX:GBPAUD';
             }
 
             // Step 1: Password Verification Screen
@@ -193,7 +193,7 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            // Step 2: Main Dashboard (Clean Cropped Chart without Logo & Volume)
+            // Step 2: Main Dashboard (Clean Cropped Chart without Left Icon, Volume & Visible Right Prices)
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
                 panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
@@ -368,13 +368,13 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    // Precision Cropping: Hides bottom volume bars, left TV logo, and right floating extra boxes cleanly
+                    // Precise Crop: Cuts left side icon, crops bottom volume bars, and keeps right price scale fully visible
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
                                           '<div style="height:88px;display:flex;align-items:center;justify-content:center;background:#010204;border-radius:3px;overflow:hidden;position:relative;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:145%;height:130px;position:absolute;top:-25px;left:-45px;border:none;pointer-events:none;"></iframe>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:115%;height:130px;position:absolute;top:-38px;left:-15px;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
                 }
             }
