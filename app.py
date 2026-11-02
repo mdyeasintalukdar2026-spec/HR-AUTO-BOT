@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v119.0 [RA Scanner Bot with Enlarged Floating Button & Masked Prices] Running 24/7!"
+    return "Quotex Sniper Bot Engine v120.0 [RA+BOT Label & Centered Clean Candles with Light Volume] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -80,7 +80,7 @@ def bot_script():
 
             var lbl = d.createElement('div');
             lbl.style.cssText = 'margin-top:3px;font-size:7px;font-weight:900;color:#00ff66;font-family:sans-serif;background:rgba(3,4,7,0.85);padding:1px 5px;border-radius:3px;border:1px solid rgba(0,255,102,0.4);white-space:nowrap;box-shadow:0 0 5px rgba(0,0,0,0.8);';
-            lbl.innerText = 'RA SCANNER BOT';
+            lbl.innerText = 'RA+BOT';
             wrap.appendChild(lbl);
 
             d.body.appendChild(wrap);
@@ -380,13 +380,13 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    // 100% Native Clean Clipping: Right price scale, logo and bottom volume completely pushed out, keeping exact native chart position.
+                    // Perfectly Centered Candles with light volume visibility and masked right price scale
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN CANDLES</span>' +
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:145%;height:165%;position:absolute;top:-32px;left:-45px;border:none;pointer-events:none;"></iframe>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:130%;height:145%;position:absolute;top:-15px;left:-15px;border:none;pointer-events:none;"></iframe>' +
                                           '<div style="position:absolute;top:0;right:0;width:45px;height:100%;background:#03050a;pointer-events:none;z-index:10;"></div>' +
                                           '</div>';
                 }
