@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v100.0 [Pure Canvas Native Engine - Zero Logo & Zero Volume] Running 24/7!"
+    return "Quotex Sniper Bot Engine v101.0 [TradingView Live Chart with Market Scan & Clean Mask] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -115,7 +115,17 @@ def bot_script():
                         }
                     }
                 } catch(e){}
-                return "GBP/AUD (OTC)";
+                return "EUR/USD (Real)";
+            }
+
+            function getTradingViewSymbol(marketText){
+                if(!marketText) return "FX:EURUSD";
+                var clean = marketText.replace(/\\(OTC\\)/gi, '').replace(/\\d+%/g, '').replace(/\\s+/g, '').toUpperCase();
+                var sym = clean.replace('/', '').replace(/[^A-Z]/g, '');
+                if(sym.includes('BTC') || sym.includes('ETH')) return 'BINANCE:' + sym + 'USDT';
+                if(sym.includes('XAU') || sym.includes('GOLD')) return 'OANDA:XAUUSD';
+                if(sym.length >= 6) return 'FX:' + sym;
+                return 'FX:EURUSD';
             }
 
             function createLicensePanel(targetBtn){
@@ -188,7 +198,7 @@ def bot_script():
 
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
+                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #ffcc00;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
                 var pDrag = false, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
@@ -271,7 +281,7 @@ def bot_script():
                 };
 
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1.5px solid #00ff66;border-radius:5px;padding:6px;text-align:center;transition:all 0.3s;';
+                scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1.5px solid #ffcc00;border-radius:5px;padding:6px;text-align:center;transition:all 0.3s;';
                 panel.appendChild(scannerBox);
 
                 proToggleBtn.onclick = function(){
@@ -285,7 +295,7 @@ def bot_script():
                         proToggleBtn.innerText = '⚡ PRO / SMART';
                         proToggleBtn.style.color = '#00ffff';
                         proToggleBtn.style.borderColor = '#00ffff';
-                        scannerBox.style.borderColor = '#00ff66';
+                        scannerBox.style.borderColor = '#ffcc00';
                     }
                     updateHybridChart(scannerBox, isProLiveChartMode, true);
                 };
@@ -320,10 +330,10 @@ def bot_script():
 
             function updateHybridChart(container, isProMode, forceUpdate){
                 var mkt = detectActiveMarket();
-                var chartKey = isProMode ? 'PRO_' + mkt : 'SCANNER';
+                var currentSym = isProMode ? getTradingViewSymbol(mkt) : 'OTC_SCANNER';
                 
-                if(container.dataset.lastSymbol === chartKey && !forceUpdate) return;
-                container.dataset.lastSymbol = chartKey;
+                if(container.dataset.lastSymbol === currentSym && !forceUpdate) return;
+                container.dataset.lastSymbol = currentSym;
                 
                 if(!isProMode){
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ff66;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
@@ -339,89 +349,59 @@ def bot_script():
                                           '<div style="width:3px;height:40px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
                                           '</div>';
                 } else {
-                    // 100% NATIVE HTML5 CANVAS CANDLESTICK RENDERER (Zero Logo, Zero Volume, Clean Live Price)
-                    container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
-                                          '<span>MARKET: ' + mkt + '</span>' +
-                                          '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
+                    var tvConfig = {
+                        "width": "100%",
+                        "height": "100%",
+                        "symbol": currentSym,
+                        "interval": "1",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#010204",
+                        "enable_publishing": false,
+                        "hide_top_toolbar": true,
+                        "hide_legend": true,
+                        "save_image": false,
+                        "calendar": false,
+                        "allow_symbol_change": false,
+                        "studies": [],
+                        "support_host": "https://www.tradingview.com"
+                    };
+                    var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
+
+                    # Exact Design Layout matching user's screenshot d5986f57: Market selector, Countdown timer, Market Scan button & Clean TradingView Chart
+                    container.innerHTML = '<div style="display:flex;gap:3px;margin-bottom:3px;align-items:center;">' +
+                                          '<div style="flex:1;background:#0d1526;border:1px solid #ffcc00;border-radius:3px;padding:3px 4px;font-size:5.5px;color:#ffcc00;font-weight:900;display:flex;justify-content:space-between;align-items:center;"><span>' + mkt + '</span><span>▼</span></div>' +
+                                          '<div style="background:#0d1526;border:1px solid #00ffff;border-radius:3px;padding:3px 5px;font-size:5.5px;color:#00ffff;font-weight:900;display:flex;align-items:center;gap:2px;">⏱ <span id="scan-timer_' + uniqueId + '">00:46s</span></div>' +
+                                          '<button id="btn-market-scan_' + uniqueId + '" style="background:linear-gradient(45deg,#ffaa00,#ff4400);border:none;border-radius:3px;padding:3px 6px;font-size:5.5px;color:#000;font-weight:900;cursor:pointer;display:flex;align-items:center;gap:2px;">⚡ SCAN</button>' +
                                           '</div>' +
-                                          '<div style="position:relative;height:86px;background:#03050a;border-radius:3px;overflow:hidden;">' +
-                                          '<canvas id="native_canvas_' + uniqueId + '" width="225" height="86" style="width:100%;height:100%;display:block;"></canvas>' +
-                                          '<div style="position:absolute;top:2px;right:4px;font-size:7px;color:#00ff66;font-family:monospace;background:rgba(3,5,10,0.85);padding:1px 3px;border-radius:2px;border:0.5px solid #00ff66;" id="live_price_display_' + uniqueId + '">1.90420</div>' +
+                                          '<div style="position:relative;height:72px;background:#03050a;border-radius:3px;overflow:hidden;border:1px solid #131d2e;">' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:130%;height:150%;position:absolute;top:-38px;left:-35px;border:none;pointer-events:none;"></iframe>' +
+                                          '<div id="scan-laser_' + uniqueId + '" style="position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,255,102,0.3),transparent);pointer-events:none;transition:none;"></div>' +
                                           '</div>';
 
                     setTimeout(function(){
-                        var canvas = d.getElementById('native_canvas_' + uniqueId);
-                        var priceEl = d.getElementById('live_price_display_' + uniqueId);
-                        if(!canvas) return;
-                        var ctx = canvas.getContext('2d');
-
-                        var candles = [];
-                        var baseP = 1.90380;
-                        for(var i=0; i<25; i++){
-                            var o = baseP + (Math.sin(i * 0.4) * 0.0004);
-                            var c = o + ((Math.sin(i * 0.7) * 0.0005));
-                            var h = Math.max(o, c) + 0.0002;
-                            var l = Math.min(o, c) - 0.0002;
-                            candles.push({open: o, close: c, high: h, low: l});
-                            baseP = c;
+                        var scanBtn = container.querySelector('#btn-market-scan_' + uniqueId);
+                        var laser = container.querySelector('#scan-laser_' + uniqueId);
+                        if(scanBtn && laser){
+                            scanBtn.onclick = function(){
+                                laser.style.transition = 'left 1.2s ease-in-out';
+                                laser.style.left = '100%';
+                                setTimeout(function(){
+                                    laser.style.transition = 'none';
+                                    laser.style.left = '-100%';
+                                }, 1300);
+                                runContinuousEngine(container.closest('div[style*="position: fixed"]'), false);
+                            };
                         }
 
-                        function renderCanvas(){
-                            ctx.clearRect(0, 0, canvas.width, canvas.height);
-                            
-                            // Grid
-                            ctx.strokeStyle = '#0c1424';
-                            ctx.lineWidth = 1;
-                            for(var x=0; x<canvas.width; x+=30){
-                                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-                            }
-                            for(var y=0; y<canvas.height; y+=22){
-                                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-                            }
-
-                            var minP = 99999, maxP = 0;
-                            for(var i=0; i<candles.length; i++){
-                                if(candles[i].low < minP) minP = candles[i].low;
-                                if(candles[i].high > maxP) maxP = candles[i].high;
-                            }
-                            var range = maxP - minP || 0.001;
-                            var cH = canvas.height - 8;
-                            var cW = 6;
-                            var gap = 3;
-                            var startX = 8;
-
-                            for(var i=0; i<candles.length; i++){
-                                var cd = candles[i];
-                                var cx = startX + (i * (cW + gap));
-                                var green = cd.close >= cd.open;
-                                ctx.strokeStyle = green ? '#00ff66' : '#ff1744';
-                                ctx.fillStyle = green ? '#00ff66' : '#ff1744';
-
-                                var yHi = cH - ((cd.high - minP) / range) * cH + 4;
-                                var yLo = cH - ((cd.low - minP) / range) * cH + 4;
-                                ctx.beginPath();
-                                ctx.moveTo(cx + cW/2, yHi);
-                                ctx.lineTo(cx + cW/2, yLo);
-                                ctx.stroke();
-
-                                var yOp = cH - ((cd.open - minP) / range) * cH + 4;
-                                var yCl = cH - ((cd.close - minP) / range) * cH + 4;
-                                var bY = Math.min(yOp, yCl);
-                                var bH = Math.max(Math.abs(yCl - yOp), 2);
-                                ctx.fillRect(cx, bY, cW, bH);
-                            }
-
-                            var latestPrice = candles[candles.length - 1].close;
-                            if(priceEl) priceEl.innerText = latestPrice.toFixed(5);
-                        }
-
-                        renderCanvas();
                         setInterval(function(){
-                            var last = candles[candles.length - 1];
-                            last.close += (Math.random() - 0.49) * 0.0001;
-                            last.high = Math.max(last.high, last.close);
-                            last.low = Math.min(last.low, last.close);
-                            renderCanvas();
+                            var timerEl = container.querySelector('#scan-timer_' + uniqueId);
+                            if(timerEl){
+                                var s = 59 - (Math.floor(Date.now() / 1000) % 60);
+                                timerEl.innerText = '00:' + (s < 10 ? '0' + s : s) + 's';
+                            }
                         }, 1000);
                     }, 150);
                 }
