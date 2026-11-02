@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v123.0 [Ai Signal Bot with Password, RGB Border Glow & Auto Trade Execution] Running 24/7!"
+    return "Quotex Sniper Bot Engine v124.0 [Exact Video-Style Ai Signal Bot with Wave Scanner & Auto Trade] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -28,7 +28,7 @@ def get_signal():
     try:
         current_sec = int(time.time())
         base_signal = "UP" if (current_sec % 2 == 0) else "DOWN"
-        signal_conf = int(78 + ((current_sec * 7) % 20))
+        signal_conf = int(80 + ((current_sec * 7) % 18))
         res = jsonify({
             "signal": base_signal,
             "trend": "STRONG UPTREND",
@@ -41,7 +41,7 @@ def get_signal():
         res = jsonify({
             "signal": "UP",
             "trend": "STRONG UPTREND",
-            "confidence": 81,
+            "confidence": 85,
             "status": "GREEN_EXECUTE"
         })
         res.headers.add("Access-Control-Allow-Origin", "*")
