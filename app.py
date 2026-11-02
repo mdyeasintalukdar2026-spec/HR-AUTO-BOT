@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v94.0 [Natural Zoom Crop - Zero Logo Zero Volume] Running 24/7!"
+    return "Quotex Sniper Bot Engine v95.0 [Zero Syntax Error & Clean Chart Fix] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -128,7 +128,6 @@ def bot_script():
                 return 'FX:GBPAUD';
             }
 
-            # Step 1: Password Verification Screen
             function createLicensePanel(targetBtn){
                 var panel = d.createElement('div');
                 panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:235px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
@@ -197,7 +196,6 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            # Step 2: Main Dashboard (Natural Seamless Clean Chart)
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
                 panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
@@ -371,13 +369,12 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    # Precision Scale Transform - Zooms & Pushes bottom/left edges out of viewport without black overlays
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
                                           '<div style="height:90px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:140%;height:185px;position:absolute;top:-52px;left:-45px;border:none;pointer-events:none;transform:scale(1.05);transform-origin:top left;"></iframe>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:145%;height:190px;position:absolute;top:-55px;left:-50px;border:none;pointer-events:none;transform:scale(1.05);transform-origin:top left;"></iframe>' +
                                           '</div>';
                 }
             }
