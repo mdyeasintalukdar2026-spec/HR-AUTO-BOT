@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v112.0 [Fixed Bookmark JS Syntax & Perfect Centered Clean Candles] Running 24/7!"
+    return "Quotex Sniper Bot Engine v113.0 [Seamless Clean Chart Masking - Zero Logo, Zero Volume, Zero Prices] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -374,7 +374,9 @@ def bot_script():
                                           '<span style="color:#00ff66;">CLEAN CANDLES</span>' +
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:130%;height:130%;position:absolute;top:-5px;left:-10px;border:none;pointer-events:none;"></iframe>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;position:absolute;top:0;left:0;border:none;pointer-events:none;"></iframe>' +
+                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:22px;background:#03050a;pointer-events:none;z-index:10;"></div>' +
+                                          '<div style="position:absolute;top:0;right:0;width:42px;height:100%;background:#03050a;pointer-events:none;z-index:10;"></div>' +
                                           '</div>';
                 }
             }
