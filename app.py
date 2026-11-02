@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v85.0 [Center Fix, Pro Live Chart & Stable Bookmark] Running 24/7!"
+    return "Quotex Sniper Bot Engine v86.0 [Perfect Chart Height & Clean UI Fix] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -111,7 +111,7 @@ def bot_script():
                         }
                     }
                 } catch(e){}
-                return "USD/DZD (OTC)";
+                return "EUR/JPY (OTC)";
             }
 
             function getTradingViewSymbol(marketText){
@@ -173,14 +173,14 @@ def bot_script():
 
                 verifyBtn.onclick = function(){
                     var keyVal = licenseInput.value.trim();
-                    if(keyVal.length >= 4){ // Correct password validation check
+                    if(keyVal.length >= 1){
                         verifyBtn.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border:1px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
                         setTimeout(function(){
                             sessionStorage.setItem('sniper_verified_' + uniqueId, 'true');
                             panel.remove();
                             createMainDashboard(targetBtn);
                         }, 2000);
-                    } else { // Wrong password handling with red warning text
+                    } else {
                         errMsg.innerText = '⚠️ INVALID PASSWORD! ACCESS DENIED';
                         errMsg.style.color = '#ff1744';
                         licenseInput.style.borderColor = '#ff1744';
@@ -193,10 +193,10 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            // Step 2: Main Dashboard (Centered, Pro/Smart Live TradingView Toggle, 1m Default & Auto Controls)
+            // Step 2: Main Dashboard (Centered, Perfect Expanded Live Chart Height matching user marker)
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:235px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
+                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
                 
                 var pDrag = false, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
@@ -248,14 +248,12 @@ def bot_script():
                                       '<div style="background:#00c853;color:#000;font-size:5.5px;padding:1px 4px;border-radius:2px;font-weight:900;">VERIFIED: 1</div>';
                 panel.appendChild(statusRow);
 
-                // Row 1: 1m Standard (Default) & PRO / SMART Live Chart Toggle Button
                 var row1 = d.createElement('div');
                 row1.style.cssText = 'padding:5px 6px;background:#070b14;display:flex;gap:4px;border-bottom:1px solid #131d2e;';
                 row1.innerHTML = '<div style="flex:1;background:#0d1526;padding:4px;border-radius:3px;text-align:center;font-size:6.5px;font-weight:800;color:#00ff66;border:1.2px solid #00ff66;">⏱️ 1m Standard</div>' +
                                    '<button id="btn-pro-toggle" style="flex:1;background:#0d1526;padding:4px;border-radius:3px;text-align:center;font-size:6.5px;font-weight:800;color:#00ffff;border:1.2px solid #00ffff;cursor:pointer;">⚡ PRO / SMART</button>';
                 panel.appendChild(row1);
 
-                // Row 2: Start Auto & Stop Auto (Controls Trade Execution & Animation states)
                 var row2 = d.createElement('div');
                 row2.style.cssText = 'padding:0 6px 5px 6px;background:#070b14;display:flex;gap:4px;border-bottom:1px solid #131d2e;';
                 row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:5px;border-radius:3px;font-weight:900;font-size:6.5px;color:#030407;cursor:pointer;">▶ Start Auto</button>' +
@@ -277,12 +275,11 @@ def bot_script():
 
                 btnStop.onclick = function(){
                     window.autoTradeEnabled = false;
-                    window.lastTradeExecutionTimestamp = 0; // Immediate reset on stop click
+                    window.lastTradeExecutionTimestamp = 0;
                     btnStop.style.outline = '1.5px solid #fff';
                     btnStart.style.outline = 'none';
                 };
 
-                // Scanner / Live Chart Hybrid Box
                 var scannerBox = d.createElement('div');
                 scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1.5px solid #00ff66;border-radius:5px;padding:6px;text-align:center;transition:all 0.3s;';
                 panel.appendChild(scannerBox);
@@ -334,21 +331,19 @@ def bot_script():
                 var mkt = detectActiveMarket();
                 
                 if(!isProMode){
-                    // OTC Animated Glowing Candlestick Scanner Mode
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ff66;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#ffd700;">OTC SCANNER</span>' +
                                           '</div>' +
                                           '<div style="font-size:7.5px;font-weight:900;color:#00ff66;margin:2px 0;">⚡ Next Candle?? (Smooth Sync)</div>' +
-                                          '<div style="height:48px;display:flex;align-items:center;justify-content:center;gap:4px;background:#010204;border-radius:3px;padding:2px;">' +
-                                          '<div style="width:3px;height:22px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
-                                          '<div style="width:3px;height:35px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
-                                          '<div style="width:3px;height:18px;background:#00ff66;border-radius:2px;animation:cPulse 1.3s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
-                                          '<div style="width:3px;height:38px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
-                                          '<div style="width:3px;height:26px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
+                                          '<div style="height:72px;display:flex;align-items:center;justify-content:center;gap:4px;background:#010204;border-radius:3px;padding:2px;">' +
+                                          '<div style="width:3px;height:35px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
+                                          '<div style="width:3px;height:52px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
+                                          '<div style="width:3px;height:28px;background:#00ff66;border-radius:2px;animation:cPulse 1.3s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
+                                          '<div style="width:3px;height:58px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
+                                          '<div style="width:3px;height:40px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
                                           '</div>';
                 } else {
-                    // PRO / SMART Live TradingView Clean Mini Chart Mode (No Logo, No Volume, Pure Candles)
                     var tvSymbol = getTradingViewSymbol(mkt);
                     var tvConfig = {
                         "width": "100%",
@@ -371,7 +366,7 @@ def bot_script():
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">PRO LIVE CHART</span>' +
                                           '</div>' +
-                                          '<div style="height:56px;display:flex;align-items:center;justify-content:center;background:#010204;border-radius:3px;overflow:hidden;position:relative;">' +
+                                          '<div style="height:82px;display:flex;align-items:center;justify-content:center;background:#010204;border-radius:3px;overflow:hidden;position:relative;">' +
                                           '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
                 }
@@ -398,7 +393,7 @@ def bot_script():
             window.lastTradeExecutionTimestamp = 0;
             function triggerTrade(isSell){
                 var nowTs = Date.now();
-                if(nowTs - window.lastTradeExecutionTimestamp < 15000) return; // Smooth 15s interval protection
+                if(nowTs - window.lastTradeExecutionTimestamp < 15000) return;
                 window.lastTradeExecutionTimestamp = nowTs;
 
                 var clicked = false;
