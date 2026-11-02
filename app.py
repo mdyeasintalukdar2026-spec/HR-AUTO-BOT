@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v119.0 [Exact Position + Right Price Masked + 62px Icon] Running 24/7!"
+    return "Quotex Sniper Bot Engine v119.0 [RA Scanner Bot with Enlarged Floating Button & Masked Prices] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -65,42 +65,53 @@ def bot_script():
                 d.head.appendChild(s);
             }
 
-            var existingBtn = d.getElementById('sniper_target_btn');
-            if(existingBtn) existingBtn.remove();
+            var existingWrap = d.getElementById('sniper_target_wrap');
+            if(existingWrap) existingWrap.remove();
 
+            var wrap = d.createElement('div');
+            wrap.id = 'sniper_target_wrap';
+            wrap.style.cssText = 'position:fixed;bottom:70px;right:20px;display:flex;flex-direction:column;align-items:center;z-index:2147483647;cursor:pointer;';
+            
             var b = d.createElement('div');
             b.id = 'sniper_target_btn';
-            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:62px;height:62px;border-radius:50%;background:#030407;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 15px rgba(0,255,102,0.7);box-sizing:border-box;overflow:hidden;';
+            b.style.cssText = 'width:62px;height:62px;border-radius:50%;background:#030407;display:flex;align-items:center;justify-content:center;border:2px solid #00ff66;box-shadow:0 0 15px rgba(0,255,102,0.7);box-sizing:border-box;overflow:hidden;';
             b.innerHTML = '<img src="https://i.postimg.cc/JzRR8g6M/IMG-20261102-WA0003.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />';
-            d.body.appendChild(b);
+            wrap.appendChild(b);
+
+            var lbl = d.createElement('div');
+            lbl.style.cssText = 'margin-top:3px;font-size:7px;font-weight:900;color:#00ff66;font-family:sans-serif;background:rgba(3,4,7,0.85);padding:1px 5px;border-radius:3px;border:1px solid rgba(0,255,102,0.4);white-space:nowrap;box-shadow:0 0 5px rgba(0,0,0,0.8);';
+            lbl.innerText = 'RA SCANNER BOT';
+            wrap.appendChild(lbl);
+
+            d.body.appendChild(wrap);
             
             var isDragging = false, startX, startY, hasMoved = false;
-            b.onmousedown = b.ontouchstart = function(e){
+            wrap.onmousedown = wrap.ontouchstart = function(e){
                 isDragging = true; hasMoved = false;
                 var p = e.touches ? e.touches[0] : e;
-                startX = p.clientX - b.offsetLeft;
-                startY = p.clientY - b.offsetTop;
+                startX = p.clientX - wrap.offsetLeft;
+                startY = p.clientY - wrap.offsetTop;
             };
-            b.onmousemove = b.ontouchmove = function(e){
+            wrap.onmousemove = wrap.ontouchmove = function(e){
                 if(!isDragging) return;
                 var p = e.touches ? e.touches[0] : e;
                 var nx = p.clientX - startX, ny = p.clientY - startY;
-                if(Math.abs(nx - b.offsetLeft) > 2 || Math.abs(ny - b.offsetTop) > 2) hasMoved = true;
-                b.style.left = nx + 'px';
-                b.style.top = ny + 'px';
-                b.style.bottom = 'auto';
-                b.style.right = 'auto';
+                if(Math.abs(nx - wrap.offsetLeft) > 2 || Math.abs(ny - wrap.offsetTop) > 2) hasMoved = true;
+                wrap.style.left = nx + 'px';
+                wrap.style.top = ny + 'px';
+                wrap.style.bottom = 'auto';
+                wrap.style.right = 'auto';
             };
-            b.onmouseup = b.ontouchend = function(){ isDragging = false; };
+            wrap.onmouseup = wrap.ontouchend = function(){ isDragging = false; };
             
-            b.onclick = function(){
+            wrap.onclick = function(){
                 if(hasMoved) return;
-                b.style.display = 'none';
+                wrap.style.display = 'none';
                 
                 if(sessionStorage.getItem('sniper_verified_' + uniqueId) === 'true'){
-                    createMainDashboard(b);
+                    createMainDashboard(wrap);
                 } else {
-                    createLicensePanel(b);
+                    createLicensePanel(wrap);
                 }
             };
 
@@ -127,7 +138,7 @@ def bot_script():
                 return 'FX:GBPAUD';
             }
 
-            function createLicensePanel(targetBtn){
+            function createLicensePanel(targetWrap){
                 var panel = d.createElement('div');
                 panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:235px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
@@ -142,7 +153,7 @@ def bot_script():
                                    '</div>' +
                                    '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:9px;">×</button>';
                 panel.appendChild(header);
-                header.querySelector('#close-btn').onclick = function(){ panel.remove(); targetBtn.style.display = 'flex'; };
+                header.querySelector('#close-btn').onclick = function(){ panel.remove(); targetWrap.style.display = 'flex'; };
 
                 var statusRow = d.createElement('div');
                 statusRow.style.cssText = 'padding:3px 8px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
@@ -180,7 +191,7 @@ def bot_script():
                         setTimeout(function(){
                             sessionStorage.setItem('sniper_verified_' + uniqueId, 'true');
                             panel.remove();
-                            createMainDashboard(targetBtn);
+                            createMainDashboard(targetWrap);
                         }, 2000);
                     } else {
                         errMsg.innerText = '⚠️ INVALID PASSWORD! ACCESS DENIED';
@@ -195,7 +206,7 @@ def bot_script():
                 d.body.appendChild(panel);
             }
 
-            function createMainDashboard(targetBtn){
+            function createMainDashboard(targetWrap){
                 var panel = d.createElement('div');
                 panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:245px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
@@ -232,7 +243,7 @@ def bot_script():
                                    '</div>';
                 panel.appendChild(header);
                 
-                header.querySelector('#min-btn').onclick = function(){ panel.remove(); targetBtn.style.display = 'flex'; };
+                header.querySelector('#min-btn').onclick = function(){ panel.remove(); targetWrap.style.display = 'flex'; };
 
                 setInterval(function(){
                     var now = new Date();
@@ -369,7 +380,7 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    # Exact current chart position with clean right-side price masking (Zero price labels, zero distortion, exact match)
+                    // 100% Native Clean Clipping: Right price scale, logo and bottom volume completely pushed out, keeping exact native chart position.
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN CANDLES</span>' +
