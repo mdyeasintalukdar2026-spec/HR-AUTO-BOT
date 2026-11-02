@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v95.0 [Zero Syntax Error & Clean Chart Fix] Running 24/7!"
+    return "Quotex Sniper Bot Engine v96.0 [Perfect Price Scale & Zero Volume Fix] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -369,12 +369,13 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
+                    // Perfectly balanced crop: Keeps right-side price scale visible and fully crops out bottom volume bars
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
-                                          '<div style="height:90px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:145%;height:190px;position:absolute;top:-55px;left:-50px;border:none;pointer-events:none;transform:scale(1.05);transform-origin:top left;"></iframe>' +
+                                          '<div style="height:84px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;">' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:116%;height:118px;position:absolute;top:-34px;left:-10px;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
                 }
             }
