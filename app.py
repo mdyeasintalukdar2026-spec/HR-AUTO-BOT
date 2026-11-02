@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v101.0 [TradingView Live Chart with Market Scan & Clean Mask] Running 24/7!"
+    return "Quotex Sniper Bot Engine v102.0 [Fixed Syntax & Exact Screenshot Layout] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -59,8 +59,7 @@ def bot_script():
             if(!oldS){
                 var s = d.createElement('style');
                 s.id = 'ybs_global';
-                s.innerHTML = '@keyframes neonGlow {0%{box-shadow:0 0 12px rgba(0,255,102,0.4);border-color:#00ff66;}50%{box-shadow:0 0 20px rgba(0,255,255,0.7);border-color:#00ffff;}100%{box-shadow:0 0 12px rgba(0,255,102,0.4);border-color:#00ff66;}}' +
-                              '@keyframes panelPop {0%{opacity:0;transform:translate(-50%, -45%) scale(0.9);}100%{opacity:1;transform:translate(-50%, -50%) scale(1);}}' +
+                s.innerHTML = '@keyframes panelPop {0%{opacity:0;transform:translate(-50%, -45%) scale(0.9);}100%{opacity:1;transform:translate(-50%, -50%) scale(1);}}' +
                               '@keyframes cPulse {0%{transform:scaleY(0.4);opacity:0.5;}50%{transform:scaleY(1.3);opacity:1;}100%{transform:scaleY(0.4);opacity:0.5;}}' +
                               '@keyframes spinAnim {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}';
                 d.head.appendChild(s);
@@ -71,7 +70,7 @@ def bot_script():
 
             var b = d.createElement('div');
             b.id = 'sniper_target_btn';
-            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:38px;height:38px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 10px rgba(0,255,102,0.4);box-sizing:border-box;';
+            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:38px;height:38px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #ffcc00;box-shadow:0 0 10px rgba(255,204,0,0.4);box-sizing:border-box;';
             b.innerHTML = '<span style="font-size:16px;">🎯</span>';
             d.body.appendChild(b);
             
@@ -130,7 +129,7 @@ def bot_script():
 
             function createLicensePanel(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:235px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
+                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:235px;background:#070b14;border:2px solid #ffcc00;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
                 var header = d.createElement('div');
                 header.style.cssText = 'background:#03050a;padding:5px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
@@ -370,7 +369,6 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    # Exact Design Layout matching user's screenshot d5986f57: Market selector, Countdown timer, Market Scan button & Clean TradingView Chart
                     container.innerHTML = '<div style="display:flex;gap:3px;margin-bottom:3px;align-items:center;">' +
                                           '<div style="flex:1;background:#0d1526;border:1px solid #ffcc00;border-radius:3px;padding:3px 4px;font-size:5.5px;color:#ffcc00;font-weight:900;display:flex;justify-content:space-between;align-items:center;"><span>' + mkt + '</span><span>▼</span></div>' +
                                           '<div style="background:#0d1526;border:1px solid #00ffff;border-radius:3px;padding:3px 5px;font-size:5.5px;color:#00ffff;font-weight:900;display:flex;align-items:center;gap:2px;">⏱ <span id="scan-timer_' + uniqueId + '">00:46s</span></div>' +
