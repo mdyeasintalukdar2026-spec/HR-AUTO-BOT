@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v109.0 [Pure Clean Candles View - Zero Logo, Zero Volume, Zero Prices] Running 24/7!"
+    return "Quotex Sniper Bot Engine v110.0 [Perfect Centered Live Candles - Zero Volume, Zero Top Cut] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -369,13 +369,14 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    // Pure Clean Candles View: Iframe scaled and shifted to clip out logo (left), volume (bottom), and prices (right) naturally without any ugly black overlay box
+                    // Perfectly Centered Candles with Bottom Mask to erase all Volumes completely without cutting the top candles
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN CANDLES</span>' +
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:165%;height:185%;position:absolute;top:-45px;left:-65px;border:none;pointer-events:none;"></iframe>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:150%;height:150%;position:absolute;top:-26px;left:-55px;border:none;pointer-events:none;"></iframe>' +
+                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:22px;background:#03050a;pointer-events:none;z-index:10;"></div>' +
                                           '</div>';
                 }
             }
