@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v104.0 [Perfect Fit Clean TradingView Chart - Zero Volume, Zero Logo, Full Price Scale] Running 24/7!"
+    return "Quotex Sniper Bot Engine v105.0 [Zero Cut, Zero Volume Mask, Zero Logo Mask] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -369,13 +369,15 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    // 100% Clean TradingView Chart Layout: Full width/height, perfectly fitted, zero volume, zero logo, full right price scale
+                    # 100% Full Uncut Chart with Clean CSS Masking (Zero Volume, Zero Logo, Full Price Scale)
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
                                           '<div style="height:92px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;border:1px solid #131d2e;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:150px;position:absolute;top:-32px;left:0;border:none;pointer-events:none;"></iframe>' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;position:absolute;top:0;left:0;border:none;pointer-events:none;"></iframe>' +
+                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:18px;background:#03050a;pointer-events:none;z-index:5;"></div>' +
+                                          '<div style="position:absolute;bottom:18px;left:0;width:48px;height:24px;background:#03050a;pointer-events:none;z-index:5;"></div>' +
                                           '</div>';
                 }
             }
