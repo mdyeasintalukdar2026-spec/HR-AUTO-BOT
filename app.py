@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v85.0 [Perfect UI, Center Password & Pro Live Chart] Running 24/7!"
+    return "Quotex Sniper Bot Engine v85.0 [Center Fix, Pro Live Chart & Stable Bookmark] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -59,16 +59,16 @@ def bot_script():
             if(!oldS){
                 var s = d.createElement('style');
                 s.id = 'ybs_global';
-                s.innerHTML = '@keyframes neonGlow {0%{box-shadow:0 0 12px rgba(0,255,102,0.4);border-color:#00ff66;}50%{box-shadow:0 0 22px rgba(0,255,255,0.7);border-color:#00ffff;}100%{box-shadow:0 0 12px rgba(0,255,102,0.4);border-color:#00ff66;}}' +
-                              '@keyframes panelPop {0%{opacity:0;transform:translate(-50%, -45%) scale(0.9);-webkit-transform:translate(-50%, -45%) scale(0.9);}100%{opacity:1;transform:translate(-50%, -50%) scale(1);-webkit-transform:translate(-50%, -50%) scale(1);}}' +
+                s.innerHTML = '@keyframes neonGlow {0%{box-shadow:0 0 12px rgba(0,255,102,0.4);border-color:#00ff66;}50%{box-shadow:0 0 20px rgba(0,255,255,0.7);border-color:#00ffff;}100%{box-shadow:0 0 12px rgba(0,255,102,0.4);border-color:#00ff66;}}' +
+                              '@keyframes panelPop {0%{opacity:0;transform:translate(-50%, -45%) scale(0.9);}100%{opacity:1;transform:translate(-50%, -50%) scale(1);}}' +
                               '@keyframes cPulse {0%{transform:scaleY(0.4);opacity:0.5;}50%{transform:scaleY(1.3);opacity:1;}100%{transform:scaleY(0.4);opacity:0.5;}}' +
                               '@keyframes spinAnim {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}';
                 d.head.appendChild(s);
             }
 
             var b = d.createElement('div');
-            b.style.cssText = 'position:fixed;bottom:85px;right:22px;width:42px;height:42px;border-radius:12px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 12px rgba(0,255,102,0.5);box-sizing:border-box;';
-            b.innerHTML = '<span style="font-size:18px;">🎯</span>';
+            b.style.cssText = 'position:fixed;bottom:75px;right:20px;width:38px;height:38px;border-radius:10px;background:radial-gradient(circle, #0c1424 0%, #030407 100%);display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;border:2px solid #00ff66;box-shadow:0 0 10px rgba(0,255,102,0.4);box-sizing:border-box;';
+            b.innerHTML = '<span style="font-size:16px;">🎯</span>';
             d.body.appendChild(b);
             
             var isDragging = false, startX, startY, hasMoved = false;
@@ -111,7 +111,7 @@ def bot_script():
                         }
                     }
                 } catch(e){}
-                return "EUR/JPY (OTC)";
+                return "USD/DZD (OTC)";
             }
 
             function getTradingViewSymbol(marketText){
@@ -124,47 +124,47 @@ def bot_script():
                 return 'FX:EURUSD';
             }
 
-            # Step 1: Perfectly Centered Password Verification Screen (Matching Screenshot 1)
+            // Step 1: Password Verification Screen (Centered & Perfect Size)
             function createLicensePanel(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);-webkit-transform:translate(-50%, -50%);width:230px;background:#070b14;border:1.8px solid #00ff66;border-radius:9px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
+                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:235px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards;';
                 
                 var header = d.createElement('div');
                 header.style.cssText = 'background:#03050a;padding:5px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;';
-                header.innerHTML = '<div style="display:flex;align-items:center;gap:4px;">' +
-                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;">🎯</div>' +
+                header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
+                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:17px;height:17px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:8.5px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div style="font-size:9px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
                                    '<div style="font-size:5px;color:#8a99ad;">CLOCK: --:--:--</div>' +
                                    '</div>' +
                                    '</div>' +
-                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:15px;height:15px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:8px;">×</button>';
+                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:9px;">×</button>';
                 panel.appendChild(header);
                 header.querySelector('#close-btn').onclick = function(){ panel.remove(); targetBtn.style.display = 'flex'; };
 
                 var statusRow = d.createElement('div');
                 statusRow.style.cssText = 'padding:3px 8px;background:#050912;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #131d2e;';
                 statusRow.innerHTML = '<div style="font-size:5.5px;color:#00ff66;font-weight:800;">🟢 AI ENGINE ONLINE</div>' +
-                                      '<div style="background:#553300;color:#ffcc00;font-size:5.5px;padding:1px 3px;border-radius:2px;font-weight:900;">READY</div>';
+                                      '<div style="background:#553300;color:#ffcc00;font-size:5.5px;padding:1px 4px;border-radius:2px;font-weight:900;">READY</div>';
                 panel.appendChild(statusRow);
 
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:5px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:6px;text-align:center;';
+                scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:6px;text-align:center;';
                 scannerBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;font-weight:800;">AI SIGNAL SCANNER</div>' +
                                        '<div style="font-size:8px;font-weight:900;color:#00ff66;margin:2px 0;">Next Candle??</div>' +
                                        '<div style="display:flex;justify-content:center;gap:3px;margin-top:3px;">' +
-                                       '<div style="width:3px;height:20px;background:#00ff66;border-radius:2px;animation:cPulse 1s infinite;"></div>' +
-                                       '<div style="width:3px;height:28px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;"></div>' +
+                                       '<div style="width:3px;height:22px;background:#00ff66;border-radius:2px;animation:cPulse 1s infinite;"></div>' +
+                                       '<div style="width:3px;height:30px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;"></div>' +
                                        '<div style="width:3px;height:18px;background:#00ff66;border-radius:2px;animation:cPulse 1.2s infinite;"></div>' +
-                                       '<div style="width:3px;height:32px;background:#ff1744;border-radius:2px;animation:cPulse 0.9s infinite;"></div>' +
+                                       '<div style="width:3px;height:34px;background:#ff1744;border-radius:2px;animation:cPulse 0.9s infinite;"></div>' +
                                        '</div>';
                 panel.appendChild(scannerBox);
 
                 var licenseBox = d.createElement('div');
-                licenseBox.style.cssText = 'margin:0 5px 5px 5px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:5px;';
-                licenseBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;margin-bottom:2px;" id="err-msg">Enter access password (1-8)</div>' +
-                                       '<input type="password" id="license-input" placeholder="Enter password" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:4px;border-radius:3px;color:#fff;font-size:7px;outline:none;margin-bottom:3px;" />' +
-                                       '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:4px;border-radius:3px;font-weight:900;font-size:7px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
+                licenseBox.style.cssText = 'margin:0 6px 6px 6px;background:#03050a;border:1px solid #131d2e;border-radius:5px;padding:6px;';
+                licenseBox.innerHTML = '<div style="font-size:6px;color:#8a99ad;margin-bottom:2px;" id="err-msg">Enter license key</div>' +
+                                       '<input type="password" id="license-input" placeholder="Enter password (1-8)" style="width:100%;box-sizing:border-box;background:#0d1526;border:1px solid #16253f;padding:5px;border-radius:3px;color:#fff;font-size:7.5px;outline:none;margin-bottom:4px;" />' +
+                                       '<button id="verify-btn" style="width:100%;background:#00c853;border:none;padding:5px;border-radius:3px;font-weight:900;font-size:7.5px;color:#000;cursor:pointer;">VERIFY LICENSE</button>';
                 panel.appendChild(licenseBox);
 
                 var verifyBtn = licenseBox.querySelector('#verify-btn');
@@ -173,37 +173,34 @@ def bot_script():
 
                 verifyBtn.onclick = function(){
                     var keyVal = licenseInput.value.trim();
-                    if(keyVal.length >= 1 && keyVal !== '0000'){
+                    if(keyVal.length >= 4){ // Correct password validation check
                         verifyBtn.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border:1px solid #000;border-top-color:transparent;border-radius:50%;animation:spinAnim 0.8s linear infinite;"></span> Verifying...';
                         setTimeout(function(){
                             sessionStorage.setItem('sniper_verified_' + uniqueId, 'true');
                             panel.remove();
                             createMainDashboard(targetBtn);
                         }, 2000);
-                    } else {
-                        errMsg.innerText = '⚠️ WRONG PASSWORD! ACCESS DENIED';
+                    } else { // Wrong password handling with red warning text
+                        errMsg.innerText = '⚠️ INVALID PASSWORD! ACCESS DENIED';
                         errMsg.style.color = '#ff1744';
+                        licenseInput.style.borderColor = '#ff1744';
                         verifyBtn.style.background = '#ff1744';
                         verifyBtn.style.color = '#fff';
-                        setTimeout(function(){
-                            verifyBtn.style.background = '#00c853';
-                            verifyBtn.style.color = '#000';
-                            verifyBtn.innerText = 'VERIFY LICENSE';
-                        }, 2000);
+                        verifyBtn.innerText = 'INCORRECT KEY';
                     }
                 };
 
                 d.body.appendChild(panel);
             }
 
-            # Step 2: Perfectly Centered Main Dashboard with Pro Live Chart Toggle
+            // Step 2: Main Dashboard (Centered, Pro/Smart Live TradingView Toggle, 1m Default & Auto Controls)
             function createMainDashboard(targetBtn){
                 var panel = d.createElement('div');
-                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);-webkit-transform:translate(-50%, -50%);width:230px;background:#070b14;border:1.8px solid #00ff66;border-radius:9px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
+                panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:235px;background:#070b14;border:2px solid #00ff66;border-radius:10px;z-index:2147483647;font-family:sans-serif;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.95);overflow:hidden;animation:panelPop 0.3s ease-out forwards, neonGlow 5s infinite;';
                 
                 var pDrag = false, pX, pY;
                 panel.onmousedown = panel.ontouchstart = function(e){
-                    if(e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+                    if(e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
                     pDrag = true;
                     var p = e.touches ? e.touches[0] : e;
                     pX = p.clientX - panel.offsetLeft;
@@ -222,16 +219,16 @@ def bot_script():
 
                 var header = d.createElement('div');
                 header.style.cssText = 'background:#03050a;padding:5px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #131d2e;cursor:move;';
-                header.innerHTML = '<div style="display:flex;align-items:center;gap:4px;">' +
-                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;">🎯</div>' +
+                header.innerHTML = '<div style="display:flex;align-items:center;gap:5px;">' +
+                                   '<div style="background:#1a080d;border:1px solid #ff3366;width:17px;height:17px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;">🎯</div>' +
                                    '<div>' +
-                                   '<div style="font-size:8.5px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
+                                   '<div style="font-size:9px;font-weight:900;color:#fff;">SNIPER BOT</div>' +
                                    '<div id="live-clock_' + uniqueId + '" style="font-size:5px;color:#8a99ad;">TIME: 00:00:00</div>' +
                                    '</div>' +
                                    '</div>' +
                                    '<div style="display:flex;gap:3px;">' +
-                                   '<button id="min-btn" style="background:#101826;border:none;color:#fff;width:15px;height:15px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:8px;">-</button>' +
-                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:15px;height:15px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:8px;">×</button>' +
+                                   '<button id="min-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:9px;">-</button>' +
+                                   '<button id="close-btn" style="background:#101826;border:none;color:#fff;width:16px;height:16px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:9px;">×</button>' +
                                    '</div>';
                 panel.appendChild(header);
                 
@@ -251,60 +248,65 @@ def bot_script():
                                       '<div style="background:#00c853;color:#000;font-size:5.5px;padding:1px 4px;border-radius:2px;font-weight:900;">VERIFIED: 1</div>';
                 panel.appendChild(statusRow);
 
-                # Top mode tabs (1m Standard & Pro / Smart TradingView Toggle)
+                // Row 1: 1m Standard (Default) & PRO / SMART Live Chart Toggle Button
                 var row1 = d.createElement('div');
-                row1.style.cssText = 'padding:4px 5px;background:#070b14;display:flex;gap:3px;border-bottom:1px solid #131d2e;';
-                row1.innerHTML = '<button id="btn-m1" style="flex:1;background:#0d1526;padding:3px;border-radius:3px;text-align:center;font-size:6px;font-weight:800;color:#00ff66;border:1.2px solid #00ff66;cursor:pointer;">⏱️ 1m Standard</button>' +
-                                   '<button id="btn-pro" style="flex:1;background:#0d1526;padding:3px;border-radius:3px;text-align:center;font-size:6px;font-weight:800;color:#ffd700;border:1px solid #16253f;cursor:pointer;">⚡ PRO / SMART</button>';
+                row1.style.cssText = 'padding:5px 6px;background:#070b14;display:flex;gap:4px;border-bottom:1px solid #131d2e;';
+                row1.innerHTML = '<div style="flex:1;background:#0d1526;padding:4px;border-radius:3px;text-align:center;font-size:6.5px;font-weight:800;color:#00ff66;border:1.2px solid #00ff66;">⏱️ 1m Standard</div>' +
+                                   '<button id="btn-pro-toggle" style="flex:1;background:#0d1526;padding:4px;border-radius:3px;text-align:center;font-size:6.5px;font-weight:800;color:#00ffff;border:1.2px solid #00ffff;cursor:pointer;">⚡ PRO / SMART</button>';
                 panel.appendChild(row1);
 
+                // Row 2: Start Auto & Stop Auto (Controls Trade Execution & Animation states)
                 var row2 = d.createElement('div');
-                row2.style.cssText = 'padding:0 5px 4px 5px;background:#070b14;display:flex;gap:3px;border-bottom:1px solid #131d2e;';
-                row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:4px;border-radius:3px;font-weight:900;font-size:6px;color:#030407;cursor:pointer;">▶ Start Auto</button>' +
-                                   '<button id="btn-stop" style="flex:1;background:linear-gradient(45deg,#ff3300,#ff0055);border:none;padding:4px;border-radius:3px;font-weight:900;font-size:6px;color:#fff;cursor:pointer;">⏹ Stop Auto</button>';
+                row2.style.cssText = 'padding:0 6px 5px 6px;background:#070b14;display:flex;gap:4px;border-bottom:1px solid #131d2e;';
+                row2.innerHTML = '<button id="btn-start" style="flex:1;background:linear-gradient(45deg,#00b0ff,#00ff66);border:none;padding:5px;border-radius:3px;font-weight:900;font-size:6.5px;color:#030407;cursor:pointer;">▶ Start Auto</button>' +
+                                   '<button id="btn-stop" style="flex:1;background:linear-gradient(45deg,#ff3300,#ff0055);border:none;padding:5px;border-radius:3px;font-weight:900;font-size:6.5px;color:#fff;cursor:pointer;">⏹ Stop Auto</button>';
                 panel.appendChild(row2);
 
                 var btnStart = row2.querySelector('#btn-start');
                 var btnStop = row2.querySelector('#btn-stop');
-                var btnPro = row1.querySelector('#btn-pro');
+                var proToggleBtn = row1.querySelector('#btn-pro-toggle');
 
-                window.proModeActive = false;
+                var isProLiveChartMode = false;
 
                 btnStart.onclick = function(){
                     window.autoTradeEnabled = true;
-                    btnStart.style.outline = '1.2px solid #fff';
+                    btnStart.style.outline = '1.5px solid #fff';
                     btnStop.style.outline = 'none';
                     runContinuousEngine(panel, true);
                 };
 
                 btnStop.onclick = function(){
                     window.autoTradeEnabled = false;
-                    btnStop.style.outline = '1.2px solid #fff';
+                    window.lastTradeExecutionTimestamp = 0; // Immediate reset on stop click
+                    btnStop.style.outline = '1.5px solid #fff';
                     btnStart.style.outline = 'none';
                 };
 
-                btnPro.onclick = function(){
-                    window.proModeActive = !window.proModeActive;
-                    if(window.proModeActive){
-                        btnPro.innerText = '🌐 PRO OFF';
-                        btnPro.style.color = '#ff1744';
-                        btnPro.style.borderColor = '#ff1744';
-                    } else {
-                        btnPro.innerText = '⚡ PRO / SMART';
-                        btnPro.style.color = '#ffd700';
-                        btnPro.style.borderColor = '#16253f';
-                    }
-                    updateHybridChart(scannerBox);
-                };
-
+                // Scanner / Live Chart Hybrid Box
                 var scannerBox = d.createElement('div');
-                scannerBox.style.cssText = 'margin:5px;background:#03050a;border:1px solid #131d2e;border-radius:4px;padding:5px;text-align:center;';
+                scannerBox.style.cssText = 'margin:6px;background:#03050a;border:1.5px solid #00ff66;border-radius:5px;padding:6px;text-align:center;transition:all 0.3s;';
                 panel.appendChild(scannerBox);
 
+                proToggleBtn.onclick = function(){
+                    isProLiveChartMode = !isProLiveChartMode;
+                    if(isProLiveChartMode){
+                        proToggleBtn.innerText = '⚡ PRO OFF (OTC)';
+                        proToggleBtn.style.color = '#ff1744';
+                        proToggleBtn.style.borderColor = '#ff1744';
+                        scannerBox.style.borderColor = '#00ffff';
+                    } else {
+                        proToggleBtn.innerText = '⚡ PRO / SMART';
+                        proToggleBtn.style.color = '#00ffff';
+                        proToggleBtn.style.borderColor = '#00ffff';
+                        scannerBox.style.borderColor = '#00ff66';
+                    }
+                    updateHybridChart(scannerBox, isProLiveChartMode);
+                };
+
                 var sigBox = d.createElement('div');
-                sigBox.style.cssText = 'margin:0 5px 5px 5px;background:#0d1526;border:1px solid #131d2e;border-radius:4px;padding:5px;';
+                sigBox.style.cssText = 'margin:0 6px 6px 6px;background:#0d1526;border:1px solid #131d2e;border-radius:5px;padding:5px 6px;';
                 sigBox.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">' +
-                                   '<div><div style="font-size:5px;color:#8a99ad;">LATEST SIGNAL</div><div id="p-signal" style="font-size:8px;font-weight:900;color:#00ff66;">READY</div><div style="font-size:4.5px;color:#556677;" id="p-subtext">Live market synced.</div></div>' +
+                                   '<div><div style="font-size:5px;color:#8a99ad;">LATEST SIGNAL</div><div id="p-signal" style="font-size:8.5px;font-weight:900;color:#00ff66;">READY</div><div style="font-size:4.5px;color:#556677;" id="p-subtext">Automated sniper ready.</div></div>' +
                                    '<div id="signal-icon" style="font-size:7px;color:#00ff66;">⚡</div>' +
                                    '</div>' +
                                    '<button id="get-sig-btn" style="width:100%;background:#00c853;border:none;padding:4px;border-radius:3px;font-weight:900;font-size:6.5px;color:#000;cursor:pointer;">✓ GET SIGNAL</button>';
@@ -322,17 +324,31 @@ def bot_script():
 
                 d.body.appendChild(panel);
 
-                updateHybridChart(scannerBox);
+                updateHybridChart(scannerBox, false);
                 setInterval(function(){
-                    updateHybridChart(scannerBox);
+                    updateHybridChart(scannerBox, isProLiveChartMode);
                 }, 3000);
             }
 
-            # Hybrid Renderer: Switches between OTC Animated Candles and Clean Pro TradingView Chart
-            function updateHybridChart(container){
+            function updateHybridChart(container, isProMode){
                 var mkt = detectActiveMarket();
                 
-                if(window.proModeActive){
+                if(!isProMode){
+                    // OTC Animated Glowing Candlestick Scanner Mode
+                    container.innerHTML = '<div style="font-size:5.5px;color:#00ff66;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
+                                          '<span>MARKET: ' + mkt + '</span>' +
+                                          '<span style="color:#ffd700;">OTC SCANNER</span>' +
+                                          '</div>' +
+                                          '<div style="font-size:7.5px;font-weight:900;color:#00ff66;margin:2px 0;">⚡ Next Candle?? (Smooth Sync)</div>' +
+                                          '<div style="height:48px;display:flex;align-items:center;justify-content:center;gap:4px;background:#010204;border-radius:3px;padding:2px;">' +
+                                          '<div style="width:3px;height:22px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
+                                          '<div style="width:3px;height:35px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
+                                          '<div style="width:3px;height:18px;background:#00ff66;border-radius:2px;animation:cPulse 1.3s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
+                                          '<div style="width:3px;height:38px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;box-shadow:0 0 5px #ff1744;"></div>' +
+                                          '<div style="width:3px;height:26px;background:#00ff66;border-radius:2px;animation:cPulse 1.0s infinite;box-shadow:0 0 5px #00ff66;"></div>' +
+                                          '</div>';
+                } else {
+                    // PRO / SMART Live TradingView Clean Mini Chart Mode (No Logo, No Volume, Pure Candles)
                     var tvSymbol = getTradingViewSymbol(mkt);
                     var tvConfig = {
                         "width": "100%",
@@ -345,7 +361,7 @@ def bot_script():
                         "locale": "en",
                         "enable_publishing": false,
                         "hide_side_toolbar": true,
-                        "allow_symbol_change": true,
+                        "allow_symbol_change": false,
                         "calendar": false,
                         "support_host": "https://www.tradingview.com"
                     };
@@ -355,23 +371,8 @@ def bot_script():
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">PRO LIVE CHART</span>' +
                                           '</div>' +
-                                          '<div style="height:55px;display:flex;align-items:center;justify-content:center;background:#010204;border-radius:3px;overflow:hidden;position:relative;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;border:none;"></iframe>' +
-                                          '</div>';
-                } else {
-                    container.innerHTML = '<div style="font-size:5.5px;color:#8a99ad;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
-                                          '<span>MARKET: ' + mkt + '</span>' +
-                                          '<span style="color:#ffd700;">OTC SCANNER</span>' +
-                                          '</div>' +
-                                          '<div style="font-size:7.5px;font-weight:900;color:#00ff66;margin:2px 0;">⚡ Algorithmic Pattern Sync...</div>' +
-                                          '<div style="height:45px;background:radial-gradient(circle, #0c1a2c 0%, #010204 100%);border:1px solid #16253f;border-radius:3px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">' +
-                                          '<div style="display:flex;gap:4px;z-index:2;">' +
-                                          '<div style="width:3px;height:22px;background:#00ff66;border-radius:2px;animation:cPulse 1s infinite;"></div>' +
-                                          '<div style="width:3px;height:34px;background:#ff1744;border-radius:2px;animation:cPulse 0.7s infinite;"></div>' +
-                                          '<div style="width:3px;height:16px;background:#00ff66;border-radius:2px;animation:cPulse 1.2s infinite;"></div>' +
-                                          '<div style="width:3px;height:38px;background:#ff1744;border-radius:2px;animation:cPulse 0.8s infinite;"></div>' +
-                                          '<div style="width:3px;height:25px;background:#00ff66;border-radius:2px;animation:cPulse 1.1s infinite;"></div>' +
-                                          '</div>' +
+                                          '<div style="height:56px;display:flex;align-items:center;justify-content:center;background:#010204;border-radius:3px;overflow:hidden;position:relative;">' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:100%;height:100%;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
                 }
             }
@@ -397,7 +398,7 @@ def bot_script():
             window.lastTradeExecutionTimestamp = 0;
             function triggerTrade(isSell){
                 var nowTs = Date.now();
-                if(nowTs - window.lastTradeExecutionTimestamp < 50000) return;
+                if(nowTs - window.lastTradeExecutionTimestamp < 15000) return; // Smooth 15s interval protection
                 window.lastTradeExecutionTimestamp = nowTs;
 
                 var clicked = false;
