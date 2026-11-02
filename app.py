@@ -17,7 +17,7 @@ http_session = requests.Session()
 
 @app.route('/')
 def home():
-    return "Quotex Sniper Bot Engine v97.0 [Absolute Clean Masked Chart Fix] Running 24/7!"
+    return "Quotex Sniper Bot Engine v98.0 [Ultimate Stable & Clean Chart] Running 24/7!"
 
 @app.route('/ping')
 def ping():
@@ -369,15 +369,12 @@ def bot_script():
                     };
                     var encodedTv = encodeURIComponent(JSON.stringify(tvConfig));
 
-                    # Absolute Zero-Logo & Zero-Volume Masking with matching #03050a background
                     container.innerHTML = '<div style="font-size:5.5px;color:#00ffff;font-weight:800;display:flex;justify-content:space-between;margin-bottom:2px;">' +
                                           '<span>MARKET: ' + mkt + '</span>' +
                                           '<span style="color:#00ff66;">CLEAN LIVE CHART</span>' +
                                           '</div>' +
-                                          '<div style="height:84px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;">' +
-                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:135%;height:145%;position:absolute;top:-42px;left:-38px;border:none;pointer-events:none;"></iframe>' +
-                                          '<div style="position:absolute;top:0;left:0;width:45px;height:32px;background:#03050a;z-index:10;pointer-events:none;"></div>' +
-                                          '<div style="position:absolute;bottom:0;left:0;width:100%;height:22px;background:#03050a;z-index:10;pointer-events:none;"></div>' +
+                                          '<div style="height:86px;background:#03050a;border-radius:3px;overflow:hidden;position:relative;">' +
+                                          '<iframe src="https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodedTv + '" style="width:125%;height:120px;position:absolute;top:-28px;left:-15px;border:none;pointer-events:none;"></iframe>' +
                                           '</div>';
                 }
             }
